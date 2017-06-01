@@ -832,8 +832,9 @@ declare module Phaser {
         game: Phaser.Game;
         palettes: any;
 
-        grid(key: string, width: number, height: number, cellWidth: number, cellHeight: number, color: string): PIXI.Texture;
-        texture(key: string, data: any, pixelWidth?: number, pixelHeight?: number, palette?: number): PIXI.Texture;
+        copy(dest?: Phaser.BitmapData, x?: number, y?: number, width?: number, height?: number, blendMode?: string, roundPx?: boolean): Phaser.BitmapData;
+        grid(key: string, width: number, height: number, cellWidth: number, cellHeight: number, color: string, generateTexture?: boolean, callback?: Function, callbackContext?: any): PIXI.Texture;
+        texture(key: string, data: any, pixelWidth?: number, pixelHeight?: number, palette?: number, generateTexture?: boolean, callback?: Function, callbackContext?: any): PIXI.Texture;
 
     }
 
@@ -2798,6 +2799,7 @@ declare module Phaser {
                 height: number;
                 left: number;
                 lifespan: number;
+                lifespanOutput: number;
                 maxAngle: number;
                 maxParticles: number;
                 maxParticleScale: number;
@@ -2811,6 +2813,7 @@ declare module Phaser {
                 minSpeed: number;
                 name: string;
                 on: boolean;
+                output: number;
                 particleAnchor: Phaser.Point;
                 particleBringToTop: boolean;
                 particleSendToBack: boolean;
@@ -2818,6 +2821,7 @@ declare module Phaser {
                 particleDrag: Phaser.Point;
                 physicsType: number;
                 position: Phaser.Point;
+                remainder: number;
                 right: number;
                 scaleData: any[];
                 top: number;
