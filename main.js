@@ -17,6 +17,7 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
   cursors = game.input.keyboard.createCursorKeys();
+  game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
 }
 
 function update() {
@@ -35,4 +36,20 @@ function update() {
   else if (cursors.down.isDown) {
     player.body.velocity.y = 300;
   }
+
+  if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) {
+    if (player.body.velocity.x > 0) {
+      player.body.velocity.x = 100;
+    }
+    if (player.body.velocity.x < 0) {
+      player.body.velocity.x = -100;
+    }
+    if (player.body.velocity.y > 0) {
+      player.body.velocity.y = 100;
+    }
+    if (player.body.velocity.y < 0) {
+      player.body.velocity.y = -100;
+    }
+  }
+
 }
