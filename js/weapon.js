@@ -3,6 +3,7 @@ var Weapon = {};
 Weapon.SingleBullet = function (game) {
   Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
 
+  this.nextFire = 0;
   this.bulletSpeed = 600;
   this.fireRate = 100;
   for (var i = 0; i < 64; i++) {
@@ -16,10 +17,18 @@ Weapon.SingleBullet.prototype = Object.create(Phaser.Group.prototype);
 Weapon.SingleBullet.prototype.constructor = Weapon.SingleBullet;
 
 Weapon.SingleBullet.prototype.fire = function (source) {
-  var x = source.x + 10;
-  var y = source.y + 10;
+  if (this.game.time.time < this.nextFire) {
+    return;
+  }
+
+  var x = source.x + 45;
+  var y = source.y - 45;
+  console.log(x);
+  console.log(y);
 
   //Get a inactive bullet from the group
   var bullet = this.getFirstExists(false);
-  bullet.fire(x, y, 0, this.bulletSpeed, 0);
+  bullet.fire(x, y, -90, this.bulletSpeed, 0);
+
+  this.nextFire = this.game.time.time + this.fireRate;
 }
