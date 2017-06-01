@@ -24,9 +24,7 @@ function create() {
 }
 
 function keyboardHandler() {
-  player.body.velocity.x = 0;
-  player.body.velocity.y = 0;
-
+  player.body.velocity.set(0, 0);
   //Move the plane left
   if (cursors.left.isDown) {
     player.body.velocity.x = -300;
