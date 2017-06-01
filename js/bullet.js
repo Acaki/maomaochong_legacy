@@ -18,7 +18,6 @@ Bullet.prototype.fire = function(x, y, angle, speed, xAccel) {
   //Reset the bullet, which moves the bullet to the given x/y corrdinates and
   //sets 'exists' to true.
   this.reset(x, y);
-  this.scale.set(1);
 
   //Set bullet's velocity that is calculated from the given angle and speed
   this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);

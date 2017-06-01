@@ -3,11 +3,14 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, '', {preload: preload, create:
 function preload() {
   game.load.image('player', 'assets/player.png');
   game.load.image('background', 'assets/starBackground.png');
+  game.load.image('laserRed', 'assets/laserRed.png');
 }
 
 var background;
 var player;
 var cursors;
+var weapons = [];
+var currentWeapon;
 function create() {
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
@@ -19,8 +22,13 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
   cursors = game.input.keyboard.createCursorKeys();
+
+  weapons.push(new Weapon.SingleBullet(this.game));
+  currentWeapon = 0;
+
   //Add key listener for 'shift'
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
+  game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 }
 
 function keyboardHandler() {
@@ -57,6 +65,10 @@ function keyboardHandler() {
     if (player.body.velocity.y < 0) {
       player.body.velocity.y = -150;
     }
+  }
+
+  if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+    weapons[currentWeapon].fire(player);
   }
 }
 
