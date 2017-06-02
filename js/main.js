@@ -15,7 +15,7 @@ var currentWeapon;
 
 var Enemies;
 function create() {
-    // new height = game.world.height*3
+    // new height = game.world.height * 3
   game.world.setBounds(0, 0, game.world.width, game.world.height*3);
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
