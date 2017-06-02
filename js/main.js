@@ -13,10 +13,8 @@ var cursors;
 var weapons = [];
 var currentWeapon;
 
-var Enemies;
+var enemies;
 function create() {
-    // new height = game.world.height * 3
-  game.world.setBounds(0, 0, game.world.width, game.world.height*3);
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
   background.autoScroll(0, -30);
@@ -26,35 +24,19 @@ function create() {
   player = game.add.sprite(game.world.width / 2 - 50, game.world.height - 76, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
-  cursors = game.input.keyboard.createCursorKeys();
 
   weapons.push(new Weapon.SingleBullet(this.game));
   currentWeapon = 0;
 
+  cursors = game.input.keyboard.createCursorKeys();
   //Add key listener for 'shift'
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-  //Add enemies
-  Enemies = game.add.group();
-  Enemies.enableBody = true;
-  Enemies.physicsBodyType = Phaser.Physics.ARCADE;
-
-  //game.time.events.add(1000, createEnemy);
-      createEnemy();
-
+  enemies = new EnemyType.Trash(this.game);
+  enemies.launch();
 }
-function createEnemy(){
-    var rnd_w , rnd_h;
 
-     for(var i = 0 ; i < 10 ; i++)
-     {
-       rnd_w = game.rnd.between(20 , game.world.width-100);
-       rnd_h = game.rnd.between(0 , game.world.height-500);
-
-       var enemy = Enemies.create(rnd_w , rnd_h , 'enemy');
-     }
-}
 function keyboardHandler() {
   player.body.velocity.set(0, 0);
   //Move the plane left
