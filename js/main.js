@@ -4,7 +4,8 @@ function preload() {
   game.load.image('player', 'assets/player.png');
   game.load.image('background', 'assets/starBackground.png');
   game.load.image('laserRed', 'assets/laserRed.png');
-  game.load.image('enemy3','assets/enemy3.png')
+  game.load.image('enemy3','assets/enemy3.png');
+  game.load.image('enemy4','assets/enemy4.png');
 }
 
 var background;
