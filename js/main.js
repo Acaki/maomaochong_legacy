@@ -33,7 +33,9 @@ function create() {
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
+  //Create a group of trash enemy
   enemies = new EnemyType.Trash(this.game);
+  //Spawn an enemy every 0.5 ~ 3 seconds
   game.time.events.loop(
     game.rnd.integerInRange(500, 3000),
     function() { enemies.launch(); }
@@ -82,6 +84,5 @@ function keyboardHandler() {
 }
 
 function update() {
-  game.camera.focusOnXY(player.x , player.y );
   keyboardHandler();
 }
