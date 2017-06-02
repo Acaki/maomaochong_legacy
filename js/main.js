@@ -45,20 +45,15 @@ function create() {
 
 }
 function createEnemy(){
-    var a ;
-    var b ;
+    var rnd_w , rnd_h;
+    
      for(var i = 0 ; i < 10 ; i++)
      {
-       a = game.rnd.between(20 , game.world.width-100);
-       b = game.rnd.between(0 , game.world.height-500);
+       rnd_w = game.rnd.between(20 , game.world.width-100);
+       rnd_h = game.rnd.between(0 , game.world.height-500);
 
-       var enemy = Enemies.create( a,b, 'enemy');
+       var enemy = Enemies.create(rnd_w , rnd_h , 'enemy');
      }
-
-
-
-
-
 }
 function keyboardHandler() {
   player.body.velocity.set(0, 0);
