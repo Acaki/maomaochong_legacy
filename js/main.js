@@ -6,6 +6,7 @@ function preload() {
   game.load.image('laserRed', 'assets/laserRed.png');
   game.load.image('enemy3','assets/enemy3.png');
   game.load.image('enemy4','assets/enemy4.png');
+  game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
 }
 
 var background;
@@ -13,6 +14,7 @@ var player;
 var cursors;
 var weapons = [];
 var currentWeapon = 0;
+var explosions;
 
 var enemies;
 function create() {
@@ -40,6 +42,8 @@ function create() {
     game.rnd.integerInRange(500, 1000),
     function() { enemies.launch(); }
   );
+
+  explosions = new Explosion(this.game);
 }
 
 var currentAngle;
@@ -104,6 +108,7 @@ function keyboardHandler() {
 function damageEnemy(bullet, enemy) {
   bullet.kill();
   enemy.kill();
+  explosions.display(enemy.body.x, enemy.body.y);
 }
 
 function update() {
