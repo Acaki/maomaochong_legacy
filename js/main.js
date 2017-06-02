@@ -11,7 +11,7 @@ var background;
 var player;
 var cursors;
 var weapons = [];
-var currentWeapon;
+var currentWeapon = 0;
 
 var enemies;
 function create() {
@@ -26,7 +26,6 @@ function create() {
   player.body.collideWorldBounds = true;
 
   weapons.push(new Weapon.SingleBullet(this.game));
-  currentWeapon = 0;
 
   cursors = game.input.keyboard.createCursorKeys();
   //Add key listener for 'shift'
@@ -37,7 +36,7 @@ function create() {
   enemies = new EnemyType.Trash(this.game);
   //Spawn an enemy every 0.5 ~ 3 seconds
   game.time.events.loop(
-    game.rnd.integerInRange(500, 3000),
+    game.rnd.integerInRange(500, 1000),
     function() { enemies.launch(); }
   );
 }
@@ -83,6 +82,18 @@ function keyboardHandler() {
   }
 }
 
+function damageEnemy(bullet, enemy) {
+  bullet.kill();
+  enemy.kill();
+}
+
 function update() {
   keyboardHandler();
+  game.physics.arcade.overlap(
+    weapons[currentWeapon],
+    enemies,
+    damageEnemy,
+    null,
+    this
+  );
 }
