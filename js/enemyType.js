@@ -1,25 +1,21 @@
-var EnemyType = function(game, key) {
-  //Call constructor of Phaser.Sprite to initialize this
-  Phaser.Sprite.call(this, game, 0, 0, key);
+var EnemyType = {};
 
-  this.checkWorldBounds = true;
-  this.outOfBoundsKill = true;
-  this.exists = false;
+EnemyType.Trash = function (game) {
+  Phaser.Group.call(this, game, game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
+
+  this.enemySpeed = 200;
+  for (var i = 0; i < 10; i++) {
+    this.add(new Enemy(game, 'enemy3'), true);
+  }
+  return this;
 }
 
-//Bullet inherited from Phaser.sprite
-Bullet.prototype = Object.create(Phaser.Sprite.prototype);
-Bullet.prototype.constructor = Bullet;
+//EnemyType inherited from Phaser.Group
+EnemyType.Trash.prototype = Object.create(Phaser.Group.prototype);
+EnemyType.Trash.prototype.constructor = EnemyType.Trash;
 
-Bullet.prototype.launch = function(x, y, angle, speed, xAccel) {
-  //horizontal acceleration value
-  xAccel = xAccel || 0;
-
-  //Reset the bullet, which moves the bullet to the given x/y corrdinates and
-  //sets 'exists' to true.
-  this.reset(x, y);
-
-  //Set bullet's velocity that is calculated from the given angle and speed
-  this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
-  this.body.acceleration.x = xAccel;
+EnemyType.Trash.prototype.launch = function() {
+  var enemy = this.getFirstExists(false);
+  var x = this.game.rnd.integerInRange(0, this.game.width);
+  enemy.launch(x, 0, 0, this.enemySpeed, 0);
 }

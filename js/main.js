@@ -4,7 +4,7 @@ function preload() {
   game.load.image('player', 'assets/player.png');
   game.load.image('background', 'assets/starBackground.png');
   game.load.image('laserRed', 'assets/laserRed.png');
-  game.load.image('enemy','assets/enemy3.png')
+  game.load.image('enemy3','assets/enemy3.png')
 }
 
 var background;
@@ -46,7 +46,7 @@ function create() {
 }
 function createEnemy(){
     var rnd_w , rnd_h;
-    
+
      for(var i = 0 ; i < 10 ; i++)
      {
        rnd_w = game.rnd.between(20 , game.world.width-100);
