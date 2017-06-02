@@ -42,40 +42,58 @@ function create() {
   );
 }
 
+var currentAngle;
 function keyboardHandler() {
   player.body.velocity.set(0, 0);
   //Move the plane left
   if (cursors.left.isDown) {
-    player.body.velocity.x = -300;
+    game.physics.arcade.velocityFromAngle(-180, 300, player.body.velocity);
+    currentAngle = -180;
   }
   //Move the plane right
-  else if (cursors.right.isDown) {
-    player.body.velocity.x = 300;
+  if (cursors.right.isDown) {
+    game.physics.arcade.velocityFromAngle(0, 300, player.body.velocity);
+    currentAngle = 0;
   }
   //Up
   if (cursors.up.isDown) {
-    player.body.velocity.y = -300;
+    game.physics.arcade.velocityFromAngle(-90, 300, player.body.velocity);
+    currentAngle = -90;
   }
   //Down
-  else if (cursors.down.isDown) {
-    player.body.velocity.y = 300;
+  if (cursors.down.isDown) {
+    game.physics.arcade.velocityFromAngle(90, 300, player.body.velocity);
+    currentAngle = 90;
+  }
+
+  //Up-left
+  if (cursors.left.isDown && cursors.up.isDown) {
+    game.physics.arcade.velocityFromAngle(-135, 300, player.body.velocity);
+    currentAngle = -135;
+  }
+
+  //Up-right
+  if (cursors.right.isDown && cursors.up.isDown) {
+    game.physics.arcade.velocityFromAngle(-45, 300, player.body.velocity);
+    currentAngle = -45;
+  }
+
+  //Down-left
+  if (cursors.left.isDown && cursors.down.isDown) {
+    game.physics.arcade.velocityFromAngle(135, 300, player.body.velocity);
+    currentAngle = 135;
+  }
+
+  //Down-right
+  if (cursors.right.isDown && cursors.down.isDown) {
+    game.physics.arcade.velocityFromAngle(45, 300, player.body.velocity);
+    currentAngle = 45;
   }
 
   //Check if 'shift' is being pressed
   if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) {
     //Slow down the move speed for each direction
-    if (player.body.velocity.x > 0) {
-      player.body.velocity.x = 150;
-    }
-    if (player.body.velocity.x < 0) {
-      player.body.velocity.x = -150;
-    }
-    if (player.body.velocity.y > 0) {
-      player.body.velocity.y = 150;
-    }
-    if (player.body.velocity.y < 0) {
-      player.body.velocity.y = -150;
-    }
+    game.physics.arcade.velocityFromAngle(currentAngle, 200, player.body.velocity);
   }
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
