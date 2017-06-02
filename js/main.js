@@ -34,7 +34,10 @@ function create() {
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
   enemies = new EnemyType.Trash(this.game);
-  enemies.launch();
+  game.time.events.loop(
+    game.rnd.integerInRange(500, 3000),
+    function() { enemies.launch(); }
+  );
 }
 
 function keyboardHandler() {

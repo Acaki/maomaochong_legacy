@@ -16,6 +16,7 @@ EnemyType.Trash.prototype.constructor = EnemyType.Trash;
 
 EnemyType.Trash.prototype.launch = function() {
   var enemy = this.getFirstExists(false);
-  var x = this.game.rnd.integerInRange(0, this.game.width);
+  var halfWidth = enemy.width / 2;
+  var x = this.game.rnd.integerInRange(0 + halfWidth, this.game.width - halfWidth);
   enemy.launch(x, 0, 90, this.enemySpeed, 0);
 }
