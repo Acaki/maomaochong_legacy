@@ -17,9 +17,11 @@ EnemyType.Trash.prototype.constructor = EnemyType.Trash;
 
 EnemyType.Trash.prototype.launch = function() {
   var enemy = this.getFirstExists(false);
+  enemy.body.drag.x = 100;
   //Prevent sprite being cut off on the edges
   var halfWidth = enemy.width / 2;
   var x = this.game.rnd.integerInRange(0 + halfWidth, this.game.width - halfWidth);
+  var angle = this.game.rnd.integerInRange(45, 135);
   //Launch the enemy starting on top of the screen
-  enemy.launch(x, 0, 90, this.enemySpeed, 0);
+  enemy.launch(x, 0, angle, this.enemySpeed, 0);
 }
