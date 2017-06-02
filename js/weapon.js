@@ -21,8 +21,8 @@ Weapon.SingleBullet.prototype.fire = function (source) {
     return;
   }
 
-  var x = source.x + 45;
-  var y = source.y - 45;
+  var x = source.x + source.halfWidth;
+  var y = source.y - source.halfHeight;
 
   //Get a inactive bullet from the group
   var bullet = this.getFirstExists(false);

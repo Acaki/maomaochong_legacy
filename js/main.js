@@ -24,7 +24,8 @@ function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   //Add the player plane on the middle bottom of the screen
-  player = game.add.sprite(game.world.width / 2 - 50, game.world.height - 76, 'player');
+  player = game.add.sprite(game.world.width / 2, game.world.height, 'player');
+  player.anchor.set(0.5, 1.0);
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
@@ -101,7 +102,7 @@ function keyboardHandler() {
   }
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-    weapons[currentWeapon].fire(player);
+    weapons[currentWeapon].fire(player.body);
   }
 }
 
