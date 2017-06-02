@@ -108,7 +108,7 @@ function keyboardHandler() {
 function damageEnemy(bullet, enemy) {
   bullet.kill();
   enemy.kill();
-  explosions.display(enemy.body.x, enemy.body.y);
+  explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
 }
 
 function update() {
