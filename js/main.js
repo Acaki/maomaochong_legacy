@@ -15,7 +15,7 @@ var currentWeapon;
 
 var Enemies;
 function create() {
-
+    // new height = game.world.height*3
   game.world.setBounds(0, 0, game.world.width, game.world.height*3);
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
@@ -35,7 +35,7 @@ function create() {
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-  //Add enemise
+  //Add enemies
   Enemies = game.add.group();
   Enemies.enableBody = true;
   Enemies.physicsBodyType = Phaser.Physics.ARCADE;
