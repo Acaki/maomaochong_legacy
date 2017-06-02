@@ -4,6 +4,7 @@ function preload() {
   game.load.image('player', 'assets/player.png');
   game.load.image('background', 'assets/starBackground.png');
   game.load.image('laserRed', 'assets/laserRed.png');
+  game.load.image('enemy','assets/enemy3.png')
 }
 
 var background;
@@ -11,7 +12,11 @@ var player;
 var cursors;
 var weapons = [];
 var currentWeapon;
+
+var Enemies;
 function create() {
+
+  game.world.setBounds(0, 0, game.world.width, game.world.height*3);
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
   background.autoScroll(0, -30);
@@ -29,8 +34,32 @@ function create() {
   //Add key listener for 'shift'
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
-}
 
+  //Add enemise
+  Enemies = game.add.group();
+  Enemies.enableBody = true;
+  Enemies.physicsBodyType = Phaser.Physics.ARCADE;
+
+  //game.time.events.add(1000, createEnemy);
+      createEnemy();
+
+}
+function createEnemy(){
+    var a ;
+    var b ;
+     for(var i = 0 ; i < 10 ; i++)
+     {
+       a = game.rnd.between(20 , game.world.width-100);
+       b = game.rnd.between(0 , game.world.height-500);
+
+       var enemy = Enemies.create( a,b, 'enemy');
+     }
+
+
+
+
+
+}
 function keyboardHandler() {
   player.body.velocity.set(0, 0);
   //Move the plane left
@@ -73,5 +102,6 @@ function keyboardHandler() {
 }
 
 function update() {
+  game.camera.focusOnXY(player.x , player.y );
   keyboardHandler();
 }
