@@ -121,12 +121,27 @@ function damageEnemy(bullet, enemy) {
   explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
 }
 
+function powerUpWeapon(player, powerUp) {
+  powerUp.kill();
+  var currentPowerLevel = weapons[currentWeapon].powerLevel;
+  if (currentPowerLevel < 3) {
+    weapons[currentWeapon].powerLevel++;
+  }
+}
+
 function update() {
   keyboardHandler();
   game.physics.arcade.overlap(
     weapons[currentWeapon],
     enemies,
     damageEnemy,
+    null,
+    this
+  );
+  game.physics.arcade.overlap(
+    player,
+    powerUp,
+    powerUpWeapon,
     null,
     this
   );
