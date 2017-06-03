@@ -2,13 +2,11 @@ var PowerUp = function(game, key, weaponType) {
   //Call constructor of Phaser.Sprite to initialize this
   Phaser.Sprite.call(this, game, 0, 0, key);
 
-  game.physics.arcade.enable(this);
   this.anchor.set(0.5);
   this.checkWorldBounds = true;
   this.outOfBoundsKill = true;
   this.weaponType = weaponType;
-
-  return this;
+  this.exists = false;
 }
 
 //PowerUp inherited from Phaser.sprite
@@ -16,8 +14,6 @@ PowerUp.prototype = Object.create(Phaser.Sprite.prototype);
 PowerUp.prototype.constructor = PowerUp;
 
 PowerUp.prototype.drop = function() {
-  //Add the sprite to the game
-  game.add.existing(this);
 
   var halfWidth = this.body.halfWidth;
   //Power ups only appear at the center area of the game
@@ -30,4 +26,25 @@ PowerUp.prototype.drop = function() {
 
   //Set PowerUp's velocity that is calculated from the given angle and speed
   game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
+}
+
+var PowerUpGroup = function(game) {
+  Phaser.Group.call(this, game, game.world, 'Power Up Group', false, true, Phaser.Physics.ARCADE);
+
+  this.add(new PowerUp(game, 'laserRedPowerUp', 0), true);
+  this.add(new PowerUp(game, 'laserGreenPowerUp', 1), true);
+
+  return this;
+}
+
+PowerUpGroup.prototype = Object.create(Phaser.Group.prototype);
+PowerUpGroup.prototype.constructor = PowerUpGroup;
+
+PowerUpGroup.prototype.drop = function() {
+  var powerUpInstance;
+  do {
+    powerUpInstance = this.getRandom();
+  }
+  while(powerUpInstance.exists)
+  powerUpInstance.drop();
 }

@@ -58,7 +58,7 @@ function create() {
 
   explosions = new Explosion(game);
 
-  powerUp = new PowerUp(game, 'laserRedPowerUp');
+  powerUp = new PowerUpGroup(game);
   //Spawn a power up item every 5 ~ 10 seconds
   game.time.events.loop(
     game.rnd.integerInRange(5000, 10000),
@@ -170,4 +170,3 @@ function update() {
     this
   );
 }
-
