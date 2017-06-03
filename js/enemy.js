@@ -1,14 +1,12 @@
-var Enemy = function(game, key , enemyHp) {
+var Enemy = function(game, key ,enemyHP) {
   //Call constructor of Phaser.Sprite to initialize this
-  Phaser.Sprite.call(this, game, 0, 0, key );
-  //Set the origin point of the sprite to its center
-  this.anchor.set(0.5);
+  Phaser.Sprite.call(this, game, 0, 0, key);
+
   this.checkWorldBounds = true;
   this.outOfBoundsKill = true;
   //Record whether sprite is processed by the update() function
   this.exists = false;
-  this.Hp = enemyHp;
-
+  this.Hp = enemyHP;
 }
 
 //Enemy inherited from Phaser.sprite
@@ -27,3 +25,4 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel) {
   this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
   this.body.acceleration.x = xAccel;
 }
+
