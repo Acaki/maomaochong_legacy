@@ -5,10 +5,10 @@ Weapon.SingleBullet = function (game) {
 
   this.powerLevel = 1;
   this.nextFire = 0;
-  this.bulletSpeed = 600;
+  this.bulletSpeed = 500;
   this.fireRate = 100;
   for (var i = 0; i < 128; i++) {
-    this.add(new Bullet(game, 'laserRed', 1), true);
+    this.add(new Bullet(game, 'laserRed', 0.5), true);
   }
   return this;
 }
@@ -54,6 +54,60 @@ Weapon.SingleBullet.prototype.fire = function (source) {
   this.nextFire = this.game.time.time + this.fireRate;
 }
 
+Weapon.Beam = function (game) {
+  Phaser.Group.call(this, game, game.world, 'Beam', false, true, Phaser.Physics.ARCADE);
+
+  this.powerLevel = 1;
+  this.nextFire = 0;
+  this.bulletSpeed = 1000;
+  this.fireRate = 0;
+  for (var i = 0; i < 256; i++) {
+    this.add(new Bullet(game, 'laserGreen', 1), true);
+  }
+  return this;
+}
+
+//Weapon inherited from Phaser.Group
+Weapon.Beam.prototype = Object.create(Phaser.Group.prototype);
+Weapon.Beam.prototype.constructor = Weapon.Beam;
+
+Weapon.Beam.prototype.fire = function (source) {
+  if (this.game.time.time < this.nextFire) {
+    return;
+  }
+
+  var x, y;
+  if (this.powerLevel == 1) {
+    x = source.x + source.halfWidth;
+    y = source.y - source.halfHeight;
+
+    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+  }
+
+  //Two columns of bullets
+  else if (this.powerLevel == 2) {
+    x = source.x + source.halfWidth - 3;
+    y = source.y - source.halfHeight;
+
+    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+    x += 6;
+    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+  }
+
+  else if (this.powerLevel == 3) {
+    x = source.x + source.halfWidth - 6;
+    y = source.y - source.halfHeight;
+
+    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+    x += 6;
+    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+    x += 6;
+    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+  }
+
+  this.nextFire = this.game.time.time + this.fireRate;
+}
+
 //Enemy weapons
 var Weapon2 = {};
 Weapon2.EnemyBullet = function(game){
@@ -83,4 +137,3 @@ Weapon2.EnemyBullet.prototype.fire = function (source) {
 
   this.nextFire = this.game.time.time + this.fireRate;
 }
-
