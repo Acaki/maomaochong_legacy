@@ -6,6 +6,7 @@ function preload() {
   game.load.image('laserRed', 'assets/laserRed.png');
   game.load.image('enemy3','assets/enemy3.png');
   game.load.image('enemy4','assets/enemy4.png');
+  game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
 }
 
 var background;
@@ -13,6 +14,7 @@ var player;
 var cursors;
 var weapons = [];
 var currentWeapon = 0;
+var explosions;
 
 var enemies;
 function create() {
@@ -22,7 +24,8 @@ function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   //Add the player plane on the middle bottom of the screen
-  player = game.add.sprite(game.world.width / 2 - 50, game.world.height - 76, 'player');
+  player = game.add.sprite(game.world.width / 2, game.world.height, 'player');
+  player.anchor.set(0.5, 1.0);
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
@@ -40,6 +43,8 @@ function create() {
     game.rnd.integerInRange(500, 1000),
     function() { enemies.launch(); }
   );
+
+  explosions = new Explosion(this.game);
 }
 
 var currentAngle;
@@ -97,13 +102,14 @@ function keyboardHandler() {
   }
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-    weapons[currentWeapon].fire(player);
+    weapons[currentWeapon].fire(player.body);
   }
 }
 
 function damageEnemy(bullet, enemy) {
   bullet.kill();
   enemy.kill();
+  explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
 }
 
 function update() {

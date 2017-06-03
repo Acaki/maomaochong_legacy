@@ -3,11 +3,12 @@ var Weapon = {};
 Weapon.SingleBullet = function (game) {
   Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
 
+  this.powerLevel = 0;
   this.nextFire = 0;
   this.bulletSpeed = 600;
   this.fireRate = 100;
-  for (var i = 0; i < 64; i++) {
-    this.add(new Bullet(game, 'laserRed'), true);
+  for (var i = 0; i < 128; i++) {
+    this.add(new Bullet(game, 'laserRed', 1), true);
   }
   return this;
 }
@@ -21,12 +22,24 @@ Weapon.SingleBullet.prototype.fire = function (source) {
     return;
   }
 
-  var x = source.x + 45;
-  var y = source.y - 45;
+  var x, y;
 
-  //Get a inactive bullet from the group
-  var bullet = this.getFirstExists(false);
-  bullet.fire(x, y, -90, this.bulletSpeed, 0);
+  if (this.powerLevel == 0) {
+    x = source.x + source.halfWidth;
+    y = source.y - source.halfHeight;
+
+    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+  }
+
+  //Two columns of bullets
+  else if (this.powerLevel == 1) {
+    x = source.x + source.halfWidth - 15;
+    y = source.y - source.halfHeight;
+
+    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+    x += 30;
+    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+  }
 
   this.nextFire = this.game.time.time + this.fireRate;
 }
