@@ -27,11 +27,11 @@ function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   //Add the player plane on the middle bottom of the screen
-  player = game.add.sprite(game.world.width / 2 - 50, game.world.height - 76, 'player');
+  player = game.add.sprite(game.world.width / 2, game.world.height, 'player');
+  player.damageAmount = 1;
+  player.anchor.set(0.5, 1.0);
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
-  //player damageAmount
-  player.damageAmount = 1;
 
   weapons.push(new Weapon.SingleBullet(this.game));
 
@@ -42,16 +42,11 @@ function create() {
 
   //Create a group of trash enemy
   enemies = new EnemyType.Trash(this.game);
-  enemies2 = new EnemyType2.Trash(this.game);
-  //alert(enemies.this.hp)
-
+  enemies2 = new EnemyType.Trash2(this.game);
   //Spawn an enemy every 0.5 ~ 3 seconds
   game.time.events.loop(
     game.rnd.integerInRange(500, 1000),
-    function() {
-      enemies.launch();
-      enemies2.launch();
-     }
+    function() { enemies.launch(); enemies2.launch();}
   );
 
   explosions = new Explosion(this.game);
@@ -112,21 +107,18 @@ function keyboardHandler() {
   }
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-    weapons[currentWeapon].fire(player);
+    weapons[currentWeapon].fire(player.body);
   }
 }
 
-function isDead(bullet, enemy) {
+function damageEnemy(bullet, enemy) {
   bullet.kill();
+  //alert(enemy.Hp)
   enemy.Hp -= player.damageAmount;
-  if(enemy.Hp == 0)
+  if(enemy.Hp <= 0)
   {
     enemy.kill();
-    explosions.display(enemy.body.x, enemy.body.y);
-    return true;
-  }
-  else {
-    return false;
+    explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
   }
 }
 
@@ -135,8 +127,14 @@ function update() {
   game.physics.arcade.overlap(
     weapons[currentWeapon],
     enemies,
-    //enemies2,
-    isDead,
+    damageEnemy,
+    null,
+    this
+  );
+  game.physics.arcade.overlap(
+    weapons[currentWeapon],
+    enemies2,
+    damageEnemy,
     null,
     this
   );
