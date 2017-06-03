@@ -1,4 +1,4 @@
-var Enemy = function(game, key ,enemyHP) {
+var Enemy = function(game, key , health) {
   //Call constructor of Phaser.Sprite to initialize this
   Phaser.Sprite.call(this, game, 0, 0, key);
 
@@ -8,8 +8,8 @@ var Enemy = function(game, key ,enemyHP) {
   this.outOfBoundsKill = true;
   //Record whether sprite is processed by the update() function
   this.exists = false;
-  this.Hp = enemyHP;
-
+  this.maxHealth = health;
+  this.currentHealth = health;
 }
 //Enemy inherited from Phaser.sprite
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
@@ -31,14 +31,14 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel) {
 Enemy.prototype.isDead = function(bullet, enemy)
 {
   bullet.kill();
-  enemy.Hp -= bullet.damage;
-  if(enemy.Hp <= 0)
+  enemy.currentHealth -= bullet.damage;
+  if(enemy.currentHealth <= 0)
   {
-    enemy.Hp = game.rnd.between(2,3);
+    //Reset the enemy's health
+    enemy.currentHealth = this.maxHealth;
     return true;
   }
   else {
     return false;
   }
 }
-

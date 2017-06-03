@@ -127,7 +127,6 @@ function damageEnemy(bullet, enemy) {
     enemy.kill();
     explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
   }
-
 }
 
 function powerUpWeapon(player, powerUp) {
