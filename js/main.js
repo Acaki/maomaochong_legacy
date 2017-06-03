@@ -11,12 +11,15 @@ function preload() {
 
 var background;
 var player;
+var damageAmount;
 var cursors;
 var weapons = [];
 var currentWeapon = 0;
 var explosions;
 
 var enemies;
+var enemies2;
+var Hp;
 function create() {
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
@@ -24,10 +27,11 @@ function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   //Add the player plane on the middle bottom of the screen
-  player = game.add.sprite(game.world.width / 2, game.world.height, 'player');
-  player.anchor.set(0.5, 1.0);
+  player = game.add.sprite(game.world.width / 2 - 50, game.world.height - 76, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
+  //player damageAmount
+  player.damageAmount = 1;
 
   weapons.push(new Weapon.SingleBullet(this.game));
 
@@ -38,10 +42,16 @@ function create() {
 
   //Create a group of trash enemy
   enemies = new EnemyType.Trash(this.game);
+  enemies2 = new EnemyType2.Trash(this.game);
+  //alert(enemies.this.hp)
+
   //Spawn an enemy every 0.5 ~ 3 seconds
   game.time.events.loop(
     game.rnd.integerInRange(500, 1000),
-    function() { enemies.launch(); }
+    function() {
+      enemies.launch();
+      enemies2.launch();
+     }
   );
 
   explosions = new Explosion(this.game);
@@ -102,14 +112,22 @@ function keyboardHandler() {
   }
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-    weapons[currentWeapon].fire(player.body);
+    weapons[currentWeapon].fire(player);
   }
 }
 
-function damageEnemy(bullet, enemy) {
+function isDead(bullet, enemy) {
   bullet.kill();
-  enemy.kill();
-  explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
+  enemy.Hp -= player.damageAmount;
+  if(enemy.Hp == 0)
+  {
+    enemy.kill();
+    explosions.display(enemy.body.x, enemy.body.y);
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 function update() {
@@ -117,7 +135,8 @@ function update() {
   game.physics.arcade.overlap(
     weapons[currentWeapon],
     enemies,
-    damageEnemy,
+    //enemies2,
+    isDead,
     null,
     this
   );
