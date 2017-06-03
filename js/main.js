@@ -11,7 +11,6 @@ function preload() {
 
 var background;
 var player;
-var damageAmount;
 var cursors;
 var weapons = [];
 var currentWeapon = 0;
@@ -28,7 +27,6 @@ function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
   //Add the player plane on the middle bottom of the screen
   player = game.add.sprite(game.world.width / 2, game.world.height, 'player');
-  player.damageAmount = 1;
   player.anchor.set(0.5, 1.0);
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
@@ -112,14 +110,13 @@ function keyboardHandler() {
 }
 
 function damageEnemy(bullet, enemy) {
-  bullet.kill();
-  //alert(enemy.Hp)
-  enemy.Hp -= player.damageAmount;
-  if(enemy.Hp <= 0)
+  var deadOrNot = enemy.isDead(bullet, enemy)
+  if(deadOrNot)
   {
     enemy.kill();
     explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
   }
+
 }
 
 function update() {
