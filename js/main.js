@@ -7,6 +7,7 @@ function preload() {
   game.load.image('enemy3','assets/enemy3.png');
   game.load.image('enemy4','assets/enemy4.png');
   game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
+  game.load.image('powerUp', 'assets/laserRedShot.png');
 }
 
 var background;
@@ -15,8 +16,11 @@ var cursors;
 var weapons = [];
 var currentWeapon = 0;
 var explosions;
+var powerUp;
 
 var enemies;
+var enemies2;
+var Hp;
 function create() {
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
@@ -25,11 +29,13 @@ function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
   //Add the player plane on the middle bottom of the screen
   player = game.add.sprite(game.world.width / 2, game.world.height, 'player');
+  //Reduce the size of the player plane;
+  player.scale.set(0.5);
   player.anchor.set(0.5, 1.0);
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
-  weapons.push(new Weapon.SingleBullet(this.game));
+  weapons.push(new Weapon.SingleBullet(game));
 
   cursors = game.input.keyboard.createCursorKeys();
   //Add key listener for 'shift'
@@ -37,14 +43,22 @@ function create() {
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
   //Create a group of trash enemy
-  enemies = new EnemyType.Trash(this.game);
+  enemies = new EnemyType.Trash(game);
+  enemies2 = new EnemyType.Trash2(game);
   //Spawn an enemy every 0.5 ~ 3 seconds
   game.time.events.loop(
     game.rnd.integerInRange(500, 1000),
-    function() { enemies.launch(); }
+    function() { enemies.launch(); enemies2.launch();}
   );
 
-  explosions = new Explosion(this.game);
+  explosions = new Explosion(game);
+
+  powerUp = new PowerUp(game, 'powerUp');
+  //Spawn a power up item every 5 ~ 10 seconds
+  game.time.events.loop(
+    game.rnd.integerInRange(5000, 10000),
+    function() { powerUp.drop(); }
+  );
 }
 
 var currentAngle;
@@ -107,9 +121,21 @@ function keyboardHandler() {
 }
 
 function damageEnemy(bullet, enemy) {
-  bullet.kill();
-  enemy.kill();
-  explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
+  var deadOrNot = enemy.isDead(bullet, enemy)
+  if(deadOrNot)
+  {
+    enemy.kill();
+    explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
+  }
+
+}
+
+function powerUpWeapon(player, powerUp) {
+  powerUp.kill();
+  var currentPowerLevel = weapons[currentWeapon].powerLevel;
+  if (currentPowerLevel < 3) {
+    weapons[currentWeapon].powerLevel++;
+  }
 }
 
 function update() {
@@ -118,6 +144,20 @@ function update() {
     weapons[currentWeapon],
     enemies,
     damageEnemy,
+    null,
+    this
+  );
+  game.physics.arcade.overlap(
+    weapons[currentWeapon],
+    enemies2,
+    damageEnemy,
+    null,
+    this
+  );
+  game.physics.arcade.overlap(
+    player,
+    powerUp,
+    powerUpWeapon,
     null,
     this
   );

@@ -2,7 +2,6 @@ var Bullet = function(game, key, damage) {
   //Call constructor of Phaser.Sprite to initialize this
   Phaser.Sprite.call(this, game, 0, 0, key);
 
-  this.anchor.set(0.5);
   this.checkWorldBounds = true;
   this.outOfBoundsKill = true;
   this.exists = false;
@@ -24,4 +23,6 @@ Bullet.prototype.fire = function(x, y, angle, speed, xAccel) {
   //Set bullet's velocity that is calculated from the given angle and speed
   this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
   this.body.acceleration.x = xAccel;
+  //Make the bullet face to its moving direction
+  this.angle = angle + 90;
 }
