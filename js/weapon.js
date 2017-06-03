@@ -42,11 +42,13 @@ Weapon.SingleBullet.prototype.fire = function (source) {
   }
 
   else if (this.powerLevel == 3) {
-    x = source.x + source.halfWidth;
+    x = source.x + source.halfWidth - 10;
     y = source.y - source.halfHeight;
 
-    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
     this.getFirstExists(false).fire(x, y, -120, this.bulletSpeed, 0);
+    x += 10;
+    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+    x += 10;
     this.getFirstExists(false).fire(x, y, -60, this.bulletSpeed, 0);
   }
 

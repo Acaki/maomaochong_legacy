@@ -17,10 +17,11 @@ PowerUp.prototype.constructor = PowerUp;
 PowerUp.prototype.drop = function() {
   //Add the sprite to the game
   game.add.existing(this);
-  
+
   var halfWidth = this.body.halfWidth;
-  var x = this.game.rnd.integerInRange(0 + halfWidth, this.game.width - halfWidth);
-  var angle = this.game.rnd.integerInRange(45, 135);
+  //Power ups only appear at the center area of the game
+  var x = this.game.rnd.integerInRange(150 + halfWidth, this.game.width - halfWidth - 150);
+  var angle = this.game.rnd.integerInRange(75, 105);
   var speed = game.rnd.between(120,200);
   //Reset the PowerUp, which moves the PowerUp to the given x/y corrdinates and
   //sets 'exists' to true.
