@@ -4,10 +4,13 @@ function preload() {
   game.load.image('player', 'assets/player.png');
   game.load.image('background', 'assets/starBackground.png');
   game.load.image('laserRed', 'assets/laserRed.png');
+  game.load.image('laserRedPowerUp', 'assets/laserRedShot.png');
+  game.load.image('laserGreen', 'assets/laserGreen.png');
+  game.load.image('laserGreenPowerUp', 'assets/laserGreenShot.png');
   game.load.image('enemy3','assets/enemy3.png');
   game.load.image('enemy4','assets/enemy4.png');
   game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
-  game.load.image('powerUp', 'assets/laserRedShot.png');
+
 }
 
 var background;
@@ -53,7 +56,7 @@ function create() {
 
   explosions = new Explosion(game);
 
-  powerUp = new PowerUp(game, 'powerUp');
+  powerUp = new PowerUp(game, 'laserRedPowerUp');
   //Spawn a power up item every 5 ~ 10 seconds
   game.time.events.loop(
     game.rnd.integerInRange(5000, 10000),
