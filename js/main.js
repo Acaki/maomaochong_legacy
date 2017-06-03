@@ -19,6 +19,8 @@ var explosions;
 var powerUp;
 
 var enemies;
+var enemies2;
+var Hp;
 function create() {
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
@@ -42,10 +44,11 @@ function create() {
 
   //Create a group of trash enemy
   enemies = new EnemyType.Trash(game);
+  enemies2 = new EnemyType.Trash2(game);
   //Spawn an enemy every 0.5 ~ 3 seconds
   game.time.events.loop(
     game.rnd.integerInRange(500, 1000),
-    function() { enemies.launch(); }
+    function() { enemies.launch(); enemies2.launch();}
   );
 
   explosions = new Explosion(game);
@@ -118,9 +121,13 @@ function keyboardHandler() {
 }
 
 function damageEnemy(bullet, enemy) {
-  bullet.kill();
-  enemy.kill();
-  explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
+  var deadOrNot = enemy.isDead(bullet, enemy)
+  if(deadOrNot)
+  {
+    enemy.kill();
+    explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
+  }
+
 }
 
 function powerUpWeapon(player, powerUp) {
@@ -136,6 +143,13 @@ function update() {
   game.physics.arcade.overlap(
     weapons[currentWeapon],
     enemies,
+    damageEnemy,
+    null,
+    this
+  );
+  game.physics.arcade.overlap(
+    weapons[currentWeapon],
+    enemies2,
     damageEnemy,
     null,
     this

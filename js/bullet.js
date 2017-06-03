@@ -2,7 +2,6 @@ var Bullet = function(game, key, damage) {
   //Call constructor of Phaser.Sprite to initialize this
   Phaser.Sprite.call(this, game, 0, 0, key);
 
-  this.anchor.set(0.5);
   this.checkWorldBounds = true;
   this.outOfBoundsKill = true;
   this.exists = false;

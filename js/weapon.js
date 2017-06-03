@@ -23,7 +23,6 @@ Weapon.SingleBullet.prototype.fire = function (source) {
   }
 
   var x, y;
-
   if (this.powerLevel == 1) {
     x = source.x + source.halfWidth;
     y = source.y - source.halfHeight;
