@@ -27,6 +27,8 @@ function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
   //Add the player plane on the middle bottom of the screen
   player = game.add.sprite(game.world.width / 2, game.world.height, 'player');
+  //Reduce the size of the player plane;
+  player.scale.set(0.5);
   player.anchor.set(0.5, 1.0);
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
