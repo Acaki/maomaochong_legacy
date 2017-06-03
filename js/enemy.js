@@ -28,14 +28,17 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel) {
   this.body.acceleration.x = xAccel;
 }
 
+Enemy.prototype.resetHealth = function() {
+  this.currentHealth = this.maxHealth;
+}
+
 Enemy.prototype.isDead = function(bullet, enemy)
 {
-  bullet.kill();
   enemy.currentHealth -= bullet.damage;
+  bullet.kill();
   if(enemy.currentHealth <= 0)
   {
-    //Reset the enemy's health
-    enemy.currentHealth = this.maxHealth;
+    enemy.resetHealth();
     return true;
   }
   else {

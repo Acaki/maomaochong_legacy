@@ -5,7 +5,10 @@ EnemyType.Trash = function (game) {
 
   //Add 10 trash enemies into this group
   for (var i = 0; i < 20; i++) {
-    this.add(new Enemy(game, 'enemy3' , 5), true);
+    var newEnemy = new Enemy(game, 'enemy3', 5);
+    this.add(newEnemy, true);
+    //Reset the enemy's health when it's killed
+    newEnemy.events.onKilled.add(newEnemy.resetHealth, newEnemy);
   }
   return this;
 }
@@ -32,7 +35,9 @@ EnemyType.Trash2 = function (game) {
 
   //Add 10 trash enemies into this group
   for (var i = 0; i < 20; i++) {
-    this.add(new Enemy(game, 'enemy4' , 4), true);
+    var newEnemy = new Enemy(game, 'enemy4', 2);
+    this.add(newEnemy, true);
+    newEnemy.events.onKilled.add(newEnemy.resetHealth, newEnemy);
   }
   return this;
 }

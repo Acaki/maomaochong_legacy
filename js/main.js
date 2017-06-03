@@ -121,8 +121,8 @@ function keyboardHandler() {
 }
 
 function damageEnemy(bullet, enemy) {
-  var deadOrNot = enemy.isDead(bullet, enemy)
-  if(deadOrNot)
+  var isDead = enemy.isDead(bullet, enemy)
+  if(isDead)
   {
     enemy.kill();
     explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
