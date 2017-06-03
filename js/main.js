@@ -9,6 +9,7 @@ function preload() {
   game.load.image('laserGreenPowerUp', 'assets/laserGreenShot.png');
   game.load.image('enemy3','assets/enemy3.png');
   game.load.image('enemy4','assets/enemy4.png');
+  game.load.image('bullet1','assets/bullet1.png');
   game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
 
 }
@@ -18,6 +19,7 @@ var player;
 var cursors;
 var weapons = [];
 var currentWeapon = 0;
+var enemyWeapons = [];
 var explosions;
 var powerUp;
 
@@ -39,7 +41,7 @@ function create() {
   player.body.collideWorldBounds = true;
 
   weapons.push(new Weapon.SingleBullet(game));
-
+  enemyWeapons.push(new Weapon2.EnemyBullet(this.game));
   cursors = game.input.keyboard.createCursorKeys();
   //Add key listener for 'shift'
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
@@ -139,13 +141,16 @@ function powerUpWeapon(player, powerUp) {
     weapons[currentWeapon].powerLevel++;
   }
 }
-
+function enemyAttack(enemy){
+    enemyWeapons[currentWeapon].fire(enemy.body);
+}
 function update() {
   keyboardHandler();
   game.physics.arcade.overlap(
     weapons[currentWeapon],
     enemies,
     damageEnemy,
+    enemyAttack,
     null,
     this
   );
@@ -153,6 +158,7 @@ function update() {
     weapons[currentWeapon],
     enemies2,
     damageEnemy,
+    enemyAttack,
     null,
     this
   );
@@ -164,3 +170,4 @@ function update() {
     this
   );
 }
+
