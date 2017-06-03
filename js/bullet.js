@@ -1,4 +1,4 @@
-var Bullet = function(game, key) {
+var Bullet = function(game, key, damage) {
   //Call constructor of Phaser.Sprite to initialize this
   Phaser.Sprite.call(this, game, 0, 0, key);
 
@@ -6,6 +6,7 @@ var Bullet = function(game, key) {
   this.checkWorldBounds = true;
   this.outOfBoundsKill = true;
   this.exists = false;
+  this.damage = damage;
 }
 
 //Bullet inherited from Phaser.sprite
