@@ -45,11 +45,11 @@ Weapon.SingleBullet.prototype.fire = function (source) {
     x = source.x + source.halfWidth - 10;
     y = source.y - source.halfHeight;
 
-    this.getFirstExists(false).fire(x, y, -120, this.bulletSpeed, 0);
+    this.getFirstExists(false).fire(x, y, -105, this.bulletSpeed, 0);
     x += 10;
     this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
     x += 10;
-    this.getFirstExists(false).fire(x, y, -60, this.bulletSpeed, 0);
+    this.getFirstExists(false).fire(x, y, -75, this.bulletSpeed, 0);
   }
 
   this.nextFire = this.game.time.time + this.fireRate;
