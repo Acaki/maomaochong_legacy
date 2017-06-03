@@ -136,9 +136,13 @@ function damageEnemy(bullet, enemy) {
 
 function powerUpWeapon(player, powerUp) {
   powerUp.kill();
-  var currentPowerLevel = weapons[currentWeapon].powerLevel;
-  if (currentPowerLevel < 3) {
+  //Increase power level of current weapon
+  if (currentWeapon == powerUp.weaponType && weapons[currentWeapon].powerLevel < 3) {
     weapons[currentWeapon].powerLevel++;
+  }
+  //Switch the weapon
+  else if (currentWeapon != powerUp.weaponType) {
+    currentWeapon = powerUp.weaponType;
   }
 }
 function enemyAttack(enemy){
