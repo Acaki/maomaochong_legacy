@@ -1,44 +1,54 @@
-var Enemy = function(game, key ,enemyHP) {
-  //Call constructor of Phaser.Sprite to initialize this
-  Phaser.Sprite.call(this, game, 0, 0, key);
+var EnemyType = {};
 
-  //Set the origin point of the sprite to its center
-  this.anchor.set(0.5);
-  this.checkWorldBounds = true;
-  this.outOfBoundsKill = true;
-  //Record whether sprite is processed by the update() function
-  this.exists = false;
-  this.Hp = enemyHP;
+EnemyType.Trash = function (game) {
+  Phaser.Group.call(this, game, game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
 
-}
-//Enemy inherited from Phaser.sprite
-Enemy.prototype = Object.create(Phaser.Sprite.prototype);
-Enemy.prototype.constructor = Enemy;
-
-Enemy.prototype.launch = function(x, y, angle, speed, xAccel) {
-  //horizontal acceleration value
-  xAccel = xAccel || 0;
-
-  //Reset the Enemy, which moves the Enemy to the given x/y corrdinates and
-  //sets 'exists' to true.
-  this.reset(x, y);
-
-  //Set Enemy's velocity that is calculated from the given angle and speed
-  this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
-  this.body.acceleration.x = xAccel;
-}
-
-Enemy.prototype.isDead = function(bullet, enemy)
-{
-  bullet.kill();
-  enemy.Hp -= bullet.damage;
-  if(enemy.Hp <= 0)
-  {
-    enemy.Hp = game.rnd.between(2,3);
-    return true;
+  //Add 10 trash enemies into this group
+  for (var i = 0; i < 10; i++) {
+    this.add(new Enemy(game, 'enemy3' , 3), true);
   }
-  else {
-    return false;
-  }
+  return this;
 }
 
+//EnemyType inherited from Phaser.Group
+EnemyType.Trash.prototype = Object.create(Phaser.Group.prototype);
+EnemyType.Trash.prototype.constructor = EnemyType.Trash;
+
+EnemyType.Trash.prototype.launch = function() {
+  var enemy = this.getFirstExists(false);
+  enemy.body.drag.x = 100;
+  //Prevent sprite being cut off on the edges
+  var halfWidth = enemy.width / 2;
+  var x = this.game.rnd.integerInRange(0 + halfWidth, this.game.width - halfWidth);
+  var angle = this.game.rnd.integerInRange(45, 135);
+  var speed = game.rnd.between(120,200);
+
+  //Launch the enemy starting on top of the screen
+  enemy.launch(x, 0, angle, speed, 0);
+}
+
+EnemyType.Trash2 = function (game) {
+  Phaser.Group.call(this, game, game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
+
+  //Add 10 trash enemies into this group
+  for (var i = 0; i < 10; i++) {
+    this.add(new Enemy(game, 'enemy4' , 2), true);
+  }
+  return this;
+}
+
+EnemyType.Trash2.prototype = Object.create(Phaser.Group.prototype);
+EnemyType.Trash2.prototype.constructor = EnemyType.Trash2;
+
+EnemyType.Trash2.prototype.launch = function() {
+  var enemy = this.getFirstExists(false);
+  enemy.body.drag.x = 100;
+  //Prevent sprite being cut off on the edges
+  var halfWidth = enemy.width / 2;
+  var x = this.game.rnd.integerInRange(0 + halfWidth, this.game.width - halfWidth);
+  var angle = this.game.rnd.integerInRange(45, 135);
+  var speed = game.rnd.between(120,200);
+
+  //Launch the enemy starting on top of the screen
+  enemy.launch(x, 0, angle, speed, 0);
+}
