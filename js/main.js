@@ -43,7 +43,7 @@ function create() {
   player.body.collideWorldBounds = true;
 
   weapons.push(new Weapon.SingleBullet(game, player, 0, -player.body.height - 10));
-  weapons.push(new Weapon.Beam(game));
+  weapons.push(new Weapon.Beam(game, player, 0, -player.body.height - 10));
   enemyWeapons.push(new Weapon.EnemyBullet(game));
   enemyWeapons.push(new Weapon.EnemyBullet2(game));
 

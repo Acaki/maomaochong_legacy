@@ -56,58 +56,35 @@ Weapon.SingleBullet.prototype.shoot = function (source) {
   }
 }
 
-Weapon.Beam = function (game) {
-  Phaser.Group.call(this, game, game.world, 'Beam', false, true, Phaser.Physics.ARCADE);
+Weapon.Beam = function (game, sprite, offsetX, offsetY) {
+  this.weapon = game.add.weapon(256, 'laserGreen');
 
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  //Rotate the bullet image to face up
+  this.weapon.bulletAngleOffset = -90;
+  this.weapon.bulletSpeed = 1000;
+  this.weapon.fireRate = 0;
+  //Tell the bullet to track the sprite location
+  this.weapon.trackSprite(sprite, offsetX, offsetY);
+  this.weapon.multiFire = true;
   this.powerLevel = 1;
-  this.nextFire = 0;
-  this.bulletSpeed = 1000;
-  this.fireRate = 0;
-  for (var i = 0; i < 256; i++) {
-    this.add(new Bullet(game, 'laserGreen', 0.2), true);
-  }
-  return this;
 }
 
-//Weapon inherited from Phaser.Group
-Weapon.Beam.prototype = Object.create(Phaser.Group.prototype);
-Weapon.Beam.prototype.constructor = Weapon.Beam;
-
-Weapon.Beam.prototype.fire = function (source) {
-  if (this.game.time.time < this.nextFire) {
-    return;
-  }
-
-  var x, y;
+Weapon.Beam.prototype.shoot = function (source) {
   if (this.powerLevel == 1) {
-    x = source.x + source.halfWidth;
-    y = source.y - source.halfHeight;
-
-    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+    this.weapon.fire();
   }
 
-  //Two columns of bullets
   else if (this.powerLevel == 2) {
-    x = source.x + source.halfWidth - 3;
-    y = source.y - source.halfHeight;
-
-    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
-    x += 6;
-    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+    this.weapon.fire(null, null, null, -3);
+    this.weapon.fire(null, null, null, 3);
   }
 
   else if (this.powerLevel == 3) {
-    x = source.x + source.halfWidth - 6;
-    y = source.y - source.halfHeight;
-
-    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
-    x += 6;
-    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
-    x += 6;
-    this.getFirstExists(false).fire(x, y, -90, this.bulletSpeed, 0);
+    this.weapon.fire(null, null, null, -6);
+    this.weapon.fire(null, null, null, 0);
+    this.weapon.fire(null, null, null, 6);
   }
-
-  this.nextFire = this.game.time.time + this.fireRate;
 }
 
 //Enemy weapons
