@@ -2,6 +2,8 @@ var game = new Phaser.Game(600, 800, Phaser.AUTO, '', {preload: preload, create:
 
 function preload() {
   game.load.image('player', 'assets/player.png');
+  game.load.image('playerLeft', 'assets/playerLeft.png');
+  game.load.image('playerRight', 'assets/playerRight.png');
   game.load.image('background', 'assets/starBackground.png');
   game.load.image('laserRed', 'assets/laserRed.png');
   game.load.image('laserRedPowerUp', 'assets/laserRedShot.png');
@@ -82,15 +84,18 @@ function create() {
 var currentAngle;
 function keyboardHandler() {
   player.body.velocity.set(0, 0);
+  player.loadTexture('player');
   //Move the plane left
   if (cursors.left.isDown) {
     game.physics.arcade.velocityFromAngle(-180, 300, player.body.velocity);
     currentAngle = -180;
+    player.loadTexture('playerLeft');
   }
   //Move the plane right
   if (cursors.right.isDown) {
     game.physics.arcade.velocityFromAngle(0, 300, player.body.velocity);
     currentAngle = 0;
+    player.loadTexture('playerRight');
   }
   //Up
   if (cursors.up.isDown) {
