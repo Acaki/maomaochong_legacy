@@ -16,6 +16,7 @@ var ScatterBullet = function (game, sprite, offsetX, offsetY) {
   this.weapon.multiFire = true;
   this.powerLevel = 1;
   this.weapon.bullets.setAll('damage', 0.25);
+  this.weapon.bullets.setAll('alpha', 0.5);
 
   return this;
 }
@@ -67,6 +68,7 @@ var Beam = function (game, sprite, offsetX, offsetY) {
   this.weapon.multiFire = true;
   this.powerLevel = 1;
   this.weapon.bullets.setAll('damage', 0.2);
+  this.weapon.bullets.setAll('alpha', 0.5);
 
   return this;
 }
@@ -127,6 +129,7 @@ EnemyBullet2.prototype.constructor = EnemyBullet2;
 EnemyBullet2.prototype.shoot = function (source) {
   var x = source.x - 15;
   var y = source.y;
+
   this.weapon.fire(new Phaser.Point(x, y));
   x += 30;
   this.weapon.fire(new Phaser.Point(x, y));
