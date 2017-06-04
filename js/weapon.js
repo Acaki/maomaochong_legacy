@@ -16,6 +16,7 @@ Weapon.SingleBullet = function (game, sprite, offsetX, offsetY) {
   this.weapon.trackSprite(sprite, offsetX, offsetY);
   this.weapon.multiFire = true;
   this.powerLevel = 1;
+  this.weapon.bullets.setAll('damage', 0.25);
 
   return this;
 }
@@ -68,6 +69,7 @@ Weapon.Beam = function (game, sprite, offsetX, offsetY) {
   this.weapon.trackSprite(sprite, offsetX, offsetY);
   this.weapon.multiFire = true;
   this.powerLevel = 1;
+  this.weapon.bullets.setAll('damage', 0.2);
 }
 
 Weapon.Beam.prototype.shoot = function (source) {

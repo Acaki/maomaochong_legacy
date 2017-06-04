@@ -174,7 +174,7 @@ function update() {
   keyboardHandler();
   game.physics.arcade.overlap(
     enemies,
-    weapons[currentWeapon],
+    weapons[currentWeapon].weapon.bullets,
     damageEnemy,
     enemyAttack,
     null,
@@ -182,7 +182,7 @@ function update() {
   );
   game.physics.arcade.overlap(
     enemies2,
-    weapons[currentWeapon],
+    weapons[currentWeapon].weapon.bullets,
     damageEnemy,
     enemyAttack,
     null,
