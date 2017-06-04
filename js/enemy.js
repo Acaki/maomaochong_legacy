@@ -9,7 +9,7 @@ var Enemy = function(game, key , health) {
   //Record whether sprite is processed by the update() function
   this.exists = false;
   this.maxHealth = health;
-  this.currentHealth = health;
+  this.health = health;
 }
 //Enemy inherited from Phaser.sprite
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
@@ -19,29 +19,12 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel) {
   //horizontal acceleration value
   xAccel = xAccel || 0;
 
-  //Reset the Enemy, which moves the Enemy to the given x/y corrdinates and
-  //sets 'exists' to true.
-  this.reset(x, y);
+  //Reset the Enemy, which moves the Enemy to the given x/y corrdinates,
+  //sets the 'exists' property to true, and heal the enemy.
+  this.reset(x, y, this.maxHealth);
 
   //Set Enemy's velocity that is calculated from the given angle and speed
   this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
   this.body.acceleration.x = xAccel;
-}
-
-Enemy.prototype.resetHealth = function() {
-  this.currentHealth = this.maxHealth;
-}
-
-Enemy.prototype.isDead = function(bullet, enemy)
-{
-  enemy.currentHealth -= bullet.damage;
-  bullet.kill();
-  if(enemy.currentHealth <= 0)
-  {
-    enemy.resetHealth();
-    return true;
-  }
-  else {
-    return false;
-  }
+  console.log(this.health);
 }

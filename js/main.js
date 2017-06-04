@@ -126,11 +126,11 @@ function keyboardHandler() {
   }
 }
 
-function damageEnemy(bullet, enemy) {
-  var isDead = enemy.isDead(bullet, enemy)
-  if(isDead)
+function damageEnemy(enemy, bullet) {
+  enemy.damage(bullet.damage);
+  bullet.kill();
+  if(!enemy.alive)
   {
-    enemy.kill();
     explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
   }
 }
@@ -154,16 +154,16 @@ function enemyAttack(enemy){
 function update() {
   keyboardHandler();
   game.physics.arcade.overlap(
-    weapons[currentWeapon],
     enemies,
+    weapons[currentWeapon],
     damageEnemy,
     enemyAttack,
     null,
     this
   );
   game.physics.arcade.overlap(
-    weapons[currentWeapon],
     enemies2,
+    weapons[currentWeapon],
     damageEnemy,
     enemyAttack,
     null,

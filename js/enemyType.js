@@ -5,10 +5,7 @@ EnemyType.Trash = function (game) {
 
   //Add 10 trash enemies into this group
   for (var i = 0; i < 20; i++) {
-    var newEnemy = new Enemy(game, 'enemy3', 5);
-    this.add(newEnemy, true);
-    //Reset the enemy's health when it's killed
-    newEnemy.events.onKilled.add(newEnemy.resetHealth, newEnemy);
+    this.add(new Enemy(game, 'enemy3', 5), true);
   }
   return this;
 }
@@ -19,6 +16,7 @@ EnemyType.Trash.prototype.constructor = EnemyType.Trash;
 
 EnemyType.Trash.prototype.launch = function() {
   var enemy = this.getFirstExists(false);
+
   enemy.body.drag.x = 100;
   //Prevent sprite being cut off on the edges
   var halfWidth = enemy.body.halfWidth;
@@ -35,9 +33,7 @@ EnemyType.Trash2 = function (game) {
 
   //Add 10 trash enemies into this group
   for (var i = 0; i < 20; i++) {
-    var newEnemy = new Enemy(game, 'enemy4', 2);
-    this.add(newEnemy, true);
-    newEnemy.events.onKilled.add(newEnemy.resetHealth, newEnemy);
+    this.add(new Enemy(game, 'enemy4', 2), true);
   }
   return this;
 }
@@ -47,6 +43,7 @@ EnemyType.Trash2.prototype.constructor = EnemyType.Trash2;
 
 EnemyType.Trash2.prototype.launch = function() {
   var enemy = this.getFirstExists(false);
+  
   enemy.body.drag.x = 100;
   //Prevent sprite being cut off on the edges
   var halfWidth = enemy.body.halfWidth;
