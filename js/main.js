@@ -161,7 +161,7 @@ function powerUpWeapon(player, powerUp) {
     weapons[currentWeapon].powerLevel = currentPowerLevel;
   }
 }
-function enemyAttack(bullet , enemy){
+function enemyAttack(enemy, bullet){
   if(enemy.eneLevel == 1){
     enemyWeapons1[0].fire(enemy.body);
   }

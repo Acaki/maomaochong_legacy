@@ -62,7 +62,7 @@ Weapon.Beam = function (game) {
   this.bulletSpeed = 1000;
   this.fireRate = 0;
   for (var i = 0; i < 256; i++) {
-    this.add(new Bullet(game, 'laserGreen', 1), true);
+    this.add(new Bullet(game, 'laserGreen', 0.2), true);
   }
   return this;
 }
