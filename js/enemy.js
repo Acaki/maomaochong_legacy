@@ -28,5 +28,4 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel) {
   //Set Enemy's velocity that is calculated from the given angle and speed
   this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
   this.body.acceleration.x = xAccel;
-  console.log(this.health);
 }
