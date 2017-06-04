@@ -1,5 +1,6 @@
-var Enemy = function(game, key , health) {
+var Enemy = function(game, key , health , level) {
   //Call constructor of Phaser.Sprite to initialize this
+  //alert(level)
   Phaser.Sprite.call(this, game, 0, 0, key);
 
   //Set the origin point of the sprite to its center
@@ -9,7 +10,8 @@ var Enemy = function(game, key , health) {
   //Record whether sprite is processed by the update() function
   this.exists = false;
   this.maxHealth = health;
-  this.health = health;
+  //Enemy Level
+  this.eneLevel = level;
 }
 //Enemy inherited from Phaser.sprite
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
