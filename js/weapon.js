@@ -109,8 +109,7 @@ Weapon.Beam.prototype.fire = function (source) {
 }
 
 //Enemy weapons
-var Weapon2 = {};
-Weapon2.EnemyBullet = function(game){
+Weapon.EnemyBullet = function(game){
   Phaser.Group.call(this, game, game.world, 'EnemyBullet1', false, true, Phaser.Physics.ARCADE);
 
   this.nextFire = 0;
@@ -121,24 +120,24 @@ Weapon2.EnemyBullet = function(game){
   }
   return this;
 }
-Weapon2.EnemyBullet.prototype = Object.create(Phaser.Group.prototype);
-Weapon2.EnemyBullet.prototype.constructor = Weapon2.EnemyBullet;
+Weapon.EnemyBullet.prototype = Object.create(Phaser.Group.prototype);
+Weapon.EnemyBullet.prototype.constructor = Weapon.EnemyBullet;
 
-Weapon2.EnemyBullet.prototype.fire = function (source) {
+Weapon.EnemyBullet.prototype.fire = function (source) {
   if (this.game.time.time < this.nextFire) {
     return;
   }
+
   var x, y;
-    x = source.x ;
-    y = source.y ;
-    this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0);
+  x = source.x ;
+  y = source.y ;
+  this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0);
 
   this.nextFire = this.game.time.time + this.fireRate;
 }
 
 //Enemy weapons2
-var Weapon3 = {};
-Weapon3.EnemyBullet = function(game){
+Weapon.EnemyBullet2 = function(game){
   Phaser.Group.call(this, game, game.world, 'EnemyBullet2', false, true, Phaser.Physics.ARCADE);
 
   this.nextFire = 0;
@@ -149,19 +148,19 @@ Weapon3.EnemyBullet = function(game){
   }
   return this;
 }
-Weapon3.EnemyBullet.prototype = Object.create(Phaser.Group.prototype);
-Weapon3.EnemyBullet.prototype.constructor = Weapon3.EnemyBullet;
+Weapon.EnemyBullet2.prototype = Object.create(Phaser.Group.prototype);
+Weapon.EnemyBullet2.prototype.constructor = Weapon.EnemyBullet2;
 
-Weapon3.EnemyBullet.prototype.fire = function (source) {
+Weapon.EnemyBullet2.prototype.fire = function (source) {
   if (this.game.time.time < this.nextFire) {
     return;
   }
   var x, y;
-    x = source.x ;
-    y = source.y ;
-    this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0);
-    x += 30;
-    this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0);
+  x = source.x ;
+  y = source.y ;
+  this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0);
+  x += 30;
+  this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0);
 
   this.nextFire = this.game.time.time + this.fireRate;
 }

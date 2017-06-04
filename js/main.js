@@ -20,8 +20,7 @@ var player;
 var cursors;
 var weapons = [];
 var currentWeapon = 0;
-var enemyWeapons1 = [];
-var enemyWeapons2 = [];
+var enemyWeapons = [];
 var explosions;
 var powerUp;
 var enemies;
@@ -42,8 +41,8 @@ function create() {
 
   weapons.push(new Weapon.SingleBullet(game));
   weapons.push(new Weapon.Beam(game));
-  enemyWeapons1.push(new Weapon2.EnemyBullet(game));
-  enemyWeapons2.push(new Weapon3.EnemyBullet(game));
+  enemyWeapons.push(new Weapon.EnemyBullet(game));
+  enemyWeapons.push(new Weapon.EnemyBullet2(game));
 
   cursors = game.input.keyboard.createCursorKeys();
   //Add key listener for 'shift'
@@ -161,15 +160,11 @@ function powerUpWeapon(player, powerUp) {
     weapons[currentWeapon].powerLevel = currentPowerLevel;
   }
 }
-function enemyAttack(enemy, bullet){
-  if(enemy.eneLevel == 1){
-    enemyWeapons1[0].fire(enemy.body);
-  }
-  else if(enemy.eneLevel == 2){
-    enemyWeapons2[0].fire(enemy.body);
-  }
 
+function enemyAttack(enemy, bullet){
+  enemyWeapons[enemy.eneLevel].fire(enemy.body);
 }
+
 function update() {
   keyboardHandler();
   game.physics.arcade.overlap(

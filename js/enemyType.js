@@ -5,7 +5,7 @@ EnemyType.Trash = function (game) {
 
   //Add 10 trash enemies into this group
   for (var i = 0; i < 20; i++) {
-    this.add(new Enemy(game, 'enemy3', 5, 1), true);
+    this.add(new Enemy(game, 'enemy3', 5, 0), true);
   }
   return this;
 }
@@ -33,7 +33,7 @@ EnemyType.Trash2 = function (game) {
 
   //Add 10 trash enemies into this group
   for (var i = 0; i < 20; i++) {
-    this.add(new Enemy(game, 'enemy4', 2, 2), true);
+    this.add(new Enemy(game, 'enemy4', 2, 1), true);
   }
   return this;
 }
