@@ -1,4 +1,4 @@
-var game = new Phaser.Game(600, 800, Phaser.AUTO, '', {preload: preload, create: create, update: update});
+var game = new Phaser.Game(600, 800, Phaser.AUTO, '', {preload: preload, create: create, update: update, render: render});
 
 function preload() {
   game.load.image('player', 'assets/player.png');
@@ -27,6 +27,7 @@ var explosions;
 var powerUp;
 var enemies;
 var enemies2;
+
 function create() {
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
@@ -41,7 +42,7 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
-  weapons.push(new Weapon.SingleBullet(game));
+  weapons.push(new Weapon.SingleBullet(game, player, 0, -player.body.height - 10));
   weapons.push(new Weapon.Beam(game));
   enemyWeapons.push(new Weapon.EnemyBullet(game));
   enemyWeapons.push(new Weapon.EnemyBullet2(game));
@@ -78,7 +79,6 @@ function create() {
     game.rnd.integerInRange(500, 1000),
     function() { enemyAttack(enemies); }
   );*/
-
 }
 
 var currentAngle;
@@ -139,7 +139,7 @@ function keyboardHandler() {
   }
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-    weapons[currentWeapon].fire(player.body);
+    weapons[currentWeapon].shoot(player.body);
   }
 }
 
@@ -195,4 +195,8 @@ function update() {
     null,
     this
   );
+}
+
+function render() {
+  game.debug.spriteBounds(player);
 }
