@@ -139,7 +139,7 @@ function keyboardHandler() {
   }
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-    weapons[currentWeapon].shoot(player.body);
+    weapons[currentWeapon].shoot();
   }
 }
 
@@ -167,7 +167,7 @@ function powerUpWeapon(player, powerUp) {
 }
 
 function enemyAttack(enemy, bullet){
-  enemyWeapons[enemy.eneLevel].fire(enemy.body);
+  enemyWeapons[enemy.eneLevel].shoot(enemy);
 }
 
 function update() {

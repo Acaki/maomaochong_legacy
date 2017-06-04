@@ -20,7 +20,7 @@ var ScatterBullet = function (game, sprite, offsetX, offsetY) {
   return this;
 }
 
-ScatterBullet.prototype.shoot = function (source) {
+ScatterBullet.prototype.shoot = function () {
   //Reset the fire angle to up
   this.weapon.fireAngle = -90;
   if (this.powerLevel == 1) {
@@ -67,9 +67,11 @@ var Beam = function (game, sprite, offsetX, offsetY) {
   this.weapon.multiFire = true;
   this.powerLevel = 1;
   this.weapon.bullets.setAll('damage', 0.2);
+
+  return this;
 }
 
-Beam.prototype.shoot = function (source) {
+Beam.prototype.shoot = function () {
   if (this.powerLevel == 1) {
     this.weapon.fire();
   }
@@ -88,57 +90,44 @@ Beam.prototype.shoot = function (source) {
 
 //Enemy weapons
 var EnemyBullet = function(game){
-  Phaser.Group.call(this, game, game.world, 'EnemyBullet1', false, true, Phaser.Physics.ARCADE);
+  this.weapon = game.add.weapon(128, 'bullet1');
 
-  this.nextFire = 0;
-  this.bulletSpeed = 300;
-  this.fireRate = 70;
-  for (var i = 0; i < 128; i++) {
-    this.add(new Bullet(game, 'bullet1', 1), true);
-  }
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  //Rotate the bullet image to face up
+  this.weapon.bulletAngleOffset = -90;
+  this.weapon.bulletSpeed = -300;
+  this.weapon.fireRate = 70;
+  this.weapon.multiFire = true;
+  this.weapon.bullets.setAll('damage', 1);
+
   return this;
 }
-EnemyBullet.prototype = Object.create(Phaser.Group.prototype);
-EnemyBullet.prototype.constructor = EnemyBullet;
 
-EnemyBullet.prototype.fire = function (source) {
-  if (this.game.time.time < this.nextFire) {
-    return;
-  }
-
-  var x, y;
-  x = source.x ;
-  y = source.y ;
-  this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0);
-
-  this.nextFire = this.game.time.time + this.fireRate;
+EnemyBullet.prototype.shoot = function(source) {
+  this.weapon.fire(source);
 }
 
 //Enemy weapons2
 var EnemyBullet2 = function(game){
-  Phaser.Group.call(this, game, game.world, 'EnemyBullet2', false, true, Phaser.Physics.ARCADE);
+  this.weapon = game.add.weapon(128, 'bullet2');
 
-  this.nextFire = 0;
-  this.bulletSpeed = 500;
-  this.fireRate = 70;
-  for (var i = 0; i < 128; i++) {
-    this.add(new Bullet(game, 'bullet2', 1), true);
-  }
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  //Rotate the bullet image to face up
+  this.weapon.bulletAngleOffset = -90;
+  this.weapon.bulletSpeed = -500;
+  this.weapon.fireRate = 70;
+  this.weapon.multiFire = true;
+  this.weapon.bullets.setAll('damage', 1);
+
   return this;
 }
 EnemyBullet2.prototype = Object.create(Phaser.Group.prototype);
 EnemyBullet2.prototype.constructor = EnemyBullet2;
 
-EnemyBullet2.prototype.fire = function (source) {
-  if (this.game.time.time < this.nextFire) {
-    return;
-  }
-  var x, y;
-  x = source.x ;
-  y = source.y ;
-  this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0);
+EnemyBullet2.prototype.shoot = function (source) {
+  var x = source.x - 15;
+  var y = source.y;
+  this.weapon.fire(new Phaser.Point(x, y));
   x += 30;
-  this.getFirstExists(false).fire(x, y, 90, this.bulletSpeed, 0);
-
-  this.nextFire = this.game.time.time + this.fireRate;
+  this.weapon.fire(new Phaser.Point(x, y));
 }
