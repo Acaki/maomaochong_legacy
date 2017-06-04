@@ -1,5 +1,6 @@
-var Enemy = function(game, key ,enemyHP) {
+var Enemy = function(game, key , health , level) {
   //Call constructor of Phaser.Sprite to initialize this
+  //alert(level)
   Phaser.Sprite.call(this, game, 0, 0, key);
 
   //Set the origin point of the sprite to its center
@@ -8,8 +9,9 @@ var Enemy = function(game, key ,enemyHP) {
   this.outOfBoundsKill = true;
   //Record whether sprite is processed by the update() function
   this.exists = false;
-  this.Hp = enemyHP;
-
+  this.maxHealth = health;
+  //Enemy Level
+  this.eneLevel = level;
 }
 //Enemy inherited from Phaser.sprite
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
@@ -19,26 +21,11 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel) {
   //horizontal acceleration value
   xAccel = xAccel || 0;
 
-  //Reset the Enemy, which moves the Enemy to the given x/y corrdinates and
-  //sets 'exists' to true.
-  this.reset(x, y);
+  //Reset the Enemy, which moves the Enemy to the given x/y corrdinates,
+  //sets the 'exists' property to true, and heal the enemy.
+  this.reset(x, y, this.maxHealth);
 
   //Set Enemy's velocity that is calculated from the given angle and speed
   this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
   this.body.acceleration.x = xAccel;
 }
-
-Enemy.prototype.isDead = function(bullet, enemy)
-{
-  bullet.kill();
-  enemy.Hp -= bullet.damage;
-  if(enemy.Hp <= 0)
-  {
-    enemy.Hp = game.rnd.between(2,3);
-    return true;
-  }
-  else {
-    return false;
-  }
-}
-
