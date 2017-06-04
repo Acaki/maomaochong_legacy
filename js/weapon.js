@@ -1,10 +1,9 @@
-var Weapon = {};
-
 /*
  * @param offsetX - The horizontal offset from the Sprites position to be applied to the Weapon.
  * @param offsetY - The vertical offset from the Sprites position to be applied to the Weapon.
  */
-Weapon.SingleBullet = function (game, sprite, offsetX, offsetY) {
+
+var ScatterBullet = function (game, sprite, offsetX, offsetY) {
   this.weapon = game.add.weapon(128, 'laserRed');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -21,9 +20,7 @@ Weapon.SingleBullet = function (game, sprite, offsetX, offsetY) {
   return this;
 }
 
-Weapon.SingleBullet.constructor = Weapon.SingleBullet;
-
-Weapon.SingleBullet.prototype.shoot = function (source) {
+ScatterBullet.prototype.shoot = function (source) {
   //Reset the fire angle to up
   this.weapon.fireAngle = -90;
   if (this.powerLevel == 1) {
@@ -57,7 +54,7 @@ Weapon.SingleBullet.prototype.shoot = function (source) {
   }
 }
 
-Weapon.Beam = function (game, sprite, offsetX, offsetY) {
+var Beam = function (game, sprite, offsetX, offsetY) {
   this.weapon = game.add.weapon(256, 'laserGreen');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -72,7 +69,7 @@ Weapon.Beam = function (game, sprite, offsetX, offsetY) {
   this.weapon.bullets.setAll('damage', 0.2);
 }
 
-Weapon.Beam.prototype.shoot = function (source) {
+Beam.prototype.shoot = function (source) {
   if (this.powerLevel == 1) {
     this.weapon.fire();
   }
@@ -90,7 +87,7 @@ Weapon.Beam.prototype.shoot = function (source) {
 }
 
 //Enemy weapons
-Weapon.EnemyBullet = function(game){
+var EnemyBullet = function(game){
   Phaser.Group.call(this, game, game.world, 'EnemyBullet1', false, true, Phaser.Physics.ARCADE);
 
   this.nextFire = 0;
@@ -101,10 +98,10 @@ Weapon.EnemyBullet = function(game){
   }
   return this;
 }
-Weapon.EnemyBullet.prototype = Object.create(Phaser.Group.prototype);
-Weapon.EnemyBullet.prototype.constructor = Weapon.EnemyBullet;
+EnemyBullet.prototype = Object.create(Phaser.Group.prototype);
+EnemyBullet.prototype.constructor = EnemyBullet;
 
-Weapon.EnemyBullet.prototype.fire = function (source) {
+EnemyBullet.prototype.fire = function (source) {
   if (this.game.time.time < this.nextFire) {
     return;
   }
@@ -118,7 +115,7 @@ Weapon.EnemyBullet.prototype.fire = function (source) {
 }
 
 //Enemy weapons2
-Weapon.EnemyBullet2 = function(game){
+var EnemyBullet2 = function(game){
   Phaser.Group.call(this, game, game.world, 'EnemyBullet2', false, true, Phaser.Physics.ARCADE);
 
   this.nextFire = 0;
@@ -129,10 +126,10 @@ Weapon.EnemyBullet2 = function(game){
   }
   return this;
 }
-Weapon.EnemyBullet2.prototype = Object.create(Phaser.Group.prototype);
-Weapon.EnemyBullet2.prototype.constructor = Weapon.EnemyBullet2;
+EnemyBullet2.prototype = Object.create(Phaser.Group.prototype);
+EnemyBullet2.prototype.constructor = EnemyBullet2;
 
-Weapon.EnemyBullet2.prototype.fire = function (source) {
+EnemyBullet2.prototype.fire = function (source) {
   if (this.game.time.time < this.nextFire) {
     return;
   }

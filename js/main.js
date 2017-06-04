@@ -42,10 +42,10 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
-  weapons.push(new Weapon.SingleBullet(game, player, 0, -player.body.height - 10));
-  weapons.push(new Weapon.Beam(game, player, 0, -player.body.height - 10));
-  enemyWeapons.push(new Weapon.EnemyBullet(game));
-  enemyWeapons.push(new Weapon.EnemyBullet2(game));
+  weapons.push(new ScatterBullet(game, player, 0, -player.body.height - 10));
+  weapons.push(new Beam(game, player, 0, -player.body.height - 10));
+  enemyWeapons.push(new EnemyBullet(game));
+  enemyWeapons.push(new EnemyBullet2(game));
 
   cursors = game.input.keyboard.createCursorKeys();
   //Add key listener for 'shift'
@@ -198,5 +198,5 @@ function update() {
 }
 
 function render() {
-  game.debug.spriteBounds(player);
+  //game.debug.spriteBounds(player);
 }
