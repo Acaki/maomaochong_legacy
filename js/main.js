@@ -7,6 +7,7 @@ function preload() {
   game.load.image('enemy3','assets/enemy3.png');
   game.load.image('enemy4','assets/enemy4.png');
   game.load.image('bullet1','assets/bullet1.png');
+  game.load.image('bullet2','assets/bullet2.png');
   game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
   game.load.image('powerUp', 'assets/laserRedShot.png');
 }
@@ -16,13 +17,12 @@ var player;
 var cursors;
 var weapons = [];
 var currentWeapon = 0;
-var enemyWeapons = [];
+var enemyWeapons1 = [];
+var enemyWeapons2 = [];
 var explosions;
 var powerUp;
-
 var enemies;
 var enemies2;
-var Hp;
 function create() {
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
@@ -38,7 +38,9 @@ function create() {
   player.body.collideWorldBounds = true;
 
   weapons.push(new Weapon.SingleBullet(game));
-  enemyWeapons.push(new Weapon2.EnemyBullet(this.game));
+  enemyWeapons1.push(new Weapon2.EnemyBullet(game));
+  enemyWeapons2.push(new Weapon3.EnemyBullet(game));
+
   cursors = game.input.keyboard.createCursorKeys();
   //Add key listener for 'shift'
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
@@ -48,9 +50,15 @@ function create() {
   enemies = new EnemyType.Trash(game);
   enemies2 = new EnemyType.Trash2(game);
   //Spawn an enemy every 0.5 ~ 3 seconds
+  //Level 1 Trash
   game.time.events.loop(
     game.rnd.integerInRange(500, 1000),
-    function() { enemies.launch(); enemies2.launch();}
+    function() { enemies.launch();}
+  );
+  //Level 2 Trash
+  game.time.events.loop(
+    game.rnd.integerInRange(2300, 3000),
+    function() {enemies2.launch();}
   );
 
   explosions = new Explosion(game);
@@ -61,6 +69,11 @@ function create() {
     game.rnd.integerInRange(5000, 10000),
     function() { powerUp.drop(); }
   );
+  /*game.time.events.loop(
+    game.rnd.integerInRange(500, 1000),
+    function() { enemyAttack(enemies); }
+  );*/
+
 }
 
 var currentAngle;
@@ -138,8 +151,14 @@ function powerUpWeapon(player, powerUp) {
     weapons[currentWeapon].powerLevel++;
   }
 }
-function enemyAttack(enemy){
-    enemyWeapons[currentWeapon].fire(enemy.body);
+function enemyAttack(bullet , enemy){
+  if(enemy.eneLevel == 1){
+    enemyWeapons1[currentWeapon].fire(enemy.body);
+  }
+  else if(enemy.eneLevel == 2){
+    enemyWeapons2[currentWeapon].fire(enemy.body);
+  }
+
 }
 function update() {
   keyboardHandler();
@@ -167,4 +186,5 @@ function update() {
     this
   );
 }
+
 
