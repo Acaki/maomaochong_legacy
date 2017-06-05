@@ -25,6 +25,12 @@ function wave2() {
 
 function wave3() {
   for (i = 0; i < 3; i++) {
-    enemies.launchTween(i * 200 + 100, 0, { y: 300 }, 500);
+    enemies.launchTween(i * 200 + 100, 0, { y: 200 }, 1000);
+  }
+  for (i = 0; i < 10; i++) {
+    game.time.events.add(i * 500, enemies2.launch, enemies2, 0, 100, 45, 400, -150, 0);
+  }
+  for (i = 0; i < 10; i++) {
+    game.time.events.add(i * 500, enemies2.launch, enemies2, game.width, 100, 135, 400, 150, 0);
   }
 }
