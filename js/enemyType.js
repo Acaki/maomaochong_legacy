@@ -62,3 +62,8 @@ EnemyType.Trash2.prototype.launch = function(x, y, angle, speed, xAccel, yAccel)
 
   enemy.launch(x, y, angle, speed, xAccel, yAccel);
 }
+
+EnemyType.Trash2.prototype.launchTween = function(x, y, properties, duration) {
+  var enemy = this.getFirstExists(false);
+  enemy.launchTween(x, y, properties, duration);
+}
