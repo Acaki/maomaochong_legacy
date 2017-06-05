@@ -17,7 +17,7 @@ var ScatterBullet = function (game, sprite, offsetX, offsetY) {
 
   this.powerLevel = 1;
   this.weapon.bullets.setAll('damage', 0.25);
-
+  this.weapon.bullets.setAll('alpha', 0.5);
 
   return this;
 }
@@ -70,7 +70,8 @@ var Beam = function (game, sprite, offsetX, offsetY) {
   this.powerLevel = 1;
 
   this.weapon.bullets.setAll('damage', 0.2);
-
+  this.weapon.bullets.setAll('alpha', 0.5);
+  
   return this;
 }
 
