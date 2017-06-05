@@ -77,10 +77,26 @@ function create() {
     game.rnd.integerInRange(5000, 10000),
     function() { powerUp.drop(); }
   );
-  /*game.time.events.loop(
-    game.rnd.integerInRange(500, 1000),
-    function() { enemyAttack(enemies); }
-  );*/
+
+  //Trash1 Attack
+  game.time.events.loop(
+    game.rnd.integerInRange(2000, 2200),
+    function() {
+      var i;
+      for( i = 0 ; i < enemies.getAll('exists' , true).length ; i++){
+        enemyWeapons[0].shoot(enemies.getAll('exists', true)[i]);
+      }
+    });
+    //Trash2 Attack
+  game.time.events.loop(
+    game.rnd.integerInRange(1000, 1200),
+    function(){
+      var i;
+      for( i = 0 ; i < enemies2.getAll('exists' , true).length ; i++){
+        enemyWeapons[1].shoot(enemies2.getAll('exists', true)[i]);
+      }
+    });
+
   stageStart();
 }
 
@@ -180,7 +196,7 @@ function update() {
     enemies,
     weapons[currentWeapon].weapon.bullets,
     damageEnemy,
-    enemyAttack,
+    //enemyAttack,
     null,
     this
   );
@@ -188,7 +204,7 @@ function update() {
     enemies2,
     weapons[currentWeapon].weapon.bullets,
     damageEnemy,
-    enemyAttack,
+    //enemyAttack,
     null,
     this
   );
@@ -199,6 +215,7 @@ function update() {
     null,
     this
   );
+
 }
 
 function render() {
