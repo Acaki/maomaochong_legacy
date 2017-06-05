@@ -93,6 +93,7 @@ function create() {
          enemyWeapons[1].shoot(enemies2.getAll('exists', true)[i]);
        }
     });
+
 }
 
 var currentAngle;
@@ -209,6 +210,7 @@ function update() {
     null,
     this
   );
+
 }
 
 function render() {

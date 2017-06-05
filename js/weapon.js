@@ -14,9 +14,10 @@ var ScatterBullet = function (game, sprite, offsetX, offsetY) {
   //Tell the bullet to track the sprite location
   this.weapon.trackSprite(sprite, offsetX, offsetY);
   this.weapon.multiFire = true;
+
   this.powerLevel = 1;
   this.weapon.bullets.setAll('damage', 0.25);
-  this.weapon.bullets.setAll('alpha', 0.5);
+
 
   return this;
 }
@@ -67,8 +68,8 @@ var Beam = function (game, sprite, offsetX, offsetY) {
   this.weapon.trackSprite(sprite, offsetX, offsetY);
   this.weapon.multiFire = true;
   this.powerLevel = 1;
+
   this.weapon.bullets.setAll('damage', 0.2);
-  this.weapon.bullets.setAll('alpha', 0.5);
 
   return this;
 }
@@ -102,11 +103,25 @@ var EnemyBullet = function(game){
   this.weapon.multiFire = true;
   this.weapon.bullets.setAll('damage', 1);
 
+
   return this;
 }
 
 EnemyBullet.prototype.shoot = function(source) {
-  this.weapon.fire(source);
+
+  var mode = game.rnd.between(0,10);
+  var x = source.x;
+  var y = source.y;
+  if(mode <= 9){
+    this.weapon.fire(source);
+  }
+  else {
+    this.weapon.fire(new Phaser.Point(x, y),null,null,-40,null);
+    this.weapon.fire(new Phaser.Point(x, y),null,null,-20,null);
+    this.weapon.fire(new Phaser.Point(x, y),null,null,0,null);
+    this.weapon.fire(new Phaser.Point(x, y),null,null,20,null);
+    this.weapon.fire(new Phaser.Point(x, y),null,null,40,null);
+  }
 }
 
 //Enemy weapons2
@@ -116,7 +131,8 @@ var EnemyBullet2 = function(game){
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   //Rotate the bullet image to face up
   this.weapon.bulletAngleOffset = -90;
-  this.weapon.bulletSpeed = -500;
+  this.weapon.bulletSpeed = 500;
+
   this.weapon.fireRate = 70;
   this.weapon.multiFire = true;
   this.weapon.bullets.setAll('damage', 1);
@@ -129,8 +145,10 @@ EnemyBullet2.prototype.constructor = EnemyBullet2;
 EnemyBullet2.prototype.shoot = function (source) {
   var x = source.x - 15;
   var y = source.y;
-
-  this.weapon.fire(new Phaser.Point(x, y));
+  var playerX = player.body.x;
+  var playerY = player.body.y;
+  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
   x += 30;
-  this.weapon.fire(new Phaser.Point(x, y));
+  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
+
 }
