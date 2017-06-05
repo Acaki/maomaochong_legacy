@@ -30,6 +30,11 @@ EnemyType.Trash.prototype.launch = function(x, y, angle, speed, xAccel, yAccel) 
   enemy.launch(x, y, angle, speed, xAccel, yAccel);
 }
 
+EnemyType.Trash.prototype.launchTween = function(x, y, properties, duration) {
+  var enemy = this.getFirstExists(false);
+  enemy.launchTween(x, y, properties, duration);
+}
+
 EnemyType.Trash2 = function (game) {
   Phaser.Group.call(this, game, game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
 

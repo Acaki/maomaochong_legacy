@@ -2,6 +2,7 @@ var i;
 function stageStart() {
   game.time.events.add(0, wave1, this);
   game.time.events.add(3000, wave2, this);
+  game.time.events.add(10000, wave3, this);
 }
 
 function wave1() {
@@ -19,5 +20,11 @@ function wave2() {
   }
   for (i = 0; i < 10; i++) {
     game.time.events.add(i * 500, enemies2.launch, enemies2, 0, 400, 0, 400, -150, 0);
+  }
+}
+
+function wave3() {
+  for (i = 0; i < 3; i++) {
+    enemies.launchTween(i * 200 + 100, 0, { y: 300 }, 500);
   }
 }

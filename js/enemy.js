@@ -26,3 +26,9 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel, yAccel) {
   this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
   this.body.acceleration.set(xAccel, yAccel);
 }
+
+Enemy.prototype.launchTween = function(x, y, properties, duration) {
+  this.reset(x, y, this.maxHealth);
+  var tween = this.game.add.tween(this).to(properties, duration, Phaser.Easing.Sinusoidal.Out, true);
+  tween.interpolation(Phaser.Math.catmullRomInterpolation);
+}

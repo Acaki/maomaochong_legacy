@@ -151,6 +151,7 @@ function damageEnemy(enemy, bullet) {
   bullet.kill();
   if(!enemy.alive)
   {
+    game.tweens.removeFrom(enemy);
     explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
   }
 }
