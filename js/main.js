@@ -56,6 +56,7 @@ function create() {
   enemies = new EnemyType.Trash(game);
   enemies2 = new EnemyType.Trash2(game);
   //Spawn an enemy every 0.5 ~ 3 seconds
+  /*
   //Level 1 Trash
   game.time.events.loop(
     game.rnd.integerInRange(500, 1000),
@@ -66,6 +67,7 @@ function create() {
     game.rnd.integerInRange(2300, 3000),
     function() {enemies2.launch();}
   );
+  */
 
   explosions = new Explosion(game);
 
@@ -79,6 +81,7 @@ function create() {
     game.rnd.integerInRange(500, 1000),
     function() { enemyAttack(enemies); }
   );*/
+  stageStart();
 }
 
 var currentAngle;
