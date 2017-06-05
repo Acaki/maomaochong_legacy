@@ -17,15 +17,12 @@ var Enemy = function(game, key , health , level) {
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
 Enemy.prototype.constructor = Enemy;
 
-Enemy.prototype.launch = function(x, y, angle, speed, xAccel) {
-  //horizontal acceleration value
-  xAccel = xAccel || 0;
-
+Enemy.prototype.launch = function(x, y, angle, speed, xAccel, yAccel) {
   //Reset the Enemy, which moves the Enemy to the given x/y corrdinates,
   //sets the 'exists' property to true, and heal the enemy.
   this.reset(x, y, this.maxHealth);
 
   //Set Enemy's velocity that is calculated from the given angle and speed
   this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
-  this.body.acceleration.x = xAccel;
+  this.body.acceleration.set(xAccel, yAccel);
 }
