@@ -167,6 +167,7 @@ function damageEnemy(enemy, bullet) {
   bullet.kill();
   if(!enemy.alive)
   {
+    //Remove the tween that is associated with the enemy
     game.tweens.removeFrom(enemy);
     explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
   }
