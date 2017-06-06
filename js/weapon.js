@@ -157,7 +157,7 @@ Missile.prototype.shoot = function (source) {
 
 //Enemy weapons2
 var ThreeARow = function(game){
-  this.weapon = game.add.weapon(30, 'bullet6');
+  this.weapon = game.add.weapon(30, 'star');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   this.weapon.bulletSpeed = 200;
@@ -180,8 +180,8 @@ ThreeARow.prototype.shoot = function(source) {
 }
 
 //Enemy weapons3
-var EnemyBullet3 = function(game){
-  this.weapon = game.add.weapon(10, 'bullet3');
+var VariedAngle = function(game){
+  this.weapon = game.add.weapon(10, 'laserBlue10');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   //Rotate the bullet image to face up
@@ -194,7 +194,7 @@ var EnemyBullet3 = function(game){
   return this;
 }
 
-EnemyBullet3.prototype.shoot = function (source) {
+VariedAngle.prototype.shoot = function (source) {
   var x = source.x - 15;
   var y = source.y;
   var playerX = player.body.x;

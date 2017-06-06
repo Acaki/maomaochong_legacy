@@ -5,29 +5,28 @@ function preload() {
   game.load.image('playerLeft', 'assets/playerLeft.png');
   game.load.image('playerRight', 'assets/playerRight.png');
 
-  game.load.image('background', 'assets/Backgrounds/purple.png');
+  game.load.image('background', 'assets/backgrounds/purple.png');
 
-  game.load.image('laserRed', 'assets/Lasers/laserRed02.png');
-  game.load.image('powerupRed_star', 'assets/Power-ups/powerupRed_star.png');
-  game.load.image('laserGreen', 'assets/Lasers/laserGreen10.png');
-  game.load.image('powerupGreen_star', 'assets/Power-ups/powerupGreen_star.png');
-  game.load.image('laserBlue', 'assets/Lasers/laserBlue13.png');
-  game.load.image('powerupBlue_star', 'assets/Power-ups/powerupBlue_star.png');
+  //Player bullet and power up images
+  game.load.image('laserRed', 'assets/bullets/laserRed02.png');
+  game.load.image('powerupRed_star', 'assets/power-ups/powerupRed_star.png');
+  game.load.image('laserGreen', 'assets/bullets/laserGreen10.png');
+  game.load.image('powerupGreen_star', 'assets/power-ups/powerupGreen_star.png');
+  game.load.image('laserBlue', 'assets/bullets/laserBlue13.png');
+  game.load.image('powerupBlue_star', 'assets/power-ups/powerupBlue_star.png');
 
-  game.load.image('enemyShip', 'assets/Enemies/enemyShip.png');
-  game.load.image('spaceMissile', 'assets/spaceMissiles_004.png');
-  game.load.image('enemyUFO', 'assets/Enemies/enemyUFO.png');
-  game.load.image('meteorBig', 'assets/meteorBig.png');
-  game.load.image('meteorSmall', 'assets/meteorSmall.png');
+  //Enemy object images
+  game.load.image('enemyShip', 'assets/enemies/enemyShip.png');
+  game.load.image('enemyUFO', 'assets/enemies/enemyUFO.png');
+  game.load.image('meteorBig', 'assets/enemies/meteorBig.png');
+  game.load.image('meteorSmall', 'assets/enemies/meteorSmall.png');
+  game.load.image('enemyBlue','assets/enemies/enemyBlue2.png');
 
-  game.load.image('enemyBlue','assets/Enemies/enemyBlue2.png');
+  //Enemy bullet images
+  game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
+  game.load.image('star','assets/bullets/star3.png');
+  game.load.image('laserBlue10','assets/bullets/laserBlue10.png');
 
-  game.load.image('bullet1','assets/bullet1.png');
-  game.load.image('bullet2','assets/bullet2.png');
-  game.load.image('bullet3','assets/bullet3.png');
-  game.load.image('bullet4','assets/bullet4.png');
-  game.load.image('bullet5','assets/bullet5.png');
-  game.load.image('bullet6','assets/star3.png');
   game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
   game.load.audio('fight' , 'assets/fight.mp3');
   game.load.audio('playershoot' , 'assets/blaster.mp3');

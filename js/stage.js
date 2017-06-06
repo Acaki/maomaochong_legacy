@@ -1,10 +1,10 @@
 var i;
 function stageStart() {
-  game.time.events.add(3 * Phaser.Timer.SECOND, wave1, this);
-  game.time.events.add(20 * Phaser.Timer.SECOND, wave2, this);
-  game.time.events.add(41 * Phaser.Timer.SECOND, wave3, this);
-  game.time.events.add(61 * Phaser.Timer.SECOND, wave4, this);
-  //game.time.events.add(/*84*/0 * Phaser.Timer.SECOND, wave5, this);
+  //game.time.events.add(3 * Phaser.Timer.SECOND, wave1, this);
+  //game.time.events.add(20 * Phaser.Timer.SECOND, wave2, this);
+  //game.time.events.add(41 * Phaser.Timer.SECOND, wave3, this);
+  //game.time.events.add(61 * Phaser.Timer.SECOND, wave4, this);
+  game.time.events.add(/*84*/0 * Phaser.Timer.SECOND, wave5, this);
 }
 
 //Intermidiate callback function for enemy.launch()
@@ -74,4 +74,8 @@ function wave4() {
     }
   }
   game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
+}
+
+function wave5() {
+  
 }
