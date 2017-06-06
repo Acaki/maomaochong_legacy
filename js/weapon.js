@@ -132,7 +132,7 @@ SplashBullet.prototype.shoot = function () {
 
 //Enemy weapons1
 var EnemyBullet = function(game){
-  this.weapon = game.add.weapon(5, 'bullet2');
+  this.weapon = game.add.weapon(5, 'spaceMissile');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   //Rotate the bullet image to face up

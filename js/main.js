@@ -15,14 +15,13 @@ function preload() {
   game.load.image('powerupBlue_star', 'assets/Power-ups/powerupBlue_star.png');
 
   game.load.image('enemyShip', 'assets/Enemies/enemyShip.png');
+  game.load.image('spaceMissile', 'assets/spaceMissiles_004.png');
   game.load.image('enemyUFO', 'assets/Enemies/enemyUFO.png');
   game.load.image('meteorBig', 'assets/meteorBig.png');
   game.load.image('meteorSmall', 'assets/meteorSmall.png');
 
   game.load.image('enemy3','assets/Enemies/enemy3.png');
-  game.load.image('enemy4','assets/enemy4.png');
-  game.load.image('enemy5','assets/enemy5.png');
-  game.load.image('enemy6','assets/enemy6.png');
+
   game.load.image('bullet1','assets/bullet1.png');
   game.load.image('bullet2','assets/bullet2.png');
   game.load.image('bullet3','assets/bullet3.png');
