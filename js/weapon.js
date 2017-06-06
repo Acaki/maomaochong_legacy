@@ -150,5 +150,60 @@ EnemyBullet2.prototype.shoot = function (source) {
   this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
   x += 30;
   this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
+}
 
+//Enemy weapons3
+var EnemyBullet3 = function(game){
+  this.weapon = game.add.weapon(128, 'bullet3');
+
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  //Rotate the bullet image to face up
+  this.weapon.bulletAngleOffset = -90;
+  this.weapon.bulletSpeed = 500;
+
+  this.weapon.fireRate = 70;
+  this.weapon.multiFire = true;
+  this.weapon.bullets.setAll('damage', 1);
+
+  return this;
+}
+EnemyBullet3.prototype = Object.create(Phaser.Group.prototype);
+EnemyBullet3.prototype.constructor = EnemyBullet3;
+
+EnemyBullet3.prototype.shoot = function (source) {
+  var x = source.x - 15;
+  var y = source.y;
+  var playerX = player.body.x;
+  var playerY = player.body.y;
+  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
+  x += 30;
+  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
+}
+
+//Enemy weapons4
+var EnemyBullet4 = function(game){
+  this.weapon = game.add.weapon(128, 'bullet4');
+
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  //Rotate the bullet image to face up
+  this.weapon.bulletAngleOffset = -90;
+  this.weapon.bulletSpeed = 500;
+
+  this.weapon.fireRate = 70;
+  this.weapon.multiFire = true;
+  this.weapon.bullets.setAll('damage', 1);
+
+  return this;
+}
+EnemyBullet4.prototype = Object.create(Phaser.Group.prototype);
+EnemyBullet4.prototype.constructor = EnemyBullet4;
+
+EnemyBullet4.prototype.shoot = function (source) {
+  var x = source.x - 15;
+  var y = source.y;
+  var playerX = player.body.x;
+  var playerY = player.body.y;
+  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
+  x += 30;
+  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
 }

@@ -11,13 +11,27 @@ function preload() {
   game.load.image('laserGreenPowerUp', 'assets/laserGreenShot.png');
   game.load.image('enemy3','assets/enemy3.png');
   game.load.image('enemy4','assets/enemy4.png');
+  game.load.image('enemy5','assets/enemy5.png');
+  game.load.image('enemy6','assets/enemy6.png');
   game.load.image('bullet1','assets/bullet1.png');
   game.load.image('bullet2','assets/bullet2.png');
+  game.load.image('bullet3','assets/bullet3.png');
+  game.load.image('bullet4','assets/bullet4.png');
+  game.load.image('bullet5','assets/bullet5.png');
   game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
+  game.load.audio('fight' , 'assets/fight.mp3');
+  game.load.audio('playershoot' , 'assets/blaster.mp3');
+  game.load.audio('boom' , 'assets/explosion.mp3');
+  //game.load.audio('enemyDie' , 'alien_death1.wav');
+
 
 }
 
 var background;
+var fightMusic;
+var playerShoot;
+var enemyDie;
+
 var player;
 var cursors;
 var weapons = [];
@@ -31,6 +45,18 @@ function create() {
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
   //Make the background slowly scroll up
   background.autoScroll(0, -30);
+  //Audio create
+  //battle BGM
+  fightMusic = game.add.audio('fight');
+  fightMusic.volume = 0.2;
+  fightMusic.play();
+  //player shooting
+  playerShoot = game.add.audio('playershoot');
+  playerShoot.volume = 0.05;
+
+  enemyDie = game.add.audio('boom');
+  enemyDie.volume = 0.1;
+
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   //Add the player plane on the middle bottom of the screen
@@ -57,6 +83,20 @@ function create() {
   for (var i = 0; i < 40; i++) {
     var enemyWeapon = new EnemyBullet2(game);
     enemyGroups.trash2.add(new Enemy(game, 'enemy4', 1, enemyWeapon), true);
+    enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+  }
+
+  enemyGroups.trash3 = game.add.group(game.world, 'Trash Enemy3', false, true, Phaser.Physics.ARCADE);
+  for (var i = 0; i < 40; i++) {
+    var enemyWeapon = new EnemyBullet3(game);
+    enemyGroups.trash3.add(new Enemy(game, 'enemy5', 2, enemyWeapon), true);
+    enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+  }
+
+  enemyGroups.trash4 = game.add.group(game.world, 'Trash Enemy4', false, true, Phaser.Physics.ARCADE);
+  for (var i = 0; i < 40; i++) {
+    var enemyWeapon = new EnemyBullet4(game);
+    enemyGroups.trash4.add(new Enemy(game, 'enemy6', 2, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 
@@ -130,6 +170,7 @@ function keyboardHandler() {
 
   if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
     weapons[currentWeapon].shoot();
+    playerShoot.play();
   }
 }
 
@@ -140,6 +181,7 @@ function damageEnemy(enemy, bullet) {
   {
     //Remove the tween that is associated with the enemy
     game.tweens.removeFrom(enemy);
+    enemyDie.play();
     explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
   }
 }
