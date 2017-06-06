@@ -79,10 +79,10 @@ function create() {
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 
-  enemyGroups.trash2 = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
+  enemyGroups.medium = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 20; i++) {
     var enemyWeapon = new EnemyBullet2(game);
-    enemyGroups.trash2.add(new Enemy(game, 'enemy3', 5, enemyWeapon), true);
+    enemyGroups.medium.add(new Enemy(game, 'enemy3', 10, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 
