@@ -43,7 +43,7 @@ var enemyDie;
 var player;
 var cursors;
 var weapons = [];
-var currentWeapon = 0;
+var currentWeapon = 2;
 var enemyGroups = {};
 var enemyBulletGroups = [];
 var explosions;
@@ -78,6 +78,7 @@ function create() {
 
   weapons.push(new ScatterBullet(game, player));
   weapons.push(new Beam(game, player));
+  weapons.push(new SplashBullet(game, player));
 
   //Enemy group creation
   enemyGroups.trash = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);

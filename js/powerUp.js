@@ -33,6 +33,7 @@ var PowerUpGroup = function(game) {
 
   this.add(new PowerUp(game, 'powerupRed_star', 0), true);
   this.add(new PowerUp(game, 'powerupGreen_star', 1), true);
+  this.add(new PowerUp(game, 'powerupBlue_star', 2), true);
 
   return this;
 }

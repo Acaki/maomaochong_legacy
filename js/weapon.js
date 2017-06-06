@@ -92,6 +92,44 @@ Beam.prototype.shoot = function () {
   }
 }
 
+var SplashBullet = function (game, sprite) {
+  this.weapon = game.add.weapon(128, 'laserBlue');
+
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  //Rotate the bullet image to face up
+  this.weapon.bulletAngleOffset = -90;
+  this.weapon.bulletAngleVariance = 40;
+  this.weapon.bulletSpeedVariance = 100;
+  this.weapon.bulletSpeed = 700;
+  this.weapon.fireRate = 90;
+  //Tell the bullet to track the sprite location
+  this.weapon.trackSprite(sprite, 0, -sprite.height - 10);
+  this.weapon.multiFire = true;
+  this.powerLevel = 3;
+
+  this.weapon.bullets.setAll('damage', 0.1);
+  this.weapon.bullets.setAll('alpha', 0.5);
+
+  return this;
+}
+
+SplashBullet.prototype.shoot = function () {
+  if (this.powerLevel == 1) {
+    this.weapon.fire();
+  }
+
+  else if (this.powerLevel == 2) {
+    this.weapon.fire(null, null, null, -5);
+    this.weapon.fire(null, null, null, 5);
+  }
+
+  else if (this.powerLevel == 3) {
+    this.weapon.fire(null, null, null, -10);
+    this.weapon.fire(null, null, null, 0);
+    this.weapon.fire(null, null, null, 10);
+  }
+}
+
 //Enemy weapons1
 var EnemyBullet = function(game){
   this.weapon = game.add.weapon(5, 'bullet2');
