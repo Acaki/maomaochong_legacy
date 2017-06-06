@@ -5,7 +5,7 @@ function preload() {
   game.load.image('playerLeft', 'assets/playerLeft.png');
   game.load.image('playerRight', 'assets/playerRight.png');
 
-  game.load.image('background', 'assets/starBackground.png');
+  game.load.image('background', 'assets/Backgrounds/purple.png');
 
   game.load.image('laserRed', 'assets/Lasers/laserRed02.png');
   game.load.image('powerupRed_star', 'assets/Power-ups/powerupRed_star.png');
@@ -14,12 +14,12 @@ function preload() {
   game.load.image('laserBlue', 'assets/Lasers/laserBlue13.png');
   game.load.image('powerupBlue_star', 'assets/Power-ups/powerupBlue_star.png');
 
-  game.load.image('enemyShip', 'assets/enemyShip.png');
-  game.load.image('enemyUFO', 'assets/enemyUFO.png');
+  game.load.image('enemyShip', 'assets/Enemies/enemyShip.png');
+  game.load.image('enemyUFO', 'assets/Enemies/enemyUFO.png');
   game.load.image('meteorBig', 'assets/meteorBig.png');
   game.load.image('meteorSmall', 'assets/meteorSmall.png');
 
-  game.load.image('enemy3','assets/enemy3.png');
+  game.load.image('enemy3','assets/Enemies/enemy3.png');
   game.load.image('enemy4','assets/enemy4.png');
   game.load.image('enemy5','assets/enemy5.png');
   game.load.image('enemy6','assets/enemy6.png');
@@ -84,7 +84,7 @@ function create() {
   enemyGroups.trash = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 10; i++) {
     var enemyWeapon = new EnemyBullet(game);
-    enemyGroups.trash.add(new Enemy(game, 'enemy4', 1, enemyWeapon), true);
+    enemyGroups.trash.add(new Enemy(game, 'enemyUFO', 1, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 

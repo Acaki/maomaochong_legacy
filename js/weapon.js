@@ -101,7 +101,7 @@ var SplashBullet = function (game, sprite) {
   this.weapon.bulletAngleVariance = 40;
   this.weapon.bulletSpeedVariance = 100;
   this.weapon.bulletSpeed = 700;
-  this.weapon.fireRate = 90;
+  this.weapon.fireRate = 50;
   //Tell the bullet to track the sprite location
   this.weapon.trackSprite(sprite, 0, -sprite.height - 10);
   this.weapon.multiFire = true;
