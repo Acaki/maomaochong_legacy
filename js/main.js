@@ -43,7 +43,7 @@ var enemyDie;
 var player;
 var cursors;
 var weapons = [];
-var currentWeapon = 2;
+var currentWeapon = 0;
 var enemyGroups = {};
 var enemyBulletGroups = [];
 var explosions;
@@ -179,8 +179,14 @@ function keyboardHandler() {
   }
 }
 
+function resetTint(enemy) {
+  enemy.tint = 0xffffff;
+}
+
 function damageEnemy(enemy, bullet) {
   enemy.damage(bullet.damage);
+  enemy.tint = 0xff0000;
+  game.time.events.add(15, resetTint, this, enemy);
   bullet.kill();
   if(!enemy.alive)
   {

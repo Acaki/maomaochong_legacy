@@ -105,9 +105,9 @@ var SplashBullet = function (game, sprite) {
   //Tell the bullet to track the sprite location
   this.weapon.trackSprite(sprite, 0, -sprite.height - 10);
   this.weapon.multiFire = true;
-  this.powerLevel = 3;
+  this.powerLevel = 1;
 
-  this.weapon.bullets.setAll('damage', 0.1);
+  this.weapon.bullets.setAll('damage', 0.2);
   this.weapon.bullets.setAll('alpha', 0.5);
 
   return this;
