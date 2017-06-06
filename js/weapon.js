@@ -98,16 +98,16 @@ var SplashBullet = function (game, sprite) {
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   //Rotate the bullet image to face up
   this.weapon.bulletAngleOffset = -90;
-  this.weapon.bulletAngleVariance = 40;
-  this.weapon.bulletSpeedVariance = 100;
-  this.weapon.bulletSpeed = 700;
+  this.weapon.bulletAngleVariance = 30;
+  this.weapon.bulletSpeedVariance = 50;
+  this.weapon.bulletSpeed = 600;
   this.weapon.fireRate = 50;
   //Tell the bullet to track the sprite location
   this.weapon.trackSprite(sprite, 0, -sprite.height - 10);
   this.weapon.multiFire = true;
   this.powerLevel = 1;
 
-  this.weapon.bullets.setAll('damage', 0.2);
+  this.weapon.bullets.setAll('damage', 0.5);
   this.weapon.bullets.setAll('alpha', 0.5);
 
   return this;
@@ -156,29 +156,26 @@ Missile.prototype.shoot = function (source) {
 }
 
 //Enemy weapons2
-var FiveARow = function(game){
+var ThreeARow = function(game){
   this.weapon = game.add.weapon(30, 'bullet6');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   this.weapon.bulletSpeed = 200;
+  this.weapon.bulletAngleVariance = 5;
   this.weapon.fireRate = 800;
   this.weapon.multiFire = true;
 
   return this;
 }
 
-FiveARow.prototype.shoot = function(source) {
+ThreeARow.prototype.shoot = function(source) {
   var x = source.x;
   var y = source.y;
-  this.weapon.fireAngle = 110;
-  this.weapon.fire(new Phaser.Point(x, y));
   this.weapon.fireAngle = 100;
   this.weapon.fire(new Phaser.Point(x, y));
   this.weapon.fireAngle = 90;
   this.weapon.fire(new Phaser.Point(x, y));
   this.weapon.fireAngle = 80;
-  this.weapon.fire(new Phaser.Point(x, y));
-  this.weapon.fireAngle = 70;
   this.weapon.fire(new Phaser.Point(x, y));
 }
 

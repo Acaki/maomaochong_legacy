@@ -20,7 +20,7 @@ function preload() {
   game.load.image('meteorBig', 'assets/meteorBig.png');
   game.load.image('meteorSmall', 'assets/meteorSmall.png');
 
-  game.load.image('enemy3','assets/Enemies/enemy3.png');
+  game.load.image('enemyBlue','assets/Enemies/enemyBlue2.png');
 
   game.load.image('bullet1','assets/bullet1.png');
   game.load.image('bullet2','assets/bullet2.png');
@@ -90,8 +90,8 @@ function create() {
 
   enemyGroups.medium = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 20; i++) {
-    var enemyWeapon = new FiveARow(game);
-    enemyGroups.medium.add(new Enemy(game, 'enemy3', 10, enemyWeapon), true);
+    var enemyWeapon = new ThreeARow(game);
+    enemyGroups.medium.add(new Enemy(game, 'enemyBlue', 10, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 
