@@ -3,7 +3,7 @@
  * @param offsetY - The vertical offset from the Sprites position to be applied to the Weapon.
  */
 
-var ScatterBullet = function (game, sprite, offsetX, offsetY) {
+var ScatterBullet = function (game, sprite) {
   this.weapon = game.add.weapon(128, 'laserRed');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -12,7 +12,7 @@ var ScatterBullet = function (game, sprite, offsetX, offsetY) {
   this.weapon.bulletSpeed = 600;
   this.weapon.fireRate = 90;
   //Tell the bullet to track the sprite location
-  this.weapon.trackSprite(sprite, offsetX, offsetY);
+  this.weapon.trackSprite(sprite, 0, -sprite.height - 10);
   this.weapon.multiFire = true;
 
   this.powerLevel = 1;

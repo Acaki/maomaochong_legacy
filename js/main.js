@@ -40,6 +40,7 @@ function create() {
   player.scale.set(0.5);
   player.anchor.set(0.5, 1.0);
   game.physics.arcade.enable(player);
+  player.body.setCircle(10, player.width - 10, player.height - 10);
   player.body.collideWorldBounds = true;
 
   //Enemy group creation
@@ -53,8 +54,8 @@ function create() {
     trashEnemy2.add(new Enemy(game, 'enemy4', 1, new EnemyBullet2(game)), true);
   }
 
-  weapons.push(new ScatterBullet(game, player, 0, -player.body.height - 10));
-  weapons.push(new Beam(game, player, 0, -player.body.height - 10));
+  weapons.push(new ScatterBullet(game, player));
+  weapons.push(new Beam(game, player));
   enemyWeapons.push(new EnemyBullet(game));
   enemyWeapons.push(new EnemyBullet2(game));
 
@@ -170,5 +171,5 @@ function update() {
 }
 
 function render() {
-  //game.debug.spriteBounds(player);
+  game.debug.body(player);
 }
