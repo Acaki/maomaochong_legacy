@@ -64,13 +64,7 @@ function create() {
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
   explosions = new Explosion(game);
-
   powerUp = new PowerUpGroup(game);
-  //Spawn a power up item every 5 ~ 10 seconds
-  game.time.events.loop(
-    game.rnd.integerInRange(5000, 10000),
-    function() { powerUp.drop(); }
-  );
 
   stageStart();
 }

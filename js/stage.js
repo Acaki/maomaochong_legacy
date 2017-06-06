@@ -24,6 +24,7 @@ function wave1() {
   for (i = 0; i < 5; i++) {
     game.time.events.add(i * 1000, launch, this, trashEnemy, 500, 0, 135, 100, 20, 0);
   }
+  game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
 }
 
 function wave2() {
@@ -33,6 +34,7 @@ function wave2() {
   for (i = 0; i < 10; i++) {
     game.time.events.add(i * 500, launch, this, trashEnemy2, 0, 400, 0, 400, -150, 0);
   }
+  game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
 }
 
 function wave3() {
@@ -45,4 +47,5 @@ function wave3() {
   for (i = 0; i < 10; i++) {
     game.time.events.add(i * 500, launch, this, trashEnemy2, game.width, 100, 135, 400, 150, 0);
   }
+  game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
 }
