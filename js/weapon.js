@@ -56,7 +56,7 @@ ScatterBullet.prototype.shoot = function () {
   }
 }
 
-var Beam = function (game, sprite, offsetX, offsetY) {
+var Beam = function (game, sprite) {
   this.weapon = game.add.weapon(256, 'laserGreen');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -65,7 +65,7 @@ var Beam = function (game, sprite, offsetX, offsetY) {
   this.weapon.bulletSpeed = 1000;
   this.weapon.fireRate = 0;
   //Tell the bullet to track the sprite location
-  this.weapon.trackSprite(sprite, offsetX, offsetY);
+  this.weapon.trackSprite(sprite, 0, -sprite.height - 10);
   this.weapon.multiFire = true;
   this.powerLevel = 1;
 
