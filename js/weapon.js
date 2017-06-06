@@ -103,7 +103,6 @@ var EnemyBullet = function(game){
 
   this.weapon.fireRate = 800;
   this.weapon.multiFire = true;
-  this.weapon.bullets.setAll('damage', 1);
 
   return this;
 }
@@ -126,7 +125,6 @@ var EnemyBullet2 = function(game){
   this.weapon.bulletSpeed = 200;
   this.weapon.fireRate = 800;
   this.weapon.multiFire = true;
-  this.weapon.bullets.setAll('damage', 1);
 
   return this;
 }
@@ -157,7 +155,6 @@ var EnemyBullet3 = function(game){
 
   this.weapon.fireRate = 70;
   this.weapon.multiFire = true;
-  this.weapon.bullets.setAll('damage', 1);
 
   return this;
 }
@@ -183,7 +180,6 @@ var EnemyBullet4 = function(game){
 
   this.weapon.fireRate = 70;
   this.weapon.multiFire = true;
-  this.weapon.bullets.setAll('damage', 1);
 
   return this;
 }
