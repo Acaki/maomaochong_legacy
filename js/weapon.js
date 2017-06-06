@@ -93,7 +93,7 @@ Beam.prototype.shoot = function () {
 }
 
 //Enemy weapons
-var EnemyBullet = function(game){
+var EnemyBullet2 = function(game){
   this.weapon = game.add.weapon(10, 'bullet1');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -107,7 +107,7 @@ var EnemyBullet = function(game){
   return this;
 }
 
-EnemyBullet.prototype.shoot = function(source) {
+EnemyBullet2.prototype.shoot = function(source) {
 
   var mode = game.rnd.between(0,10);
   var x = source.x;
@@ -125,7 +125,7 @@ EnemyBullet.prototype.shoot = function(source) {
 }
 
 //Enemy weapons2
-var EnemyBullet2 = function(game){
+var EnemyBullet = function(game){
   this.weapon = game.add.weapon(5, 'bullet2');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -140,10 +140,7 @@ var EnemyBullet2 = function(game){
   return this;
 }
 
-EnemyBullet2.prototype = Object.create(Phaser.Group.prototype);
-EnemyBullet2.prototype.constructor = EnemyBullet2;
-
-EnemyBullet2.prototype.shoot = function (source) {
+EnemyBullet.prototype.shoot = function (source) {
   var x = source.x - 15;
   var y = source.y;
   var playerX = player.body.x;
@@ -168,8 +165,6 @@ var EnemyBullet3 = function(game){
 
   return this;
 }
-EnemyBullet3.prototype = Object.create(Phaser.Group.prototype);
-EnemyBullet3.prototype.constructor = EnemyBullet3;
 
 EnemyBullet3.prototype.shoot = function (source) {
   var x = source.x - 15;
@@ -196,8 +191,6 @@ var EnemyBullet4 = function(game){
 
   return this;
 }
-EnemyBullet4.prototype = Object.create(Phaser.Group.prototype);
-EnemyBullet4.prototype.constructor = EnemyBullet4;
 
 EnemyBullet4.prototype.shoot = function (source) {
   var x = source.x - 15;

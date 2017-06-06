@@ -23,33 +23,33 @@ function launchTween(enemyGroup, x, y, properties, duration) {
 
 function wave1() {
   for (i = 0; i < 10; i++) {
-    game.time.events.add(i * 500, launch, this, enemyGroups.trash2, 0, 100, 0, 400, -150, 0);
+    game.time.events.add(i * 500, launch, this, enemyGroups.trash, 0, 100, 0, 400, -150, 0);
   }
   for (i = 0; i < 5; i++) {
-    game.time.events.add(i * 1000, launch, this, enemyGroups.trash, 500, 0, 135, 100, 20, 0);
+    game.time.events.add(i * 1000, launch, this, enemyGroups.trash2, 500, 0, 135, 100, 20, 0);
   }
   game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
 }
 
 function wave2() {
   for (i = 0; i < 10; i++) {
-    game.time.events.add(i * 500, launch, this, enemyGroups.trash2, game.width, 100, -180, 400, 150, 0);
+    game.time.events.add(i * 500, launch, this, enemyGroups.trash, game.width, 100, -180, 400, 150, 0);
   }
   for (i = 0; i < 10; i++) {
-    game.time.events.add(i * 500, launch, this, enemyGroups.trash2, 0, 400, 0, 400, -150, 0);
+    game.time.events.add(i * 500, launch, this, enemyGroups.trash, 0, 400, 0, 400, -150, 0);
   }
   game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
 }
 
 function wave3() {
   for (i = 0; i < 3; i++) {
-    launchTween(enemyGroups.trash, i * 200 + 100, 0, { y: 200 }, 1000);
+    launchTween(enemyGroups.trash2, i * 200 + 100, 0, { y: 200 }, 1000);
   }
   for (i = 0; i < 10; i++) {
-    game.time.events.add(i * 500, launch, this, enemyGroups.trash2, 0, 100, 45, 400, -150, 0);
+    game.time.events.add(i * 500, launch, this, enemyGroups.trash, 0, 100, 45, 400, -150, 0);
   }
   for (i = 0; i < 10; i++) {
-    game.time.events.add(i * 500, launch, this, enemyGroups.trash2, game.width, 100, 135, 400, 150, 0);
+    game.time.events.add(i * 500, launch, this, enemyGroups.trash, game.width, 100, 135, 400, 150, 0);
   }
   game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
 }
