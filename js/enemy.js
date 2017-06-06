@@ -52,7 +52,4 @@ Enemy.prototype.launchTween = function(x, y, properties, duration) {
   this.reset(x, y, this.maxHealth);
   var tween = this.game.add.tween(this).to(properties, duration, null, true);
   tween.interpolation(Phaser.Math.catmullRomInterpolation);
-  //Kill the enemy sprite when the tween is completed
-  var sprite = this;
-  tween.onComplete.add(function() { sprite.kill(); });
 }
