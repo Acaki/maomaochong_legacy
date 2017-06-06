@@ -22,11 +22,10 @@ var player;
 var cursors;
 var weapons = [];
 var currentWeapon = 0;
-var enemyWeapons = [];
+var enemyGroups = {};
+var enemyBulletGroups = [];
 var explosions;
 var powerUp;
-var trashEnemy;
-var trashEnemy2;
 
 function create() {
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
@@ -43,21 +42,23 @@ function create() {
   player.body.setCircle(10, player.width - 10, player.height - 10);
   player.body.collideWorldBounds = true;
 
-  //Enemy group creation
-  trashEnemy = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 40; i++) {
-    trashEnemy.add(new Enemy(game, 'enemy3', 5, new EnemyBullet(game)), true);
-  }
-
-  trashEnemy2 = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 40; i++) {
-    trashEnemy2.add(new Enemy(game, 'enemy4', 1, new EnemyBullet2(game)), true);
-  }
-
   weapons.push(new ScatterBullet(game, player));
   weapons.push(new Beam(game, player));
-  enemyWeapons.push(new EnemyBullet(game));
-  enemyWeapons.push(new EnemyBullet2(game));
+
+  //Enemy group creation
+  enemyGroups.trash = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
+  for (var i = 0; i < 40; i++) {
+    var enemyWeapon = new EnemyBullet(game);
+    enemyGroups.trash.add(new Enemy(game, 'enemy3', 5, enemyWeapon), true);
+    enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+  }
+
+  enemyGroups.trash2 = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
+  for (var i = 0; i < 40; i++) {
+    var enemyWeapon = new EnemyBullet2(game);
+    enemyGroups.trash2.add(new Enemy(game, 'enemy4', 1, enemyWeapon), true);
+    enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+  }
 
   cursors = game.input.keyboard.createCursorKeys();
   //Add key listener for 'shift'
@@ -143,6 +144,10 @@ function damageEnemy(enemy, bullet) {
   }
 }
 
+function damagePlayer(player, bullet) {
+  console.log('hit!!!');
+}
+
 function powerUpWeapon(player, powerUp) {
   powerUp.kill();
   var currentPowerLevel = weapons[currentWeapon].powerLevel;
@@ -163,11 +168,14 @@ function enemyShoot(enemy) {
 
 function update() {
   keyboardHandler();
-  game.physics.arcade.overlap(trashEnemy, weapons[currentWeapon].weapon.bullets, damageEnemy, null, this);
-  game.physics.arcade.overlap(trashEnemy2, weapons[currentWeapon].weapon.bullets, damageEnemy, null, this);
+  for (var key in enemyGroups) {
+    if (enemyGroups.hasOwnProperty(key)) {
+      game.physics.arcade.overlap(enemyGroups[key], weapons[currentWeapon].weapon.bullets, damageEnemy, null, this);
+      enemyGroups[key].forEachExists(enemyShoot, this);
+    }
+  }
+  game.physics.arcade.overlap(player, enemyBulletGroups, damagePlayer, null, this);
   game.physics.arcade.overlap(player, powerUp, powerUpWeapon, null, this);
-  trashEnemy.forEachExists(enemyShoot, this);
-  trashEnemy2.forEachExists(enemyShoot, this);
 }
 
 function render() {
