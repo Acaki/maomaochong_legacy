@@ -71,7 +71,7 @@ var Beam = function (game, sprite, offsetX, offsetY) {
 
   this.weapon.bullets.setAll('damage', 0.2);
   this.weapon.bullets.setAll('alpha', 0.5);
-  
+
   return this;
 }
 
@@ -100,10 +100,9 @@ var EnemyBullet = function(game){
   //Rotate the bullet image to face up
   this.weapon.bulletAngleOffset = -90;
   this.weapon.bulletSpeed = -300;
-  this.weapon.fireRate = 70;
+  this.weapon.fireRate = 900;
   this.weapon.multiFire = true;
   this.weapon.bullets.setAll('damage', 1);
-
 
   return this;
 }
@@ -132,9 +131,9 @@ var EnemyBullet2 = function(game){
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   //Rotate the bullet image to face up
   this.weapon.bulletAngleOffset = -90;
-  this.weapon.bulletSpeed = 500;
+  this.weapon.bulletSpeed = 300;
 
-  this.weapon.fireRate = 70;
+  this.weapon.fireRate = 1000;
   this.weapon.multiFire = true;
   this.weapon.bullets.setAll('damage', 1);
 

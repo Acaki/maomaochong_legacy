@@ -45,12 +45,12 @@ function create() {
   //Enemy group creation
   trashEnemy = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 40; i++) {
-    trashEnemy.add(new Enemy(game, 'enemy3', 5, 0), true);
+    trashEnemy.add(new Enemy(game, 'enemy3', 5, new EnemyBullet(game)), true);
   }
 
   trashEnemy2 = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 40; i++) {
-    trashEnemy2.add(new Enemy(game, 'enemy4', 2, 1), true);
+    trashEnemy2.add(new Enemy(game, 'enemy4', 1, new EnemyBullet2(game)), true);
   }
 
   weapons.push(new ScatterBullet(game, player, 0, -player.body.height - 10));
@@ -63,20 +63,6 @@ function create() {
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-  //Spawn an enemy every 0.5 ~ 3 seconds
-  /*
-  //Level 1 Trash
-  game.time.events.loop(
-    game.rnd.integerInRange(500, 1000),
-    function() { enemies.launch();}
-  );
-  //Level 2 Trash
-  game.time.events.loop(
-    game.rnd.integerInRange(2300, 3000),
-    function() {enemies2.launch();}
-  );
-  */
-
   explosions = new Explosion(game);
 
   powerUp = new PowerUpGroup(game);
@@ -85,27 +71,6 @@ function create() {
     game.rnd.integerInRange(5000, 10000),
     function() { powerUp.drop(); }
   );
-
-  /*
-  //Trash1 Attack
-  game.time.events.loop(
-    game.rnd.integerInRange(2000, 2200),
-    function() {
-      var i;
-      for( i = 0 ; i < enemies.getAll('exists' , true).length ; i++){
-        enemyWeapons[0].shoot(enemies.getAll('exists', true)[i]);
-      }
-    });
-    //Trash2 Attack
-  game.time.events.loop(
-    game.rnd.integerInRange(1000, 1200),
-    function(){
-      var i;
-      for( i = 0 ; i < enemies2.getAll('exists' , true).length ; i++){
-        enemyWeapons[1].shoot(enemies2.getAll('exists', true)[i]);
-      }
-    });
-  */
 
   stageStart();
 }
@@ -197,36 +162,17 @@ function powerUpWeapon(player, powerUp) {
   }
 }
 
-function enemyAttack(enemy, bullet){
-  enemyWeapons[enemy.eneLevel].shoot(enemy);
+function enemyShoot(enemy) {
+  enemy.weapon.shoot(enemy);
 }
 
 function update() {
   keyboardHandler();
-  game.physics.arcade.overlap(
-    trashEnemy,
-    weapons[currentWeapon].weapon.bullets,
-    damageEnemy,
-    //enemyAttack,
-    null,
-    this
-  );
-  game.physics.arcade.overlap(
-    trashEnemy2,
-    weapons[currentWeapon].weapon.bullets,
-    damageEnemy,
-    //enemyAttack,
-    null,
-    this
-  );
-  game.physics.arcade.overlap(
-    player,
-    powerUp,
-    powerUpWeapon,
-    null,
-    this
-  );
-
+  game.physics.arcade.overlap(trashEnemy, weapons[currentWeapon].weapon.bullets, damageEnemy, null, this);
+  game.physics.arcade.overlap(trashEnemy2, weapons[currentWeapon].weapon.bullets, damageEnemy, null, this);
+  game.physics.arcade.overlap(player, powerUp, powerUpWeapon, null, this);
+  trashEnemy.forEachExists(enemyShoot, this);
+  trashEnemy2.forEachExists(enemyShoot, this);
 }
 
 function render() {
