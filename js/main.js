@@ -113,7 +113,6 @@ function create() {
 
 var currentAngle;
 function keyboardHandler() {
-  currentAngle = 0;
   player.body.velocity.set(0, 0);
   player.loadTexture('player');
   //Move the plane left
@@ -164,7 +163,7 @@ function keyboardHandler() {
   }
 
   //Check if 'shift' is being pressed
-  if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)) {
+  if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT) && !player.body.velocity.isZero()) {
     //Slow down the move speed for each direction
     game.physics.arcade.velocityFromAngle(currentAngle, 200, player.body.velocity);
   }
