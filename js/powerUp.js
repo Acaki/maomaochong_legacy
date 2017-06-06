@@ -17,7 +17,7 @@ PowerUp.prototype.drop = function() {
 
   var halfWidth = this.body.halfWidth;
   //Power ups only appear at the center area of the game
-  var x = this.game.rnd.integerInRange(150 + halfWidth, this.game.width - halfWidth - 150);
+  var x = this.game.rnd.integerInRange(150 + halfWidth, this.game.world.width - halfWidth - 150);
   var angle = this.game.rnd.integerInRange(75, 105);
   var speed = game.rnd.between(120,200);
   //Reset the PowerUp, which moves the PowerUp to the given x/y corrdinates and

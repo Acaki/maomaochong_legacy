@@ -25,8 +25,8 @@ Enemy.prototype.constructor = Enemy;
  */
 Enemy.prototype.launch = function(x, y, angle, speed, xAccel, yAccel) {
   var halfWidth = this.body.halfWidth;
-  if (x === undefined) { x = this.game.rnd.integerInRange(0 + halfWidth, this.game.width - halfWidth) }
-  if (y === undefined) { y = 0; }
+  if (x === undefined || x === null) { x = this.game.rnd.integerInRange(0 + halfWidth, this.game.world.width - halfWidth) }
+  if (y === undefined || y === null) { y = 0; }
   if (angle === undefined) { angle = this.game.rnd.integerInRange(75, 105); }
   if (speed === undefined) { speed = game.rnd.between(120,200); }
   if (xAccel === undefined) { xAccel = 0; }

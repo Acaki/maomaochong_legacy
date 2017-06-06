@@ -102,7 +102,7 @@ function create() {
 
   enemyGroups.meteorBig = game.add.group(game.world, 'Big Meteor', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 10; i++) {
-    enemyGroups.meteorSmall.add(new Enemy(game, 'meteorSmall', 5), true);
+    enemyGroups.meteorBig.add(new Enemy(game, 'meteorBig', 5), true);
   }
 
   cursors = game.input.keyboard.createCursorKeys();
@@ -183,7 +183,7 @@ function resetTint(enemy) {
   enemy.tint = 0xffffff;
 }
 
-function damageEnemy(enemy, bullet) {
+function damageEnemy(bullet, enemy) {
   enemy.damage(bullet.damage);
   enemy.tint = 0xff0000;
   game.time.events.add(15, resetTint, this, enemy);
@@ -197,8 +197,13 @@ function damageEnemy(enemy, bullet) {
   }
 }
 
-function damagePlayer(player, bullet) {
-  console.log('hit!!!');
+function revivePlayer() {
+  player.reset(game.world.width / 2, game.world.height);
+}
+
+function hitPlayer(player) {
+  player.kill();
+  game.time.events.add(2000, revivePlayer, this);
 }
 
 function powerUpWeapon(player, powerUp) {
@@ -216,18 +221,21 @@ function powerUpWeapon(player, powerUp) {
 }
 
 function enemyShoot(enemy) {
-  enemy.weapon.shoot(enemy);
+  if (enemy.weapon) {
+    enemy.weapon.shoot(enemy);
+  }
 }
 
 function update() {
   keyboardHandler();
   for (var key in enemyGroups) {
     if (enemyGroups.hasOwnProperty(key)) {
-      game.physics.arcade.overlap(enemyGroups[key], weapons[currentWeapon].weapon.bullets, damageEnemy, null, this);
+      game.physics.arcade.overlap(weapons[currentWeapon].weapon.bullets, enemyGroups[key], damageEnemy, null, this);
+      game.physics.arcade.overlap(player, enemyGroups[key], hitPlayer, null, this);
       enemyGroups[key].forEachExists(enemyShoot, this);
     }
   }
-  game.physics.arcade.overlap(player, enemyBulletGroups, damagePlayer, null, this);
+  game.physics.arcade.overlap(player, enemyBulletGroups, hitPlayer, null, this);
   game.physics.arcade.overlap(player, powerUp, powerUpWeapon, null, this);
 }
 

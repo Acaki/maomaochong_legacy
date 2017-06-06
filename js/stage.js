@@ -29,7 +29,7 @@ function wave1() {
     game.time.events.add(i, launch, this, enemyGroups.trash, 400, 0, 90, 400, 0, -200);
   }
   for (var j = i; j < i + 5 * Phaser.Timer.SECOND; j += Phaser.Timer.SECOND) {
-    game.time.events.add(j, launch, this, enemyGroups.trash, game.width, 200, -180, 400, 150, 0);
+    game.time.events.add(j, launch, this, enemyGroups.trash, game.world.width, 200, -180, 400, 150, 0);
     game.time.events.add(j, launch, this, enemyGroups.trash, 0, 400, 0, 400, -150, 0);
   }
 }
@@ -37,7 +37,7 @@ function wave1() {
 //18 seconds
 function wave2() {
   for (i = 0; i < 10 * Phaser.Timer.SECOND; i += Phaser.Timer.SECOND) {
-    game.time.events.add(i, launch, this, enemyGroups.trash, game.width, 100, -180, 400, 150, 0);
+    game.time.events.add(i, launch, this, enemyGroups.trash, game.world.width, 100, -180, 400, 150, 0);
     game.time.events.add(i, launch, this, enemyGroups.trash, 0, 300, 0, 400, -150, 0);
   }
   game.time.events.add(i, launch, this, enemyGroups.medium, 200, 0, 90, 50, 0, 0);
@@ -54,7 +54,7 @@ function wave2() {
 function wave3() {
   for (i = 0; i < 10 * Phaser.Timer.SECOND; i += Phaser.Timer.SECOND) {
     game.time.events.add(i, launch, this, enemyGroups.trash, 0, 100, 45, 400, -200, 0);
-    game.time.events.add(i, launch, this, enemyGroups.trash, game.width, 100, 135, 400, 200, 0);
+    game.time.events.add(i, launch, this, enemyGroups.trash, game.world.width, 100, 135, 400, 200, 0);
   }
   for (var j = 0; j < 3; j++) {
     game.time.events.add(i, launchTween, this, enemyGroups.medium, j * 200 + 100, 0, { y: 200 }, 1000);
