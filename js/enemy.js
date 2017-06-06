@@ -1,8 +1,8 @@
 var Enemy = function(game, key , health , weapon) {
   //Call constructor of Phaser.Sprite to initialize this
-  //alert(level)
   Phaser.Sprite.call(this, game, 0, 0, key);
 
+  this.game = game;
   //Set the origin point of the sprite to its center
   this.anchor.set(0.5);
   this.checkWorldBounds = true;
@@ -50,6 +50,9 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel, yAccel) {
  */
 Enemy.prototype.launchTween = function(x, y, properties, duration) {
   this.reset(x, y, this.maxHealth);
-  var tween = this.game.add.tween(this).to(properties, duration, Phaser.Easing.Sinusoidal.Out, true);
+  var tween = this.game.add.tween(this).to(properties, duration, null, true);
   tween.interpolation(Phaser.Math.catmullRomInterpolation);
+  //Kill the enemy sprite when the tween is completed
+  var sprite = this;
+  tween.onComplete.add(function() { sprite.kill(); });
 }
