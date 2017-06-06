@@ -1,8 +1,3 @@
-/*
- * @param offsetX - The horizontal offset from the Sprites position to be applied to the Weapon.
- * @param offsetY - The vertical offset from the Sprites position to be applied to the Weapon.
- */
-
 var ScatterBullet = function (game, sprite) {
   this.weapon = game.add.weapon(128, 'laserRed');
 
@@ -181,26 +176,25 @@ ThreeARow.prototype.shoot = function(source) {
 
 //Enemy weapons3
 var VariedAngle = function(game){
-  this.weapon = game.add.weapon(10, 'laserBlue10');
+  this.weapon = game.add.weapon(5, 'laserGreen16');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   //Rotate the bullet image to face up
   this.weapon.bulletAngleOffset = -90;
-  this.weapon.bulletSpeed = 500;
+  this.weapon.bulletAngleVariance = 3;
+  this.weapon.bulletSpeed = 300;
 
-  this.weapon.fireRate = 70;
-  this.weapon.multiFire = true;
+  this.weapon.fireRate = 100;
 
   return this;
 }
 
 VariedAngle.prototype.shoot = function (source) {
-  var x = source.x - 15;
+  var x = source.x;
   var y = source.y;
   var playerX = player.body.x;
   var playerY = player.body.y;
   this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
-  x += 30;
   this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
 }
 
