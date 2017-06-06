@@ -131,7 +131,7 @@ SplashBullet.prototype.shoot = function () {
 }
 
 //Enemy weapons1
-var EnemyBullet = function(game){
+var Missile = function(game){
   this.weapon = game.add.weapon(5, 'spaceMissile');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -145,7 +145,7 @@ var EnemyBullet = function(game){
   return this;
 }
 
-EnemyBullet.prototype.shoot = function (source) {
+Missile.prototype.shoot = function (source) {
   var x = source.x - 15;
   var y = source.y;
   var playerX = player.body.x;
@@ -156,8 +156,8 @@ EnemyBullet.prototype.shoot = function (source) {
 }
 
 //Enemy weapons2
-var EnemyBullet2 = function(game){
-  this.weapon = game.add.weapon(30, 'bullet5');
+var FiveARow = function(game){
+  this.weapon = game.add.weapon(30, 'bullet6');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   this.weapon.bulletSpeed = 200;
@@ -167,7 +167,7 @@ var EnemyBullet2 = function(game){
   return this;
 }
 
-EnemyBullet2.prototype.shoot = function(source) {
+FiveARow.prototype.shoot = function(source) {
   var x = source.x;
   var y = source.y;
   this.weapon.fireAngle = 110;

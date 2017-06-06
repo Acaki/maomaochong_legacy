@@ -27,6 +27,7 @@ function preload() {
   game.load.image('bullet3','assets/bullet3.png');
   game.load.image('bullet4','assets/bullet4.png');
   game.load.image('bullet5','assets/bullet5.png');
+  game.load.image('bullet6','assets/star3.png');
   game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
   game.load.audio('fight' , 'assets/fight.mp3');
   game.load.audio('playershoot' , 'assets/blaster.mp3');
@@ -82,14 +83,14 @@ function create() {
   //Enemy group creation
   enemyGroups.trash = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 10; i++) {
-    var enemyWeapon = new EnemyBullet(game);
+    var enemyWeapon = new Missile(game);
     enemyGroups.trash.add(new Enemy(game, 'enemyUFO', 1, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 
   enemyGroups.medium = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 20; i++) {
-    var enemyWeapon = new EnemyBullet2(game);
+    var enemyWeapon = new FiveARow(game);
     enemyGroups.medium.add(new Enemy(game, 'enemy3', 10, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
