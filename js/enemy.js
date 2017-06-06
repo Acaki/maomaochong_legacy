@@ -25,6 +25,14 @@ Enemy.prototype.constructor = Enemy;
  * @param yAccel - The acceleration value in y direction.
  */
 Enemy.prototype.launch = function(x, y, angle, speed, xAccel, yAccel) {
+  var halfWidth = this.body.halfWidth;
+  if (x === undefined) { x = this.game.rnd.integerInRange(0 + halfWidth, this.game.width - halfWidth) }
+  if (y === undefined) { y = 0; }
+  if (angle === undefined) { angle = this.game.rnd.integerInRange(75, 105); }
+  if (speed === undefined) { speed = game.rnd.between(120,200); }
+  if (xAccel === undefined) { xAccel = 0; }
+  if (yAccel === undefined) { yAccel = 0; }
+
   //Reset the Enemy, which moves the Enemy to the given x/y corrdinates,
   //sets the 'exists' property to true, and heal the enemy.
   this.reset(x, y, this.maxHealth);

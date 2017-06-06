@@ -25,8 +25,8 @@ var currentWeapon = 0;
 var enemyWeapons = [];
 var explosions;
 var powerUp;
-var enemies;
-var enemies2;
+var trashEnemy;
+var trashEnemy2;
 
 function create() {
   background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
@@ -42,6 +42,17 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
+  //Enemy group creation
+  trashEnemy = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
+  for (var i = 0; i < 40; i++) {
+    trashEnemy.add(new Enemy(game, 'enemy3', 5, 0), true);
+  }
+
+  trashEnemy2 = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
+  for (var i = 0; i < 40; i++) {
+    trashEnemy2.add(new Enemy(game, 'enemy4', 2, 1), true);
+  }
+
   weapons.push(new ScatterBullet(game, player, 0, -player.body.height - 10));
   weapons.push(new Beam(game, player, 0, -player.body.height - 10));
   enemyWeapons.push(new EnemyBullet(game));
@@ -52,9 +63,6 @@ function create() {
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
   game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-  //Create a group of trash enemy
-  enemies = new EnemyType.Trash(game);
-  enemies2 = new EnemyType.Trash2(game);
   //Spawn an enemy every 0.5 ~ 3 seconds
   /*
   //Level 1 Trash
@@ -78,6 +86,7 @@ function create() {
     function() { powerUp.drop(); }
   );
 
+  /*
   //Trash1 Attack
   game.time.events.loop(
     game.rnd.integerInRange(2000, 2200),
@@ -96,6 +105,7 @@ function create() {
         enemyWeapons[1].shoot(enemies2.getAll('exists', true)[i]);
       }
     });
+  */
 
   stageStart();
 }
@@ -194,7 +204,7 @@ function enemyAttack(enemy, bullet){
 function update() {
   keyboardHandler();
   game.physics.arcade.overlap(
-    enemies,
+    trashEnemy,
     weapons[currentWeapon].weapon.bullets,
     damageEnemy,
     //enemyAttack,
@@ -202,7 +212,7 @@ function update() {
     this
   );
   game.physics.arcade.overlap(
-    enemies2,
+    trashEnemy2,
     weapons[currentWeapon].weapon.bullets,
     damageEnemy,
     //enemyAttack,
