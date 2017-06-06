@@ -8,13 +8,17 @@ function stageStart() {
 //Intermidiate callback function for enemy.launch()
 function launch(enemyGroup, x, y, angle, speed, xAccel, yAccel) {
   var enemy = enemyGroup.getFirstExists(false);
-  enemy.launch(x, y, angle, speed, xAccel, yAccel);
+  if (enemy) {
+    enemy.launch(x, y, angle, speed, xAccel, yAccel);
+  }
 }
 
 //Intermidiate callback function for enemy.launchTween()
 function launchTween(enemyGroup, x, y, properties, duration) {
   var enemy = enemyGroup.getFirstExists(false);
-  enemy.launchTween(x, y, properties, duration);
+  if (enemy) {
+    enemy.launchTween(x, y, properties, duration);
+  }
 }
 
 function wave1() {

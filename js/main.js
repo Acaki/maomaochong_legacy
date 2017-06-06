@@ -73,28 +73,28 @@ function create() {
 
   //Enemy group creation
   enemyGroups.trash = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 40; i++) {
+  for (var i = 0; i < 10; i++) {
     var enemyWeapon = new EnemyBullet(game);
     enemyGroups.trash.add(new Enemy(game, 'enemy3', 5, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 
   enemyGroups.trash2 = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 40; i++) {
+  for (var i = 0; i < 20; i++) {
     var enemyWeapon = new EnemyBullet2(game);
     enemyGroups.trash2.add(new Enemy(game, 'enemy4', 1, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 
   enemyGroups.trash3 = game.add.group(game.world, 'Trash Enemy3', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 40; i++) {
+  for (var i = 0; i < 10; i++) {
     var enemyWeapon = new EnemyBullet3(game);
     enemyGroups.trash3.add(new Enemy(game, 'enemy5', 2, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 
   enemyGroups.trash4 = game.add.group(game.world, 'Trash Enemy4', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 40; i++) {
+  for (var i = 0; i < 10; i++) {
     var enemyWeapon = new EnemyBullet4(game);
     enemyGroups.trash4.add(new Enemy(game, 'enemy6', 2, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
@@ -113,6 +113,7 @@ function create() {
 
 var currentAngle;
 function keyboardHandler() {
+  currentAngle = 0;
   player.body.velocity.set(0, 0);
   player.loadTexture('player');
   //Move the plane left
