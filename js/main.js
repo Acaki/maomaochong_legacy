@@ -4,11 +4,21 @@ function preload() {
   game.load.image('player', 'assets/player.png');
   game.load.image('playerLeft', 'assets/playerLeft.png');
   game.load.image('playerRight', 'assets/playerRight.png');
+
   game.load.image('background', 'assets/starBackground.png');
-  game.load.image('laserRed', 'assets/laserRed.png');
-  game.load.image('laserRedPowerUp', 'assets/laserRedShot.png');
-  game.load.image('laserGreen', 'assets/laserGreen.png');
-  game.load.image('laserGreenPowerUp', 'assets/laserGreenShot.png');
+
+  game.load.image('laserRed', 'assets/Lasers/laserRed02.png');
+  game.load.image('powerupRed_star', 'assets/Power-ups/powerupRed_star.png');
+  game.load.image('laserGreen', 'assets/Lasers/laserGreen10.png');
+  game.load.image('powerupGreen_star', 'assets/Power-ups/powerupGreen_star.png');
+  game.load.image('laserBlue', 'assets/Lasers/laserBlue13.png');
+  game.load.image('powerupBlue_star', 'assets/Power-ups/powerupBlue_star.png');
+
+  game.load.image('enemyShip', 'assets/enemyShip.png');
+  game.load.image('enemyUFO', 'assets/enemyUFO.png');
+  game.load.image('meteorBig', 'assets/meteorBig.png');
+  game.load.image('meteorSmall', 'assets/meteorSmall.png');
+
   game.load.image('enemy3','assets/enemy3.png');
   game.load.image('enemy4','assets/enemy4.png');
   game.load.image('enemy5','assets/enemy5.png');
@@ -23,8 +33,6 @@ function preload() {
   game.load.audio('playershoot' , 'assets/blaster.mp3');
   game.load.audio('boom' , 'assets/explosion.mp3');
   //game.load.audio('enemyDie' , 'alien_death1.wav');
-
-
 }
 
 var background;
@@ -86,18 +94,14 @@ function create() {
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 
-  enemyGroups.trash3 = game.add.group(game.world, 'Trash Enemy3', false, true, Phaser.Physics.ARCADE);
+  enemyGroups.meteorSmall = game.add.group(game.world, 'Small Meteor', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 10; i++) {
-    var enemyWeapon = new EnemyBullet3(game);
-    enemyGroups.trash3.add(new Enemy(game, 'enemy5', 2, enemyWeapon), true);
-    enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+    enemyGroups.meteorSmall.add(new Enemy(game, 'meteorSmall', 2), true);
   }
 
-  enemyGroups.trash4 = game.add.group(game.world, 'Trash Enemy4', false, true, Phaser.Physics.ARCADE);
+  enemyGroups.meteorBig = game.add.group(game.world, 'Big Meteor', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 10; i++) {
-    var enemyWeapon = new EnemyBullet4(game);
-    enemyGroups.trash4.add(new Enemy(game, 'enemy6', 2, enemyWeapon), true);
-    enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+    enemyGroups.meteorSmall.add(new Enemy(game, 'meteorSmall', 5), true);
   }
 
   cursors = game.input.keyboard.createCursorKeys();

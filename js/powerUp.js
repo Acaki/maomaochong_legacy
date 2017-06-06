@@ -31,8 +31,8 @@ PowerUp.prototype.drop = function() {
 var PowerUpGroup = function(game) {
   Phaser.Group.call(this, game, game.world, 'Power Up Group', false, true, Phaser.Physics.ARCADE);
 
-  this.add(new PowerUp(game, 'laserRedPowerUp', 0), true);
-  this.add(new PowerUp(game, 'laserGreenPowerUp', 1), true);
+  this.add(new PowerUp(game, 'powerupRed_star', 0), true);
+  this.add(new PowerUp(game, 'powerupGreen_star', 1), true);
 
   return this;
 }

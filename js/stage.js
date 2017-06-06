@@ -3,6 +3,7 @@ function stageStart() {
   game.time.events.add(3 * Phaser.Timer.SECOND, wave1, this);
   game.time.events.add(20 * Phaser.Timer.SECOND, wave2, this);
   game.time.events.add(41 * Phaser.Timer.SECOND, wave3, this);
+  game.time.events.add(61 * Phaser.Timer.SECOND, wave4, this);
 }
 
 //Intermidiate callback function for enemy.launch()
@@ -61,4 +62,8 @@ function wave3() {
   i += 7 * Phaser.Timer.SECOND;
   game.time.events.add(i, launchTween, this, enemyGroups.medium, 200, 0, { y: 300 }, 1000);
   game.time.events.add(i, launchTween, this, enemyGroups.medium, 400, 0, { y: 300 }, 1000);
+}
+
+function wave4() {
+
 }
