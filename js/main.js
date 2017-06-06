@@ -21,11 +21,12 @@ function preload() {
   game.load.image('meteorBig', 'assets/enemies/meteorBig.png');
   game.load.image('meteorSmall', 'assets/enemies/meteorSmall.png');
   game.load.image('enemyBlue','assets/enemies/enemyBlue2.png');
+  game.load.image('enemyGreen', 'assets/enemies/enemyGreen5.png');
 
   //Enemy bullet images
   game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
   game.load.image('star','assets/bullets/star3.png');
-  game.load.image('laserBlue10','assets/bullets/laserBlue10.png');
+  game.load.image('laserGreen16','assets/bullets/laserGreen16.png');
 
   game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
   game.load.audio('fight' , 'assets/fight.mp3');
@@ -102,6 +103,13 @@ function create() {
   enemyGroups.meteorBig = game.add.group(game.world, 'Big Meteor', false, true, Phaser.Physics.ARCADE);
   for (var i = 0; i < 10; i++) {
     enemyGroups.meteorBig.add(new Enemy(game, 'meteorBig', 5), true);
+  }
+
+  enemyGroups.green = game.add.group(game.world, 'Green Enemy', false, true, Phaser.Physics.ARCADE);
+  for (var i = 0; i < 10; i++) {
+    var enemyWeapon = new VariedAngle(game);
+    enemyGroups.green.add(new Enemy(game, 'enemyGreen', 10, enemyWeapon), true);
+    enemyBulletGroups.push(enemyWeapon.weapon.bullets);
   }
 
   cursors = game.input.keyboard.createCursorKeys();
@@ -196,13 +204,18 @@ function damageEnemy(bullet, enemy) {
   }
 }
 
+var invincible = false;
 function revivePlayer() {
   player.reset(game.world.width / 2, game.world.height);
+  invincible = true;
+  game.time.events.add(2000, function() { invincible = false; }, this);
 }
 
 function hitPlayer(player) {
-  player.kill();
-  game.time.events.add(2000, revivePlayer, this);
+  if (!invincible) {
+    player.kill();
+    game.time.events.add(1000, revivePlayer, this);
+  }
 }
 
 function powerUpWeapon(player, powerUp) {
