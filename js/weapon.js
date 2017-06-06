@@ -92,39 +92,7 @@ Beam.prototype.shoot = function () {
   }
 }
 
-//Enemy weapons
-var EnemyBullet2 = function(game){
-  this.weapon = game.add.weapon(10, 'bullet1');
-
-  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-  //Rotate the bullet image to face up
-  this.weapon.bulletAngleOffset = -90;
-  this.weapon.bulletSpeed = -400;
-  this.weapon.fireRate = 1000;
-  this.weapon.multiFire = true;
-  this.weapon.bullets.setAll('damage', 1);
-
-  return this;
-}
-
-EnemyBullet2.prototype.shoot = function(source) {
-
-  var mode = game.rnd.between(0,10);
-  var x = source.x;
-  var y = source.y;
-  if(mode <= 9){
-    this.weapon.fire(source);
-  }
-  else {
-    this.weapon.fire(new Phaser.Point(x, y),null,null,-40,null);
-    this.weapon.fire(new Phaser.Point(x, y),null,null,-20,null);
-    this.weapon.fire(new Phaser.Point(x, y),null,null,0,null);
-    this.weapon.fire(new Phaser.Point(x, y),null,null,20,null);
-    this.weapon.fire(new Phaser.Point(x, y),null,null,40,null);
-  }
-}
-
-//Enemy weapons2
+//Enemy weapons1
 var EnemyBullet = function(game){
   this.weapon = game.add.weapon(5, 'bullet2');
 
@@ -148,6 +116,34 @@ EnemyBullet.prototype.shoot = function (source) {
   this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
   x += 30;
   this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
+}
+
+//Enemy weapons2
+var EnemyBullet2 = function(game){
+  this.weapon = game.add.weapon(30, 'bullet5');
+
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = 200;
+  this.weapon.fireRate = 800;
+  this.weapon.multiFire = true;
+  this.weapon.bullets.setAll('damage', 1);
+
+  return this;
+}
+
+EnemyBullet2.prototype.shoot = function(source) {
+  var x = source.x;
+  var y = source.y;
+  this.weapon.fireAngle = 110;
+  this.weapon.fire(new Phaser.Point(x, y));
+  this.weapon.fireAngle = 100;
+  this.weapon.fire(new Phaser.Point(x, y));
+  this.weapon.fireAngle = 90;
+  this.weapon.fire(new Phaser.Point(x, y));
+  this.weapon.fireAngle = 80;
+  this.weapon.fire(new Phaser.Point(x, y));
+  this.weapon.fireAngle = 70;
+  this.weapon.fire(new Phaser.Point(x, y));
 }
 
 //Enemy weapons3
