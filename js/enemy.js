@@ -48,8 +48,11 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel, yAccel) {
  * @param properties - A properties object that has the same format as the one used in Phaser.Tween.to(), see the docs for more information
  * @param duration - The time in miliseconds that this tween should complete executing i.e. enemy moving speed.
  */
-Enemy.prototype.launchTween = function(x, y, properties, duration) {
+Enemy.prototype.launchTween = function(x, y, properties, duration, ease) {
+  if (ease === undefined || ease === null) {
+    ease = Phaser.Easing.Default;
+  }
   this.reset(x, y, this.maxHealth);
-  var tween = this.game.add.tween(this).to(properties, duration, null, true);
+  var tween = this.game.add.tween(this).to(properties, duration, ease, true);
   tween.interpolation(Phaser.Math.catmullRomInterpolation);
 }

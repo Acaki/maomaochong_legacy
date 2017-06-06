@@ -16,10 +16,10 @@ function launch(enemyGroup, x, y, angle, speed, xAccel, yAccel) {
 }
 
 //Intermidiate callback function for enemy.launchTween()
-function launchTween(enemyGroup, x, y, properties, duration) {
+function launchTween(enemyGroup, x, y, properties, duration, ease) {
   var enemy = enemyGroup.getFirstExists(false);
   if (enemy) {
-    enemy.launchTween(x, y, properties, duration);
+    enemy.launchTween(x, y, properties, duration, ease);
   }
 }
 
@@ -77,5 +77,8 @@ function wave4() {
 }
 
 function wave5() {
-  
+  for (i = 0; i < 3 * Phaser.Timer.SECOND; i += Phaser.Timer.SECOND) {
+    game.time.events.add(2 * i, launchTween, this, enemyGroups.medium, 0, 300 - i / 10, { x: 150 }, 1000, Phaser.Easing.Sinusoidal.Out);
+    game.time.events.add(2 * i, launchTween, this, enemyGroups.medium, game.world.width, 200 + i / 10, { x: game.world.width - 150 }, 1000, Phaser.Easing.Sinusoidal.Out);
+  }
 }
