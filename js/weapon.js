@@ -64,7 +64,7 @@ var Beam = function (game, sprite) {
   this.weapon.multiFire = true;
   this.powerLevel = 1;
 
-  this.weapon.bullets.setAll('damage', 0.2);
+  this.weapon.bullets.setAll('damage', 0.05);
   this.weapon.bullets.setAll('alpha', 0.5);
 
   return this;
@@ -240,4 +240,22 @@ Circle.prototype.shoot = function(sprite) {
     }
     this.currentTime = this.game.time.totalElapsedSeconds();
   }
+}
+
+var RandomSplash = function(game){
+  this.weapon = game.add.weapon(200, 'laserRed08');
+
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = 200;
+  this.weapon.fireRate = 50;
+  this.weapon.fireAngle = 180;
+  this.weapon.bulletAngleVariance = 180;
+  this.weapon.multiFire = true;
+
+  return this;
+}
+
+RandomSplash.prototype.shoot = function(sprite) {
+  this.weapon.trackSprite(sprite);
+  this.weapon.fire();
 }

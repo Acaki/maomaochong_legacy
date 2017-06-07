@@ -52,6 +52,7 @@ MainState.prototype = {
     game.load.image('star','assets/bullets/star3.png');
     game.load.image('laserGreen16','assets/bullets/laserGreen16.png');
     game.load.image('laserBlue02', 'assets/bullets/laserBlue02.png');
+    game.load.image('laserRed08', 'assets/bullets/laserRed08.png');
 
     game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
     game.load.audio('fight' , 'assets/fight.mp3');
@@ -150,8 +151,8 @@ MainState.prototype = {
 
     enemyGroups.red = game.add.group(game.world, 'Red Enemy', false, true, Phaser.Physics.ARCADE);
     for (var i = 0; i < 5; i++) {
-      var enemyWeapon = new Circle(game);
-      enemyGroups.black.add(new Enemy(game, 'enemyRed', 10, enemyWeapon), true);
+      var enemyWeapon = new RandomSplash(game);
+      enemyGroups.red.add(new Enemy(game, 'enemyRed', 15, enemyWeapon), true);
       enemyBulletGroups.push(enemyWeapon.weapon.bullets);
     }
 
