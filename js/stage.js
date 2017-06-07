@@ -1,10 +1,13 @@
 var i;
 function stageStart() {
-  game.time.events.add(3 * Phaser.Timer.SECOND, wave1, this);
-  game.time.events.add(20 * Phaser.Timer.SECOND, wave2, this);
-  game.time.events.add(41 * Phaser.Timer.SECOND, wave3, this);
-  game.time.events.add(61 * Phaser.Timer.SECOND, wave4, this);
-  game.time.events.add(84 * Phaser.Timer.SECOND, wave5, this);
+
+  game.time.events.add(2 * Phaser.Timer.SECOND, wave1, this);
+  game.time.events.add(18 * Phaser.Timer.SECOND, wave2, this);
+  game.time.events.add(38 * Phaser.Timer.SECOND, wave3, this);
+  game.time.events.add(57 * Phaser.Timer.SECOND, wave4, this);
+  game.time.events.add(76 * Phaser.Timer.SECOND, wave5, this);
+  game.time.events.add(98 * Phaser.Timer.SECOND, wave6, this);
+
 }
 
 //Intermidiate callback function for enemy.launch()
@@ -68,9 +71,9 @@ function wave3() {
 //20 seconds
 function wave4() {
   for (i = 0; i < 20 * Phaser.Timer.SECOND; i += Phaser.Timer.HALF) {
-    game.time.events.add(game.rnd.integerInRange(i, i + 250), launch, this, enemyGroups.meteorSmall, null, null, 90, 400);
+    game.time.events.add(game.rnd.integerInRange(i, i + 250), launch, this, enemyGroups.meteorSmall, null, null, 90, 400, 0, 0, game.rnd.integerInRange(100, 200));
     if (i % Phaser.Timer.SECOND == 0) {
-      game.time.events.add(game.rnd.integerInRange(i, i + 250), launch, this, enemyGroups.meteorBig, null, null, 90, 200);
+      game.time.events.add(game.rnd.integerInRange(i, i + 250), launch, this, enemyGroups.meteorBig, null, null, 90, 200, 0, 0, game.rnd.integerInRange(30, 50));
     }
   }
   game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
@@ -89,4 +92,21 @@ function wave5() {
     game.time.events.add(j, launchTween, this, enemyGroups.medium, 100, 0, { x: [400, 200, 400, 200], y: [200, 400, 600, 800 + halfHeight] }, 8000);
     game.time.events.add(j, launchTween, this, enemyGroups.medium, 500, 0, { x: [200, 400, 200, 400], y: [200, 400, 600, 800 + halfHeight] }, 8000);
   }
+}
+
+//20 seconds
+function wave6() {
+  for (i = 0; i < 10 * Phaser.Timer.SECOND; i += Phaser.Timer.SECOND) {
+    game.time.events.add(i, launch, this, enemyGroups.trash, 0, 250, -45, 300, 0, 200, 100, -30);
+    game.time.events.add(i, launch, this, enemyGroups.trash, game.world.width, 250, -135, 300, 0, 200, -100, 30);
+  }
+  for (var j = i; j < i + 12 * Phaser.Timer.SECOND; j += Phaser.Timer.QUARTER) {
+    game.time.events.add(j, launchTween, this, enemyGroups.spaceBuilding, 0, 0, { x: game.world.width / 2, y: game.world.height + player.height / 2, angle: 359 }, 1000);
+    game.time.events.add(j, launchTween, this, enemyGroups.spaceBuilding, game.world.width, 0, { x: game.world.width / 2, y: game.world.height + player.height / 2, angle: 359 }, 1000);
+  }
+  game.time.events.add(i + 5 * Phaser.Timer.SECOND, launchTween, this, enemyGroups.green, 150, 0, { y: 250 }, 1000);
+  game.time.events.add(i + 5 * Phaser.Timer.SECOND, launchTween, this, enemyGroups.green, 300, 0, { y: 150 }, 1000);
+  game.time.events.add(i + 5 * Phaser.Timer.SECOND, launchTween, this, enemyGroups.green, game.world.width - 150, 0, { y: 250 }, 1000);
+
+  game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
 }

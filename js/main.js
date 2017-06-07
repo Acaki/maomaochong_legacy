@@ -22,6 +22,7 @@ function preload() {
   game.load.image('meteorSmall', 'assets/enemies/meteorSmall.png');
   game.load.image('enemyBlue','assets/enemies/enemyBlue2.png');
   game.load.image('enemyGreen', 'assets/enemies/enemyGreen5.png');
+  game.load.image('spaceBuilding', 'assets/enemies/spaceBuilding_014.png');
 
   //Enemy bullet images
   game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
@@ -110,6 +111,11 @@ function create() {
     var enemyWeapon = new VariedAngle(game);
     enemyGroups.green.add(new Enemy(game, 'enemyGreen', 10, enemyWeapon), true);
     enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+  }
+
+  enemyGroups.spaceBuilding = game.add.group(game.world, 'Space Building', false, true, Phaser.Physics.ARCADE);
+  for (var i = 0; i < 30; i++) {
+    enemyGroups.spaceBuilding.add(new Enemy(game, 'spaceBuilding', 0.5), true);
   }
 
   cursors = game.input.keyboard.createCursorKeys();

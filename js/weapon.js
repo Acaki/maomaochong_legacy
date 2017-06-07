@@ -132,7 +132,7 @@ var Missile = function(game){
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   //Rotate the bullet image to face up
   this.weapon.bulletAngleOffset = -90;
-  this.weapon.bulletSpeed = 200;
+  this.weapon.bulletSpeed = 250;
 
   this.weapon.fireRate = 800;
   this.weapon.multiFire = true;
