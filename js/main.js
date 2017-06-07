@@ -13,13 +13,11 @@ var enemyBulletGroups = [];
 var explosions;
 var powerUp;
 
-var currentAngle;
 var invincible = false;
 
 var MainState = function(game){};
 MainState.prototype = {
 
-  //var game = new Phaser.Game(600, 800, Phaser.AUTO, '', {preload: preload, create: create, update: update, render: render});
   preload: function() {
     game.load.image('player', 'assets/player.png');
     game.load.image('playerLeft', 'assets/playerLeft.png');
@@ -34,6 +32,7 @@ MainState.prototype = {
     game.load.image('powerupGreen_star', 'assets/power-ups/powerupGreen_star.png');
     game.load.image('laserBlue', 'assets/bullets/laserBlue13.png');
     game.load.image('powerupBlue_star', 'assets/power-ups/powerupBlue_star.png');
+    game.load.image('spaceRocketPart', 'assets/bullets/spaceRocketParts_015');
 
     //Enemy object images
     game.load.image('enemyShip', 'assets/enemies/enemyShip.png');
@@ -43,6 +42,7 @@ MainState.prototype = {
     game.load.image('enemyBlue','assets/enemies/enemyBlue2.png');
     game.load.image('enemyGreen', 'assets/enemies/enemyGreen5.png');
     game.load.image('spaceBuilding', 'assets/enemies/spaceBuilding_014.png');
+    game.load.image('spaceStation', 'assets/enemies/spaceStation_021.png');
 
     //Enemy bullet images
     game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
@@ -83,6 +83,7 @@ MainState.prototype = {
     player.body.setCircle(10, player.width - 10, player.height - 10);
     player.body.collideWorldBounds = true;
 
+    //Player weapons list
     weapons.push(new ScatterBullet(game, player));
     weapons.push(new Beam(game, player));
     weapons.push(new SplashBullet(game, player));
@@ -124,6 +125,13 @@ MainState.prototype = {
       enemyGroups.spaceBuilding.add(new Enemy(game, 'spaceBuilding', 0.5), true);
     }
 
+    enemyGroups.spaceStation = game.add.group(game.world, 'Space Station', false, true, Phaser.Physics.ARCADE);
+    for (var i = 0; i < 2; i ++) {
+      var enemyWeapon = [];
+      enemyWeapon.push(new RingScattered(game));
+      enemyGroups.spaceStation.add(new Enemy(game, 'spaceStation', 100), true);
+    }
+
     cursors = game.input.keyboard.createCursorKeys();
     //Add key listener for 'shift'
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
@@ -135,19 +143,69 @@ MainState.prototype = {
     stageStart();
   },
 
+  resetTint: function(enemy) {
+    enemy.tint = 0xffffff;
+  },
+
+  damageEnemy: function(bullet, enemy) {
+    enemy.damage(bullet.damage);
+    enemy.tint = 0xff0000;
+    game.time.events.add(15, this.resetTint, this, enemy);
+    bullet.kill();
+    if(!enemy.alive)
+    {
+      //Remove the tween that is associated with the enemy
+      game.tweens.removeFrom(enemy);
+      enemyDie.play();
+      explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
+    }
+  },
+
+  revivePlayer: function() {
+    player.reset(game.world.width / 2, game.world.height);
+    invincible = true;
+    game.time.events.add(2000, function() { invincible = false; }, this);
+  },
+
+  hitPlayer: function(player) {
+    if (!invincible) {
+      player.kill();
+      game.time.events.add(1000, this.revivePlayer, this);
+    }
+  },
+
+  enemyShoot: function(enemy) {
+    if (enemy.weapon) {
+      enemy.weapon.shoot(enemy);
+    }
+  },
+
+  powerUpWeapon: function(player, powerUp) {
+    powerUp.kill();
+    var currentPowerLevel = weapons[currentWeapon].powerLevel;
+    //Increase power level of current weapon
+    if (currentWeapon == powerUp.weaponType && currentPowerLevel < 3) {
+      weapons[currentWeapon].powerLevel++;
+    }
+    //Switch the weapon
+    else if (currentWeapon != powerUp.weaponType) {
+      currentWeapon = powerUp.weaponType;
+      weapons[currentWeapon].powerLevel = currentPowerLevel;
+    }
+  },
+
   update: function() {
     keyboardHandler();
     for (var key in enemyGroups) {
       if (enemyGroups.hasOwnProperty(key)) {
-        game.physics.arcade.overlap(weapons[currentWeapon].weapon.bullets, enemyGroups[key], damageEnemy, null, this);
-        game.physics.arcade.overlap(player, enemyGroups[key], hitPlayer, null, this);
-        enemyGroups[key].forEachExists(enemyShoot, this);
+        game.physics.arcade.overlap(weapons[currentWeapon].weapon.bullets, enemyGroups[key], this.damageEnemy, null, this);
+        game.physics.arcade.overlap(player, enemyGroups[key], this.hitPlayer, null, this);
+        enemyGroups[key].forEachExists(this.enemyShoot, this);
       }
     }
-    game.physics.arcade.overlap(player, enemyBulletGroups, hitPlayer, null, this);
-    game.physics.arcade.overlap(player, powerUp, powerUpWeapon, null, this);
-  },
-
+    game.physics.arcade.overlap(player, enemyBulletGroups, this.hitPlayer, null, this);
+    game.physics.arcade.overlap(player, powerUp, this.powerUpWeapon, null, this);
+  }
 };  //MainState prototype end
 
 var currentAngle;
@@ -214,58 +272,4 @@ function keyboardHandler() {
     weapons[currentWeapon].shoot();
     playerShoot.play();
   }
-}
-
-function resetTint(enemy) {
-  enemy.tint = 0xffffff;
-}
-
-function damageEnemy(bullet, enemy) {
-  enemy.damage(bullet.damage);
-  enemy.tint = 0xff0000;
-  game.time.events.add(15, resetTint, this, enemy);
-  bullet.kill();
-  if(!enemy.alive)
-  {
-    //Remove the tween that is associated with the enemy
-    game.tweens.removeFrom(enemy);
-    enemyDie.play();
-    explosions.display(enemy.body.x + enemy.body.halfWidth, enemy.body.y + enemy.body.halfHeight);
-  }
-}
-
-
-function revivePlayer() {
-  player.reset(game.world.width / 2, game.world.height);
-  invincible = true;
-  game.time.events.add(2000, function() { invincible = false; }, this);
-}
-
-function hitPlayer(player) {
-  if (!invincible) {
-    player.kill();
-    game.time.events.add(1000, revivePlayer, this);
-  }
-}
-
-function enemyShoot(enemy) {
-  if (enemy.weapon) {
-    enemy.weapon.shoot(enemy);
-  }
-}
-function powerUpWeapon(player, powerUp) {
-  powerUp.kill();
-  var currentPowerLevel = weapons[currentWeapon].powerLevel;
-  //Increase power level of current weapon
-  if (currentWeapon == powerUp.weaponType && currentPowerLevel < 3) {
-    weapons[currentWeapon].powerLevel++;
-  }
-  //Switch the weapon
-  else if (currentWeapon != powerUp.weaponType) {
-    currentWeapon = powerUp.weaponType;
-    weapons[currentWeapon].powerLevel = currentPowerLevel;
-  }
-}
-function render() {
-  game.debug.body(player);
 }
