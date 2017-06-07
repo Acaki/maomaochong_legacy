@@ -32,7 +32,8 @@ MainState.prototype = {
     game.load.image('powerupGreen_star', 'assets/power-ups/powerupGreen_star.png');
     game.load.image('laserBlue', 'assets/bullets/laserBlue13.png');
     game.load.image('powerupBlue_star', 'assets/power-ups/powerupBlue_star.png');
-    game.load.image('spaceRocketPart', 'assets/bullets/spaceRocketParts_015');
+    game.load.image('spaceRocketPart', 'assets/bullets/spaceRocketParts_015.png');
+    game.load.image('tinyBullet', 'assets/bullets/bullet5.png');
 
     //Enemy object images
     game.load.image('enemyShip', 'assets/enemies/enemyShip.png');
@@ -80,7 +81,7 @@ MainState.prototype = {
     player.scale.set(0.5);
     player.anchor.set(0.5, 1.0);
     game.physics.arcade.enable(player);
-    player.body.setCircle(10, player.width - 10, player.height - 10);
+    player.body.setCircle(7, player.width - 10, player.height - 10);
     player.body.collideWorldBounds = true;
 
     //Player weapons list
@@ -129,7 +130,12 @@ MainState.prototype = {
     for (var i = 0; i < 2; i ++) {
       var enemyWeapon = [];
       enemyWeapon.push(new RingScattered(game));
-      enemyGroups.spaceStation.add(new Enemy(game, 'spaceStation', 100), true);
+      enemyWeapon.push(new VariedAngle(game));
+      enemyWeapon.push(new Missile(game));
+      enemyBulletGroups.push(enemyWeapon[0].weapon.bullets);
+      enemyBulletGroups.push(enemyWeapon[1].weapon.bullets);
+      enemyBulletGroups.push(enemyWeapon[2].weapon.bullets);
+      enemyGroups.spaceStation.add(new Enemy(game, 'spaceStation', 100, enemyWeapon), true);
     }
 
     cursors = game.input.keyboard.createCursorKeys();
@@ -176,7 +182,14 @@ MainState.prototype = {
 
   enemyShoot: function(enemy) {
     if (enemy.weapon) {
-      enemy.weapon.shoot(enemy);
+      if (enemy.weapon instanceof Array) {
+        for (var i = 0; i < enemy.weapon.length; i++) {
+          enemy.weapon[i].shoot(enemy);
+        }
+      }
+      else {
+        enemy.weapon.shoot(enemy);
+      }
     }
   },
 

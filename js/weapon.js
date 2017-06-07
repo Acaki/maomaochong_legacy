@@ -194,19 +194,25 @@ VariedAngle.prototype.shoot = function(sprite) {
 
 //Enemy weapons4
 var RingScattered = function(game){
-  this.weapon = game.add.weapon(50, 'spaceRocketPart');
+  this.weapon = game.add.weapon(200, 'spaceRocketPart');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-  this.weapon.bulletSpeed = 100;
-  this.weapon.bulletGravity.set(-10, -10);
-  this.weapon.fireRate = 50;
+  this.weapon.bulletSpeed = 150;
+  this.weapon.fireRate = 100;
   this.weapon.multiFire = true;
+  this.fireAngles = [0, 120, 240];
 
   return this;
 }
 
 RingScattered.prototype.shoot = function(sprite) {
   this.weapon.trackSprite(sprite, 0, sprite.height / 2);
-  this.wapon.bulletAngleOffset -= 2;
-  this.weapon.fire();
+  for (var i = 0; i < 3; i++) {
+    if (this.fireAngles[i] >= 360) {
+      this.fireAngles[i] = 0;
+    }
+    this.weapon.fireAngle = this.fireAngles[i];
+    this.weapon.fire();
+    this.fireAngles[i] += 2;
+  }
 }
