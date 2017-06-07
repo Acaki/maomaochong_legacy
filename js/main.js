@@ -80,7 +80,7 @@ MainState.prototype = {
     enemyDie = game.add.audio('boom');
     enemyDie.volume = 0.1;
     // score board
-    lifeText = game.add.text(16, 16, 'life: 10', { fontSize: '32px', fill: '#000' });
+    lifeText = game.add.text(16, 16, 'life: 10', { fontSize: '32px', fill: '#fff' });
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //Add the player plane on the middle bottom of the screen
@@ -168,6 +168,8 @@ MainState.prototype = {
     boss.maxHealth = 1000;
     boss.weapons = [];
     boss.weapons.push(new Circle(game));
+    boss.allBullets = [];
+    boss.allBullets.push(boss.weapons[0].weapon.bullets);
 
     cursors = game.input.keyboard.createCursorKeys();
     //Add key listener for 'shift'
@@ -213,19 +215,26 @@ MainState.prototype = {
       game.time.events.add(1000, this.revivePlayer, this);
     }
     if(lifeCount == 0){
+      //Gameover after 1 second
+      game.time.events.add(
+        1000,
+        function() {
+          //Reset global variables
+          lifeCount = 10;
+          player.reset(game.world.width / 2, game.world.height);
+          invincible = false;
+          weapons = [];
+          currentWeapon = 0;
+          enemyGroups = {};
+          enemyBulletGroups = [];
+          explosions = null;
+          powerUp = null;
+          fightMusic.stop();
 
-      lifeCount = 10;
-      player.reset(game.world.width / 2, game.world.height);
-      invincible = false;
-      weapons = [];
-      currentWeapon = 0;
-      enemyGroups = {};
-      enemyBulletGroups = [];
-      explosions = null;
-      powerUp = null;
-      fightMusic.stop();
-
-      game.state.start('gameover');
+          game.state.start('gameover');
+        },
+        this
+      );
     }
   },
 
@@ -269,6 +278,7 @@ MainState.prototype = {
     game.physics.arcade.overlap(player, powerUp, this.powerUpWeapon, null, this);
     if (boss.exists) {
       game.physics.arcade.overlap(boss, weapons[currentWeapon].weapon.bullets, this.damageEnemy, null, this);
+      game.physics.arcade.overlap(player, boss.allBullets, this.hitPlayer, null, this);
       for (var i = 0; i < boss.weapons.length; i++) {
         boss.weapons[i].shoot(boss);
       }
