@@ -102,7 +102,7 @@ var SplashBullet = function (game, sprite) {
   this.weapon.multiFire = true;
   this.powerLevel = 1;
 
-  this.weapon.bullets.setAll('damage', 0.5);
+  this.weapon.bullets.setAll('damage', 0.3);
   this.weapon.bullets.setAll('alpha', 0.5);
 
   return this;
@@ -214,5 +214,30 @@ RingScattered.prototype.shoot = function(sprite) {
     this.weapon.fireAngle = this.fireAngles[i];
     this.weapon.fire();
     this.fireAngles[i] += 2;
+  }
+}
+
+var Circle = function(game){
+  this.weapon = game.add.weapon(100, 'laserBlue02');
+
+  this.game = game;
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = 200;
+  this.weapon.bulletAngleOffset = 90;
+  this.weapon.fireRate = 100;
+  this.weapon.multiFire = true;
+  this.currentTime = 0;
+
+  return this;
+}
+
+Circle.prototype.shoot = function(sprite) {
+  this.weapon.trackSprite(sprite);
+  if (this.game.time.totalElapsedSeconds() - this.currentTime >= 1) {
+    for (var j = 0; j < 24; j++) {
+      this.weapon.fireAngle = j * 15;
+      this.weapon.fire();
+    }
+    this.currentTime = this.game.time.totalElapsedSeconds();
   }
 }

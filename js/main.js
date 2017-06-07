@@ -42,6 +42,8 @@ MainState.prototype = {
     game.load.image('meteorSmall', 'assets/enemies/meteorSmall.png');
     game.load.image('enemyBlue','assets/enemies/enemyBlue2.png');
     game.load.image('enemyGreen', 'assets/enemies/enemyGreen5.png');
+    game.load.image('enemyBlack', 'assets/enemies/enemyBlack1.png');
+    game.load.image('enemyRed', 'assets/enemies/enemyRed4.png');
     game.load.image('spaceBuilding', 'assets/enemies/spaceBuilding_014.png');
     game.load.image('spaceStation', 'assets/enemies/spaceStation_021.png');
 
@@ -49,6 +51,7 @@ MainState.prototype = {
     game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
     game.load.image('star','assets/bullets/star3.png');
     game.load.image('laserGreen16','assets/bullets/laserGreen16.png');
+    game.load.image('laserBlue02', 'assets/bullets/laserBlue02.png');
 
     game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
     game.load.audio('fight' , 'assets/fight.mp3');
@@ -132,10 +135,24 @@ MainState.prototype = {
       enemyWeapon.push(new RingScattered(game));
       enemyWeapon.push(new VariedAngle(game));
       enemyWeapon.push(new Missile(game));
-      enemyBulletGroups.push(enemyWeapon[0].weapon.bullets);
-      enemyBulletGroups.push(enemyWeapon[1].weapon.bullets);
-      enemyBulletGroups.push(enemyWeapon[2].weapon.bullets);
+      for (var j = 0; j < 3; j++) {
+        enemyBulletGroups.push(enemyWeapon[i]);
+      }
       enemyGroups.spaceStation.add(new Enemy(game, 'spaceStation', 100, enemyWeapon), true);
+    }
+
+    enemyGroups.black = game.add.group(game.world, 'Black Enemy', false, true, Phaser.Physics.ARCADE);
+    for (var i = 0; i < 3; i++) {
+      var enemyWeapon = new Circle(game);
+      enemyGroups.black.add(new Enemy(game, 'enemyBlack', 20, enemyWeapon), true);
+      enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+    }
+
+    enemyGroups.red = game.add.group(game.world, 'Red Enemy', false, true, Phaser.Physics.ARCADE);
+    for (var i = 0; i < 5; i++) {
+      var enemyWeapon = new Circle(game);
+      enemyGroups.black.add(new Enemy(game, 'enemyRed', 10, enemyWeapon), true);
+      enemyBulletGroups.push(enemyWeapon.weapon.bullets);
     }
 
     cursors = game.input.keyboard.createCursorKeys();
@@ -176,6 +193,7 @@ MainState.prototype = {
   hitPlayer: function(player) {
     if (!invincible) {
       player.kill();
+      explosions.display(player.body.x + player.body.halfWidth, player.body.y + player.body.halfHeight);
       game.time.events.add(1000, this.revivePlayer, this);
     }
   },
