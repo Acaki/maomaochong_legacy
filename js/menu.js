@@ -2,6 +2,9 @@ var menuState = {
     preload: function() {
     game.load.image('space', 'assets/starfield.png', 138, 15);
     game.load.image('logo', 'assets/phaser2.png');
+    game.load.audio('fight' , 'assets/fight.mp3');
+    game.load.audio('playershoot' , 'assets/blaster.mp3');
+    game.load.audio('boom' , 'assets/explosion.mp3');
     },
 
     create: function () {
@@ -15,14 +18,14 @@ var menuState = {
           //  Create our tween. This will fade the sprite to alpha 1 over the duration of 2 seconds
           var tween = game.add.tween(sprite).to( { alpha: 1 }, 2000, "Linear", true);
 
-          var startLabelUp = game.add.text(game.world.centerX, game.world.height - 120, 'Press the Enter key to start the game', { font: '36px Arial', fill: '#ff0000' });
+          var startLabelUp = game.add.text(game.world.centerX, game.world.height - 160, 'Press the Enter key to start the game', { font: '28px Arial', fill: '#ff0000' });
           startLabelUp.anchor.setTo(0.5, 0.5);
           game.add.tween(startLabelUp).to({alpha: 0}, 500).to({alpha: 1}, 3000).loop().start();
           var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-          enterKey.onDown.addOnce(this.startplay, this);
+          enterKey.onDown.addOnce(this.startload, this);
     },
 
-    startplay: function(){
-      game.state.start('main');
+    startload: function(){
+      game.state.start('load');
     }
 };

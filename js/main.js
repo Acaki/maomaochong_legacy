@@ -49,9 +49,7 @@ preload: function() {
   game.load.image('laserGreen16','assets/bullets/laserGreen16.png');
 
   game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
-  game.load.audio('fight' , 'assets/fight.mp3');
-  game.load.audio('playershoot' , 'assets/blaster.mp3');
-  game.load.audio('boom' , 'assets/explosion.mp3');
+
   //game.load.audio('enemyDie' , 'alien_death1.wav');
 },
 
@@ -64,6 +62,7 @@ preload: function() {
  //Audio create
  //battle BGM
  fightMusic = game.add.audio('fight');
+ fightMusic.loop = true;
  fightMusic.volume = 0.2;
  fightMusic.play();
  //player shooting
