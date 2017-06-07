@@ -140,14 +140,12 @@ var Missile = function(game){
   return this;
 }
 
-Missile.prototype.shoot = function (source) {
-  var x = source.x - 15;
-  var y = source.y;
+Missile.prototype.shoot = function(sprite) {
+  this.weapon.trackSprite(sprite, 0, sprite.height / 2);
   var playerX = player.body.x;
   var playerY = player.body.y;
-  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
-  x += 30;
-  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
+  this.weapon.fire(null, playerX , playerY, -15);
+  this.weapon.fire(null, playerX , playerY, 15);
 }
 
 //Enemy weapons2
@@ -163,15 +161,14 @@ var ThreeARow = function(game){
   return this;
 }
 
-ThreeARow.prototype.shoot = function(source) {
-  var x = source.x;
-  var y = source.y;
+ThreeARow.prototype.shoot = function(sprite) {
+  this.weapon.trackSprite(sprite, 0, sprite.height / 2);
   this.weapon.fireAngle = 100;
-  this.weapon.fire(new Phaser.Point(x, y));
+  this.weapon.fire();
   this.weapon.fireAngle = 90;
-  this.weapon.fire(new Phaser.Point(x, y));
+  this.weapon.fire();
   this.weapon.fireAngle = 80;
-  this.weapon.fire(new Phaser.Point(x, y));
+  this.weapon.fire();
 }
 
 //Enemy weapons3
@@ -179,8 +176,6 @@ var VariedAngle = function(game){
   this.weapon = game.add.weapon(7, 'laserGreen16');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-  //Rotate the bullet image to face up
-  this.weapon.bulletAngleOffset = -90;
   this.weapon.bulletAngleVariance = 3;
   this.weapon.bulletSpeed = 300;
 
@@ -189,36 +184,29 @@ var VariedAngle = function(game){
   return this;
 }
 
-VariedAngle.prototype.shoot = function (source) {
-  var x = source.x;
-  var y = source.y;
+VariedAngle.prototype.shoot = function(sprite) {
+  this.weapon.trackSprite(sprite, 0, sprite.height / 2);
   var playerX = player.body.x;
   var playerY = player.body.y;
-  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
-  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
+  this.weapon.fire(null, playerX, playerY);
+  this.weapon.fire(null, playerX, playerY);
 }
 
 //Enemy weapons4
-var EnemyBullet4 = function(game){
-  this.weapon = game.add.weapon(10, 'bullet4');
+var RingScattered = function(game){
+  this.weapon = game.add.weapon(50, 'spaceRocketPart');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-  //Rotate the bullet image to face up
-  this.weapon.bulletAngleOffset = -90;
-  this.weapon.bulletSpeed = 500;
-
-  this.weapon.fireRate = 70;
+  this.weapon.bulletSpeed = 100;
+  this.weapon.bulletGravity.set(-10, -10);
+  this.weapon.fireRate = 50;
   this.weapon.multiFire = true;
 
   return this;
 }
 
-EnemyBullet4.prototype.shoot = function (source) {
-  var x = source.x - 15;
-  var y = source.y;
-  var playerX = player.body.x;
-  var playerY = player.body.y;
-  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
-  x += 30;
-  this.weapon.fire(new Phaser.Point(x, y) , playerX , playerY);
+RingScattered.prototype.shoot = function(sprite) {
+  this.weapon.trackSprite(sprite, 0, sprite.height / 2);
+  this.wapon.bulletAngleOffset -= 2;
+  this.weapon.fire();
 }
