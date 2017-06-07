@@ -10,7 +10,7 @@ var ScatterBullet = function (game, sprite) {
   this.weapon.trackSprite(sprite, 0, -sprite.height - 10);
   this.weapon.multiFire = true;
 
-  this.powerLevel = 1;
+  this.powerLevel = 3;
   this.weapon.bullets.setAll('damage', 0.25);
   this.weapon.bullets.setAll('alpha', 0.5);
 
@@ -260,6 +260,55 @@ RandomSplash.prototype.shoot = function(sprite) {
   this.weapon.fire();
 }
 
+var bossSingle = function(game){
+  this.weapon = game.add.weapon(100, 'laserRed04');
+
+  this.game = game;
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = 250;
+  this.weapon.bulletAngleOffset = 90;
+  this.weapon.fireRate = 150;
+  this.weapon.multiFire = true;
+  this.weapon.fireAngle = 90;
+  this.currentTime = 0;
+  this.enabled = false;
+
+  return this;
+}
+
+bossSingle.prototype.shoot = function(sprite) {
+  if (!this.enabled) {
+    return;
+  }
+  this.weapon.trackSprite(sprite);
+  this.weapon.fire(null, null, null, -121, 106);
+  this.weapon.fire(null, null, null, 121, 106);
+}
+
+var bossDouble = function(game){
+  this.weapon = game.add.weapon(50, 'star');
+
+  this.game = game;
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = 250;
+  this.weapon.fireRate = 500;
+  this.weapon.multiFire = true;
+  this.weapon.fireAngle = 90;
+  this.currentTime = 0;
+  this.enabled = false;
+
+  return this;
+}
+
+bossDouble.prototype.shoot = function(sprite) {
+  if (!this.enabled) {
+    return;
+  }
+  this.weapon.trackSprite(sprite);
+  this.weapon.fire(null, null, null, -15, 95);
+  this.weapon.fire(null, null, null, 15, 95);
+}
+
 var bossCircle = function(game){
   this.weapon = game.add.weapon(100, 'spaceParts_079');
 
@@ -269,11 +318,15 @@ var bossCircle = function(game){
   this.weapon.fireRate = 50;
   this.weapon.multiFire = true;
   this.currentTime = 0;
+  this.enabled = false;
 
   return this;
 }
 
 bossCircle.prototype.shoot = function(sprite) {
+  if (!this.enabled) {
+    return;
+  }
   this.weapon.trackSprite(sprite);
   if (this.game.time.totalElapsedSeconds() - this.currentTime >= 1) {
     for (var j = 0; j < 24; j++) {
@@ -294,11 +347,15 @@ var bossMissile = function(game){
   this.weapon.fireRate = 500;
   this.weapon.multiFire = true;
   this.currentTime = 0;
+  this.enabled = false;
 
   return this;
 }
 
 bossMissile.prototype.shoot = function(sprite) {
+  if (!this.enabled) {
+    return;
+  }
   this.weapon.trackSprite(sprite);
   var playerX = player.body.x;
   var playerY = player.body.y;

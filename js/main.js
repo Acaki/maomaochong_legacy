@@ -52,6 +52,7 @@ MainState.prototype = {
     game.load.image('spaceBuilding', 'assets/enemies/spaceBuilding_014.png');
     game.load.image('spaceStation', 'assets/enemies/spaceStation_021.png');
     game.load.image('boss', 'assets/enemies/boss.png');
+    game.load.image('boss1', 'assets/enemies/boss1.png');
 
     //Enemy bullet images
     game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
@@ -59,6 +60,7 @@ MainState.prototype = {
     game.load.image('laserGreen16','assets/bullets/laserGreen16.png');
     game.load.image('laserBlue02', 'assets/bullets/laserBlue02.png');
     game.load.image('laserRed08', 'assets/bullets/laserRed08.png');
+    game.load.image('laserRed04', 'assets/bullets/laserRed04.png');
     game.load.image('spaceMissiles_009', 'assets/bullets/spaceMissiles_009.png');
 
     game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
@@ -169,7 +171,10 @@ MainState.prototype = {
     boss.collideWorldBounds = true;
     boss.exists = false;
     boss.maxHealth = 1000;
+    boss.damageCondition = 0;
     boss.weapons = [];
+    boss.weapons.push(new bossSingle(game));
+    boss.weapons.push(new bossDouble(game));
     boss.weapons.push(new bossCircle(game));
     boss.weapons.push(new bossMissile(game));
     boss.allBullets = [];
@@ -283,6 +288,27 @@ MainState.prototype = {
     game.physics.arcade.overlap(player, enemyBulletGroups, this.hitPlayer, null, this);
     game.physics.arcade.overlap(player, powerUp, this.powerUpWeapon, null, this);
     if (boss.exists) {
+      if (boss.damageCondition == 0) {
+        boss.weapons[0].enabled = true;
+        boss.weapons[1].enabled = true;
+      }
+      //console.log(boss.health);
+      if (boss.health <= boss.maxHealth * 0.75 && boss.damageCondition == 0) {
+        explosions.display(boss.body.x + 48, boss.body.y + 160);
+        explosions.display(boss.body.x + 294, boss.body.y + 160);
+        boss.loadTexture('boss1');
+        boss.weapons[0].enabled = false;
+        boss.weapons[1].enabled = true;
+        boss.weapons[2].enabled = true;
+        boss.weapons[3].enabled = true;
+        boss.damageCondition = 1;
+        boss.heal(boss.maxHealth * 0.25);
+      }
+
+      if (boss.health <= boss.maxHealth * 0.5 && boss.damageCondition == 1) {
+        boss.damageCondition = 2;
+      }
+
       game.physics.arcade.overlap(boss, weapons[currentWeapon].weapon.bullets, this.damageEnemy, null, this);
       game.physics.arcade.overlap(player, boss.allBullets, this.hitPlayer, null, this);
       for (var i = 0; i < boss.weapons.length; i++) {
