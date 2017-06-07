@@ -202,11 +202,19 @@ MainState.prototype = {
       game.time.events.add(1000, this.revivePlayer, this);
     }
     if(lifeCount == 0){
-    lifeCount = 3;
-    player.reset(game.world.width / 2, game.world.height);
-    invincible = false;
-    fightMusic.stop();
-    game.state.start('gameover');
+
+      lifeCount = 10;
+      player.reset(game.world.width / 2, game.world.height);
+      invincible = false;
+      weapons = [];
+      currentWeapon = 0;
+      enemyGroups = {};
+      enemyBulletGroups = [];
+      explosions = null;
+      powerUp = null;
+      fightMusic.stop();
+
+      game.state.start('gameover');
     }
   },
 
