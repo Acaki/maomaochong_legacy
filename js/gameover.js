@@ -13,7 +13,7 @@ var OverState = {
     gameOverText.alpha = 0;
     var showOver = game.add.tween(gameOverText).to({alpha: 1}, 2000, null ,false , 2000 , 1).start();
 
-    var retryText = game.add.text(100, game.world.centerY, 'Press R to restart or Q to quit', { font: '28px Arial', fill: '#ffffff' });
+    var retryText = game.add.text(120, game.world.centerY, 'Press R to restart or Q to quit', { font: '28px Arial', fill: '#ffffff' });
     retryText.alpha = 0;
     var showRetry = game.add.tween(retryText).to({alpha: 1}, 1500, null ,false , 2500 , 10).start();
     var restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);

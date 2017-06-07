@@ -263,14 +263,12 @@ RandomSplash.prototype.shoot = function(sprite) {
 var bossSingle = function(game){
   this.weapon = game.add.weapon(100, 'laserRed04');
 
-  this.game = game;
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   this.weapon.bulletSpeed = 250;
   this.weapon.bulletAngleOffset = 90;
   this.weapon.fireRate = 150;
   this.weapon.multiFire = true;
   this.weapon.fireAngle = 90;
-  this.currentTime = 0;
   this.enabled = false;
 
   return this;
@@ -288,13 +286,11 @@ bossSingle.prototype.shoot = function(sprite) {
 var bossDouble = function(game){
   this.weapon = game.add.weapon(50, 'star');
 
-  this.game = game;
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   this.weapon.bulletSpeed = 250;
   this.weapon.fireRate = 500;
   this.weapon.multiFire = true;
   this.weapon.fireAngle = 90;
-  this.currentTime = 0;
   this.enabled = false;
 
   return this;
@@ -340,13 +336,11 @@ bossCircle.prototype.shoot = function(sprite) {
 var bossMissile = function(game){
   this.weapon = game.add.weapon(50, 'spaceMissiles_009');
 
-  this.game = game;
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   this.weapon.bulletSpeed = 300;
   this.weapon.bulletAngleOffset = 90;
   this.weapon.fireRate = 500;
   this.weapon.multiFire = true;
-  this.currentTime = 0;
   this.enabled = false;
 
   return this;
@@ -361,4 +355,28 @@ bossMissile.prototype.shoot = function(sprite) {
   var playerY = player.body.y;
   this.weapon.fire(null, playerX , playerY, -132, -45);
   this.weapon.fire(null, playerX , playerY, 132, -45);
+}
+
+var bossFan = function(game){
+  this.weapon = game.add.weapon(100, 'laserRed08');
+
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = 250;
+  this.weapon.fireRate = 500;
+  this.weapon.multiFire = true;
+  this.weapon.fireAngle = 90;
+  this.enabled = false;
+
+  return this;
+}
+
+bossFan.prototype.shoot = function(sprite) {
+  if (!this.enabled) {
+    return;
+  }
+  this.weapon.trackSprite(sprite);
+  for (var i = 0; i < 50; i += 10) {
+    this.weapon.fireAngle = 70 + i;
+    this.weapon.fire(null, null, null, 0, 95);
+  }
 }

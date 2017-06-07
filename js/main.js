@@ -15,7 +15,7 @@ var explosions;
 var powerUp;
 
 var invincible = false;
-var lifeCount = 10;
+var lifeCount = 50;
 var lifeText;
 
 var MainState = function(game){};
@@ -53,6 +53,7 @@ MainState.prototype = {
     game.load.image('spaceStation', 'assets/enemies/spaceStation_021.png');
     game.load.image('boss', 'assets/enemies/boss.png');
     game.load.image('boss1', 'assets/enemies/boss1.png');
+    game.load.image('boss2', 'assets/enemies/boss2.png');
 
     //Enemy bullet images
     game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
@@ -85,7 +86,7 @@ MainState.prototype = {
     enemyDie = game.add.audio('boom');
     enemyDie.volume = 0.1;
     // score board
-    lifeText = game.add.text(16, 16, 'life: 10', { fontSize: '32px', fill: '#fff' });
+    lifeText = game.add.text(16, 16, 'life: ' + lifeCount, { fontSize: '32px', fill: '#fff' });
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //Add the player plane on the middle bottom of the screen
@@ -177,6 +178,7 @@ MainState.prototype = {
     boss.weapons.push(new bossDouble(game));
     boss.weapons.push(new bossCircle(game));
     boss.weapons.push(new bossMissile(game));
+    boss.weapons.push(new bossFan(game));
     boss.allBullets = [];
     for (var i = 0; i < boss.weapons.length; i++) {
       boss.allBullets.push(boss.weapons[i].weapon.bullets);
@@ -231,7 +233,7 @@ MainState.prototype = {
         1000,
         function() {
           //Reset global variables
-          lifeCount = 10;
+          lifeCount = 50;
           player.reset(game.world.width / 2, game.world.height);
           invincible = false;
           weapons = [];
@@ -298,7 +300,6 @@ MainState.prototype = {
         explosions.display(boss.body.x + 294, boss.body.y + 160);
         boss.loadTexture('boss1');
         boss.weapons[0].enabled = false;
-        boss.weapons[1].enabled = true;
         boss.weapons[2].enabled = true;
         boss.weapons[3].enabled = true;
         boss.damageCondition = 1;
@@ -306,11 +307,19 @@ MainState.prototype = {
       }
 
       if (boss.health <= boss.maxHealth * 0.5 && boss.damageCondition == 1) {
+        explosions.display(boss.body.x + 120, boss.body.y - 20);
+        explosions.display(boss.body.x + -120, boss.body.y - 20);
+        boss.loadTexture('boss2');
+        boss.weapons[1].enabled = false;
+        boss.weapons[2].enabled = false;
+        boss.weapons[3].enabled = false;
+        boss.weapons[4].enabled = true;
         boss.damageCondition = 2;
       }
 
       game.physics.arcade.overlap(boss, weapons[currentWeapon].weapon.bullets, this.damageEnemy, null, this);
       game.physics.arcade.overlap(player, boss.allBullets, this.hitPlayer, null, this);
+      game.physics.arcade.overlap(player, boss, this.hitPlayer, null, this);
       for (var i = 0; i < boss.weapons.length; i++) {
         boss.weapons[i].shoot(boss);
       }
