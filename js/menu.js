@@ -5,6 +5,7 @@ var menuState = {
     game.load.audio('fight' , 'assets/fight.mp3');
     game.load.audio('playershoot' , 'assets/blaster.mp3');
     game.load.audio('boom' , 'assets/explosion.mp3');
+    game.load.audio('gameover' , 'assets/gameover.mp3');
     },
 
     create: function () {
