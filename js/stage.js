@@ -1,6 +1,6 @@
 var i;
 function stageStart() {
-
+  
   game.time.events.add(2 * Phaser.Timer.SECOND, wave1, this);
   game.time.events.add(18 * Phaser.Timer.SECOND, wave2, this);
   game.time.events.add(38 * Phaser.Timer.SECOND, wave3, this);
@@ -10,7 +10,9 @@ function stageStart() {
   game.time.events.add(120 * Phaser.Timer.SECOND, wave7, this);
   game.time.events.add(145 * Phaser.Timer.SECOND, wave8, this);
   game.time.events.add(167 * Phaser.Timer.SECOND, wave9, this);
+  game.time.events.add(192 * Phaser.Timer.SECOND, wave10, this);
 
+  //game.time.events.add(0 * Phaser.Timer.SECOND, boss, this);
 }
 
 //Intermidiate callback function for enemy.launch()
@@ -146,4 +148,14 @@ function wave9() {
     game.time.events.add(j, launch, this, enemyGroups.black, 150, 0, 90, 20);
     game.time.events.add(j, launch, this, enemyGroups.black, game.world.width - 150, 0, 90, 20);
   }
+}
+
+function wave10() {
+  game.time.events.add(0, launchTween, this, enemyGroups.spaceStation, 150, 0, { y: 150 }, 3000);
+  game.time.events.add(0, launchTween, this, enemyGroups.spaceStation, 450, 0, { y: 150 }, 3000);
+  game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
+}
+
+function boss() {
+  game.time.events.add(0, launchTween, this, enemyGroups.boss, game.world.width / 2, 0, { y: 150 }, 3000);
 }

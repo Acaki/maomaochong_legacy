@@ -7,9 +7,10 @@ var enemyDie;
 var player;
 var cursors;
 var weapons = [];
-var currentWeapon = 1;
+var currentWeapon = 0;
 var enemyGroups = {};
 var enemyBulletGroups = [];
+var boss;
 var explosions;
 var powerUp;
 
@@ -46,6 +47,7 @@ MainState.prototype = {
     game.load.image('enemyRed', 'assets/enemies/enemyRed4.png');
     game.load.image('spaceBuilding', 'assets/enemies/spaceBuilding_014.png');
     game.load.image('spaceStation', 'assets/enemies/spaceStation_021.png');
+    game.load.image('boss', 'assets/enemies/boss.png');
 
     //Enemy bullet images
     game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
@@ -131,13 +133,12 @@ MainState.prototype = {
     }
 
     enemyGroups.spaceStation = game.add.group(game.world, 'Space Station', false, true, Phaser.Physics.ARCADE);
-    for (var i = 0; i < 2; i ++) {
+    for (var i = 0; i < 2; i++) {
       var enemyWeapon = [];
       enemyWeapon.push(new RingScattered(game));
       enemyWeapon.push(new VariedAngle(game));
-      enemyWeapon.push(new Missile(game));
-      for (var j = 0; j < 3; j++) {
-        enemyBulletGroups.push(enemyWeapon[i]);
+      for (var j = 0; j < 2; j++) {
+        enemyBulletGroups.push(enemyWeapon[j].weapon.bullets);
       }
       enemyGroups.spaceStation.add(new Enemy(game, 'spaceStation', 100, enemyWeapon), true);
     }
@@ -153,6 +154,14 @@ MainState.prototype = {
     for (var i = 0; i < 5; i++) {
       var enemyWeapon = new RandomSplash(game);
       enemyGroups.red.add(new Enemy(game, 'enemyRed', 15, enemyWeapon), true);
+      enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+    }
+
+
+    enemyGroups.boss = game.add.group(game.world, 'Boss', false, true, Phaser.Physics.ARCADE);
+    for (var i = 0; i < 5; i++) {
+      var enemyWeapon = new RandomSplash(game);
+      enemyGroups.boss.add(new Enemy(game, 'boss', 1500, enemyWeapon), true);
       enemyBulletGroups.push(enemyWeapon.weapon.bullets);
     }
 
