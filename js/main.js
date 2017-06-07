@@ -1,41 +1,4 @@
-var game = new Phaser.Game(600, 800, Phaser.AUTO, '', {preload: preload, create: create, update: update, render: render});
-
-function preload() {
-  game.load.image('player', 'assets/player.png');
-  game.load.image('playerLeft', 'assets/playerLeft.png');
-  game.load.image('playerRight', 'assets/playerRight.png');
-
-  game.load.image('background', 'assets/backgrounds/purple.png');
-
-  //Player bullet and power up images
-  game.load.image('laserRed', 'assets/bullets/laserRed02.png');
-  game.load.image('powerupRed_star', 'assets/power-ups/powerupRed_star.png');
-  game.load.image('laserGreen', 'assets/bullets/laserGreen10.png');
-  game.load.image('powerupGreen_star', 'assets/power-ups/powerupGreen_star.png');
-  game.load.image('laserBlue', 'assets/bullets/laserBlue13.png');
-  game.load.image('powerupBlue_star', 'assets/power-ups/powerupBlue_star.png');
-
-  //Enemy object images
-  game.load.image('enemyShip', 'assets/enemies/enemyShip.png');
-  game.load.image('enemyUFO', 'assets/enemies/enemyUFO.png');
-  game.load.image('meteorBig', 'assets/enemies/meteorBig.png');
-  game.load.image('meteorSmall', 'assets/enemies/meteorSmall.png');
-  game.load.image('enemyBlue','assets/enemies/enemyBlue2.png');
-  game.load.image('enemyGreen', 'assets/enemies/enemyGreen5.png');
-  game.load.image('spaceBuilding', 'assets/enemies/spaceBuilding_014.png');
-
-  //Enemy bullet images
-  game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
-  game.load.image('star','assets/bullets/star3.png');
-  game.load.image('laserGreen16','assets/bullets/laserGreen16.png');
-
-  game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
-  game.load.audio('fight' , 'assets/fight.mp3');
-  game.load.audio('playershoot' , 'assets/blaster.mp3');
-  game.load.audio('boom' , 'assets/explosion.mp3');
-  //game.load.audio('enemyDie' , 'alien_death1.wav');
-}
-
+// MainState
 var background;
 var fightMusic;
 var playerShoot;
@@ -50,84 +13,142 @@ var enemyBulletGroups = [];
 var explosions;
 var powerUp;
 
-function create() {
-  background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
-  //Make the background slowly scroll up
-  background.autoScroll(0, -30);
-  //Audio create
-  //battle BGM
-  fightMusic = game.add.audio('fight');
-  fightMusic.volume = 0.2;
-  fightMusic.play();
-  //player shooting
-  playerShoot = game.add.audio('playershoot');
-  playerShoot.volume = 0.05;
+var currentAngle;
+var invincible = false;
 
-  enemyDie = game.add.audio('boom');
-  enemyDie.volume = 0.1;
+var MainState = function(game){};
+MainState.prototype = {
+
+  //var game = new Phaser.Game(600, 800, Phaser.AUTO, '', {preload: preload, create: create, update: update, render: render});
+  preload: function() {
+    game.load.image('player', 'assets/player.png');
+    game.load.image('playerLeft', 'assets/playerLeft.png');
+    game.load.image('playerRight', 'assets/playerRight.png');
+
+    game.load.image('background', 'assets/backgrounds/purple.png');
+
+    //Player bullet and power up images
+    game.load.image('laserRed', 'assets/bullets/laserRed02.png');
+    game.load.image('powerupRed_star', 'assets/power-ups/powerupRed_star.png');
+    game.load.image('laserGreen', 'assets/bullets/laserGreen10.png');
+    game.load.image('powerupGreen_star', 'assets/power-ups/powerupGreen_star.png');
+    game.load.image('laserBlue', 'assets/bullets/laserBlue13.png');
+    game.load.image('powerupBlue_star', 'assets/power-ups/powerupBlue_star.png');
+
+    //Enemy object images
+    game.load.image('enemyShip', 'assets/enemies/enemyShip.png');
+    game.load.image('enemyUFO', 'assets/enemies/enemyUFO.png');
+    game.load.image('meteorBig', 'assets/enemies/meteorBig.png');
+    game.load.image('meteorSmall', 'assets/enemies/meteorSmall.png');
+    game.load.image('enemyBlue','assets/enemies/enemyBlue2.png');
+    game.load.image('enemyGreen', 'assets/enemies/enemyGreen5.png');
+    game.load.image('spaceBuilding', 'assets/enemies/spaceBuilding_014.png');
+
+    //Enemy bullet images
+    game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
+    game.load.image('star','assets/bullets/star3.png');
+    game.load.image('laserGreen16','assets/bullets/laserGreen16.png');
+
+    game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
+    game.load.audio('fight' , 'assets/fight.mp3');
+    game.load.audio('playershoot' , 'assets/blaster.mp3');
+    game.load.audio('boom' , 'assets/explosion.mp3');
+    //game.load.audio('enemyDie' , 'alien_death1.wav');
+  },
+
+  create: function() {
+    background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
+    //Make the background slowly scroll up
+    background.autoScroll(0, -30);
+    //Audio create
+    //battle BGM
+    fightMusic = game.add.audio('fight');
+    fightMusic.volume = 0.2;
+    fightMusic.play();
+    //player shooting
+    playerShoot = game.add.audio('playershoot');
+    playerShoot.volume = 0.05;
+
+    enemyDie = game.add.audio('boom');
+    enemyDie.volume = 0.1;
 
 
-  game.physics.startSystem(Phaser.Physics.ARCADE);
-  //Add the player plane on the middle bottom of the screen
-  player = game.add.sprite(game.world.width / 2, game.world.height, 'player');
-  //Reduce the size of the player plane;
-  player.scale.set(0.5);
-  player.anchor.set(0.5, 1.0);
-  game.physics.arcade.enable(player);
-  player.body.setCircle(10, player.width - 10, player.height - 10);
-  player.body.collideWorldBounds = true;
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    //Add the player plane on the middle bottom of the screen
+    player = game.add.sprite(game.world.width / 2, game.world.height, 'player');
+    //Reduce the size of the player plane;
+    player.scale.set(0.5);
+    player.anchor.set(0.5, 1.0);
+    game.physics.arcade.enable(player);
+    player.body.setCircle(10, player.width - 10, player.height - 10);
+    player.body.collideWorldBounds = true;
 
-  weapons.push(new ScatterBullet(game, player));
-  weapons.push(new Beam(game, player));
-  weapons.push(new SplashBullet(game, player));
+    weapons.push(new ScatterBullet(game, player));
+    weapons.push(new Beam(game, player));
+    weapons.push(new SplashBullet(game, player));
 
-  //Enemy group creation
-  enemyGroups.trash = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 10; i++) {
-    var enemyWeapon = new Missile(game);
-    enemyGroups.trash.add(new Enemy(game, 'enemyUFO', 1, enemyWeapon), true);
-    enemyBulletGroups.push(enemyWeapon.weapon.bullets);
-  }
+    //Enemy group creation
+    enemyGroups.trash = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
+    for (var i = 0; i < 10; i++) {
+      var enemyWeapon = new Missile(game);
+      enemyGroups.trash.add(new Enemy(game, 'enemyUFO', 1, enemyWeapon), true);
+      enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+    }
 
-  enemyGroups.medium = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 20; i++) {
-    var enemyWeapon = new ThreeARow(game);
-    enemyGroups.medium.add(new Enemy(game, 'enemyBlue', 10, enemyWeapon), true);
-    enemyBulletGroups.push(enemyWeapon.weapon.bullets);
-  }
+    enemyGroups.medium = game.add.group(game.world, 'Trash Enemy2', false, true, Phaser.Physics.ARCADE);
+    for (var i = 0; i < 20; i++) {
+      var enemyWeapon = new ThreeARow(game);
+      enemyGroups.medium.add(new Enemy(game, 'enemyBlue', 10, enemyWeapon), true);
+      enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+    }
 
-  enemyGroups.meteorSmall = game.add.group(game.world, 'Small Meteor', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 10; i++) {
-    enemyGroups.meteorSmall.add(new Enemy(game, 'meteorSmall', 2), true);
-  }
+    enemyGroups.meteorSmall = game.add.group(game.world, 'Small Meteor', false, true, Phaser.Physics.ARCADE);
+    for (var i = 0; i < 10; i++) {
+      enemyGroups.meteorSmall.add(new Enemy(game, 'meteorSmall', 2), true);
+    }
 
-  enemyGroups.meteorBig = game.add.group(game.world, 'Big Meteor', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 10; i++) {
-    enemyGroups.meteorBig.add(new Enemy(game, 'meteorBig', 5), true);
-  }
+    enemyGroups.meteorBig = game.add.group(game.world, 'Big Meteor', false, true, Phaser.Physics.ARCADE);
+    for (var i = 0; i < 10; i++) {
+      enemyGroups.meteorBig.add(new Enemy(game, 'meteorBig', 5), true);
+    }
 
-  enemyGroups.green = game.add.group(game.world, 'Green Enemy', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 10; i++) {
-    var enemyWeapon = new VariedAngle(game);
-    enemyGroups.green.add(new Enemy(game, 'enemyGreen', 10, enemyWeapon), true);
-    enemyBulletGroups.push(enemyWeapon.weapon.bullets);
-  }
+    enemyGroups.green = game.add.group(game.world, 'Green Enemy', false, true, Phaser.Physics.ARCADE);
+    for (var i = 0; i < 10; i++) {
+      var enemyWeapon = new VariedAngle(game);
+      enemyGroups.green.add(new Enemy(game, 'enemyGreen', 10, enemyWeapon), true);
+      enemyBulletGroups.push(enemyWeapon.weapon.bullets);
+    }
 
-  enemyGroups.spaceBuilding = game.add.group(game.world, 'Space Building', false, true, Phaser.Physics.ARCADE);
-  for (var i = 0; i < 30; i++) {
-    enemyGroups.spaceBuilding.add(new Enemy(game, 'spaceBuilding', 0.5), true);
-  }
+    enemyGroups.spaceBuilding = game.add.group(game.world, 'Space Building', false, true, Phaser.Physics.ARCADE);
+    for (var i = 0; i < 30; i++) {
+      enemyGroups.spaceBuilding.add(new Enemy(game, 'spaceBuilding', 0.5), true);
+    }
 
-  cursors = game.input.keyboard.createCursorKeys();
-  //Add key listener for 'shift'
-  game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
-  game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+    cursors = game.input.keyboard.createCursorKeys();
+    //Add key listener for 'shift'
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-  explosions = new Explosion(game);
-  powerUp = new PowerUpGroup(game);
+    explosions = new Explosion(game);
+    powerUp = new PowerUpGroup(game);
 
-  stageStart();
-}
+    stageStart();
+  },
+
+  update: function() {
+    keyboardHandler();
+    for (var key in enemyGroups) {
+      if (enemyGroups.hasOwnProperty(key)) {
+        game.physics.arcade.overlap(weapons[currentWeapon].weapon.bullets, enemyGroups[key], damageEnemy, null, this);
+        game.physics.arcade.overlap(player, enemyGroups[key], hitPlayer, null, this);
+        enemyGroups[key].forEachExists(enemyShoot, this);
+      }
+    }
+    game.physics.arcade.overlap(player, enemyBulletGroups, hitPlayer, null, this);
+    game.physics.arcade.overlap(player, powerUp, powerUpWeapon, null, this);
+  },
+
+};  //MainState prototype end
 
 var currentAngle;
 function keyboardHandler() {
@@ -213,7 +234,7 @@ function damageEnemy(bullet, enemy) {
   }
 }
 
-var invincible = false;
+
 function revivePlayer() {
   player.reset(game.world.width / 2, game.world.height);
   invincible = true;
@@ -227,6 +248,11 @@ function hitPlayer(player) {
   }
 }
 
+function enemyShoot(enemy) {
+  if (enemy.weapon) {
+    enemy.weapon.shoot(enemy);
+  }
+}
 function powerUpWeapon(player, powerUp) {
   powerUp.kill();
   var currentPowerLevel = weapons[currentWeapon].powerLevel;
@@ -240,26 +266,6 @@ function powerUpWeapon(player, powerUp) {
     weapons[currentWeapon].powerLevel = currentPowerLevel;
   }
 }
-
-function enemyShoot(enemy) {
-  if (enemy.weapon) {
-    enemy.weapon.shoot(enemy);
-  }
-}
-
-function update() {
-  keyboardHandler();
-  for (var key in enemyGroups) {
-    if (enemyGroups.hasOwnProperty(key)) {
-      game.physics.arcade.overlap(weapons[currentWeapon].weapon.bullets, enemyGroups[key], damageEnemy, null, this);
-      game.physics.arcade.overlap(player, enemyGroups[key], hitPlayer, null, this);
-      enemyGroups[key].forEachExists(enemyShoot, this);
-    }
-  }
-  game.physics.arcade.overlap(player, enemyBulletGroups, hitPlayer, null, this);
-  game.physics.arcade.overlap(player, powerUp, powerUpWeapon, null, this);
-}
-
 function render() {
   game.debug.body(player);
 }
