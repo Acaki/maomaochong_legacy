@@ -259,3 +259,27 @@ RandomSplash.prototype.shoot = function(sprite) {
   this.weapon.trackSprite(sprite);
   this.weapon.fire();
 }
+
+var bossCircle = function(game){
+  this.weapon = game.add.weapon(100, 'spaceParts_079');
+
+  this.game = game;
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = 300;
+  this.weapon.fireRate = 50;
+  this.weapon.multiFire = true;
+  this.currentTime = 0;
+
+  return this;
+}
+
+bossCircle.prototype.shoot = function(sprite) {
+  this.weapon.trackSprite(sprite);
+  if (this.game.time.totalElapsedSeconds() - this.currentTime >= 1) {
+    for (var j = 0; j < 24; j++) {
+      this.weapon.fireAngle = j * 15;
+      this.weapon.fire();
+    }
+    this.currentTime = this.game.time.totalElapsedSeconds();
+  }
+}

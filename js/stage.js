@@ -158,7 +158,13 @@ function wave10() {
 }
 
 function launchBoss() {
-  boss.reset(game.world.width / 2, 0, boss.maxHealth);
-  var bossTween = game.add.tween(boss).to({ y: 150 }, 3000, null, true);
-  bossTween.interpolation(Phaser.Math.catmullRomInterpolation);
+  var bossTween;
+  background.loadTexture('blackBackground');
+  game.time.events.add(
+    3000,
+    function() {
+      boss.reset(game.world.width / 2, -boss.height / 2, boss.maxHealth);
+      bossTween = game.add.tween(boss).to({ y: 150 }, 5000, Phaser.Easing.Sinusoidal.Out, true);
+    }
+  );
 }

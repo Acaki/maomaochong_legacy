@@ -27,6 +27,7 @@ MainState.prototype = {
     game.load.image('playerRight', 'assets/playerRight.png');
 
     game.load.image('background', 'assets/backgrounds/purple.png');
+    game.load.image('blackBackground', 'assets/backgrounds/black.png');
 
     //Player bullet and power up images
     game.load.image('laserRed', 'assets/bullets/laserRed02.png');
@@ -37,6 +38,7 @@ MainState.prototype = {
     game.load.image('powerupBlue_star', 'assets/power-ups/powerupBlue_star.png');
     game.load.image('spaceRocketPart', 'assets/bullets/spaceRocketParts_015.png');
     game.load.image('tinyBullet', 'assets/bullets/bullet5.png');
+    game.load.image('spaceParts_079', 'assets/bullets/spaceParts_079.png');
 
     //Enemy object images
     game.load.image('enemyShip', 'assets/enemies/enemyShip.png');
@@ -167,7 +169,7 @@ MainState.prototype = {
     boss.exists = false;
     boss.maxHealth = 1000;
     boss.weapons = [];
-    boss.weapons.push(new Circle(game));
+    boss.weapons.push(new bossCircle(game));
     boss.allBullets = [];
     boss.allBullets.push(boss.weapons[0].weapon.bullets);
 
