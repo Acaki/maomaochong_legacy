@@ -125,6 +125,9 @@ function create() {
 
 var currentAngle;
 function keyboardHandler() {
+  if (!player.alive) {
+    return;
+  }
   player.body.velocity.set(0, 0);
   player.loadTexture('player');
   //Move the plane left

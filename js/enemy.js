@@ -23,7 +23,9 @@ Enemy.prototype.constructor = Enemy;
  * @param xAccel - The acceleration value in x direction.
  * @param yAccel - The acceleration value in y direction.
  */
-Enemy.prototype.launch = function(x, y, angle, speed, xAccel, yAccel) {
+Enemy.prototype.launch = function(x, y, angle, speed, xAccel, yAccel, angularV, angularA) {
+  //Reset enemy image rotaion
+  this.rotation = 0;
   var halfWidth = this.body.halfWidth;
   if (x === undefined || x === null) { x = this.game.rnd.integerInRange(0 + halfWidth, this.game.world.width - halfWidth) }
   if (y === undefined || y === null) { y = 0; }
@@ -31,6 +33,8 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel, yAccel) {
   if (speed === undefined) { speed = game.rnd.between(120,200); }
   if (xAccel === undefined) { xAccel = 0; }
   if (yAccel === undefined) { yAccel = 0; }
+  if (angularV === undefined) { angularV = 0; }
+  if (angularA === undefined) { angularA = 0; }
 
   //Reset the Enemy, which moves the Enemy to the given x/y corrdinates,
   //sets the 'exists' property to true, and heal the enemy.
@@ -40,6 +44,8 @@ Enemy.prototype.launch = function(x, y, angle, speed, xAccel, yAccel) {
   this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
   //Set x and y acceleration value
   this.body.acceleration.set(xAccel, yAccel);
+  this.body.angularVelocity = angularV;
+  this.body.angularAcceleration = angularA;
 }
 
 /**

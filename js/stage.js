@@ -8,10 +8,10 @@ function stageStart() {
 }
 
 //Intermidiate callback function for enemy.launch()
-function launch(enemyGroup, x, y, angle, speed, xAccel, yAccel) {
+function launch(enemyGroup, x, y, angle, speed, xAccel, yAccel, angularV, angularA) {
   var enemy = enemyGroup.getFirstExists(false);
   if (enemy) {
-    enemy.launch(x, y, angle, speed, xAccel, yAccel);
+    enemy.launch(x, y, angle, speed, xAccel, yAccel, angularV, angularA);
   }
 }
 
@@ -26,8 +26,8 @@ function launchTween(enemyGroup, x, y, properties, duration, ease) {
 //14 seconds
 function wave1() {
   for (i = 0; i < 10 * Phaser.Timer.SECOND; i += 2 * Phaser.Timer.SECOND) {
-    game.time.events.add(i, launch, this, enemyGroups.trash, 200, 0, 90, 400, 0, -200);
-    game.time.events.add(i, launch, this, enemyGroups.trash, 400, 0, 90, 400, 0, -200);
+    game.time.events.add(i, launch, this, enemyGroups.trash, 200, 0, 90, 400, 0, -200, 100, -30);
+    game.time.events.add(i, launch, this, enemyGroups.trash, 400, 0, 90, 400, 0, -200, 100, -30);
   }
   for (var j = i; j < i + 5 * Phaser.Timer.SECOND; j += Phaser.Timer.SECOND) {
     game.time.events.add(j, launch, this, enemyGroups.trash, game.world.width, 200, -180, 400, 150, 0);
@@ -80,5 +80,9 @@ function wave5() {
   for (i = 0; i < 3 * Phaser.Timer.SECOND; i += Phaser.Timer.SECOND) {
     game.time.events.add(2 * i, launchTween, this, enemyGroups.green, 0, 300 - i / 10, { x: 150 }, 1000, Phaser.Easing.Sinusoidal.Out);
     game.time.events.add(2 * i, launchTween, this, enemyGroups.green, game.world.width, 200 + i / 10, { x: game.world.width - 150 }, 1000, Phaser.Easing.Sinusoidal.Out);
+  }
+  for (var j = i; j < i + 10 * Phaser.Timer.SECOND; j += Phaser.Timer.SECOND) {
+    game.time.events.add(j, launchTween, this, enemyGroups.medium, 100, 0, { x: [500, 100, 500, 100], y: [200, 400, 600, 800 + halfHeight] }, 5000);
+    game.time.events.add(j, launchTween, this, enemyGroups.medium, 500, 0, { x: [100, 500, 100, 500], y: [200, 400, 600, 800 + halfHeight] }, 5000);
   }
 }

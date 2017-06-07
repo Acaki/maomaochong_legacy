@@ -176,7 +176,7 @@ ThreeARow.prototype.shoot = function(source) {
 
 //Enemy weapons3
 var VariedAngle = function(game){
-  this.weapon = game.add.weapon(5, 'laserGreen16');
+  this.weapon = game.add.weapon(7, 'laserGreen16');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   //Rotate the bullet image to face up
