@@ -10,6 +10,7 @@ var weapons = [];
 var currentWeapon = 0;
 var enemyGroups = {};
 var enemyBulletGroups = [];
+var boss;
 var explosions;
 var powerUp;
 
@@ -48,6 +49,7 @@ MainState.prototype = {
     game.load.image('enemyRed', 'assets/enemies/enemyRed4.png');
     game.load.image('spaceBuilding', 'assets/enemies/spaceBuilding_014.png');
     game.load.image('spaceStation', 'assets/enemies/spaceStation_021.png');
+    game.load.image('boss', 'assets/enemies/boss.png');
 
     //Enemy bullet images
     game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
@@ -157,6 +159,16 @@ MainState.prototype = {
       enemyBulletGroups.push(enemyWeapon.weapon.bullets);
     }
 
+    boss = game.add.sprite(0, 0, 'boss');
+    game.physics.arcade.enable(boss);
+    boss.anchor.set(0.5);
+    boss.checkWorldBounds = true;
+    boss.collideWorldBounds = true;
+    boss.exists = false;
+    boss.maxHealth = 1000;
+    boss.weapons = [];
+    boss.weapons.push(new Circle(game));
+
     cursors = game.input.keyboard.createCursorKeys();
     //Add key listener for 'shift'
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SHIFT]);
@@ -172,7 +184,7 @@ MainState.prototype = {
     enemy.tint = 0xffffff;
   },
 
-  damageEnemy: function(bullet, enemy) {
+  damageEnemy: function(enemy, bullet) {
     enemy.damage(bullet.damage);
     enemy.tint = 0xff0000;
     game.time.events.add(15, this.resetTint, this, enemy);
@@ -248,13 +260,19 @@ MainState.prototype = {
     keyboardHandler();
     for (var key in enemyGroups) {
       if (enemyGroups.hasOwnProperty(key)) {
-        game.physics.arcade.overlap(weapons[currentWeapon].weapon.bullets, enemyGroups[key], this.damageEnemy, null, this);
+        game.physics.arcade.overlap(enemyGroups[key], weapons[currentWeapon].weapon.bullets, this.damageEnemy, null, this);
         game.physics.arcade.overlap(player, enemyGroups[key], this.hitPlayer, null, this);
         enemyGroups[key].forEachExists(this.enemyShoot, this);
       }
     }
     game.physics.arcade.overlap(player, enemyBulletGroups, this.hitPlayer, null, this);
     game.physics.arcade.overlap(player, powerUp, this.powerUpWeapon, null, this);
+    if (boss.exists) {
+      game.physics.arcade.overlap(boss, weapons[currentWeapon].weapon.bullets, this.damageEnemy, null, this);
+      for (var i = 0; i < boss.weapons.length; i++) {
+        boss.weapons[i].shoot(boss);
+      }
+    }
   }
 };  //MainState prototype end
 

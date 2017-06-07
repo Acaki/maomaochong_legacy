@@ -1,5 +1,5 @@
 // Initialize Phaser
-var game = new Phaser.Game(600, 800, Phaser.AUTO, 'gameDiv');
+var game = new Phaser.Game(600, 800, Phaser.AUTO, '');
 
 // Define states
 game.state.add('menu', menuState);
