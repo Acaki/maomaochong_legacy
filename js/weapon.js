@@ -64,7 +64,7 @@ var Beam = function (game, sprite) {
   this.weapon.multiFire = true;
   this.powerLevel = 1;
 
-  this.weapon.bullets.setAll('damage', 0.05);
+  this.weapon.bullets.setAll('damage', 0.1);
   this.weapon.bullets.setAll('alpha', 0.5);
 
   return this;

@@ -7,7 +7,7 @@ var enemyDie;
 var player;
 var cursors;
 var weapons = [];
-var currentWeapon = 0;
+var currentWeapon = 1;
 var enemyGroups = {};
 var enemyBulletGroups = [];
 var explosions;
@@ -143,7 +143,7 @@ MainState.prototype = {
     }
 
     enemyGroups.black = game.add.group(game.world, 'Black Enemy', false, true, Phaser.Physics.ARCADE);
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 6; i++) {
       var enemyWeapon = new Circle(game);
       enemyGroups.black.add(new Enemy(game, 'enemyBlack', 20, enemyWeapon), true);
       enemyBulletGroups.push(enemyWeapon.weapon.bullets);

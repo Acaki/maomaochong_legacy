@@ -9,6 +9,7 @@ function stageStart() {
   game.time.events.add(98 * Phaser.Timer.SECOND, wave6, this);
   game.time.events.add(120 * Phaser.Timer.SECOND, wave7, this);
   game.time.events.add(145 * Phaser.Timer.SECOND, wave8, this);
+  game.time.events.add(167 * Phaser.Timer.SECOND, wave9, this);
 
 }
 
@@ -131,5 +132,18 @@ function wave8() {
   for (i = 10 * Phaser.Timer.SECOND; i < 20 * Phaser.Timer.SECOND; i += Phaser.Timer.SECOND) {
     game.time.events.add(i, launch, this, enemyGroups.trash, 0, 250, -45, 300, 0, 200, 100, -30);
     game.time.events.add(i, launch, this, enemyGroups.trash, game.world.width, 250, -135, 300, 0, 200, -100, 30);
+  }
+  game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
+}
+
+//20 seconds
+function wave9() {
+  for (var i = 0; i < 10 * Phaser.Timer.SECOND; i += Phaser.Timer.SECOND) {
+    game.time.events.add(i, launch, this, enemyGroups.green, 0, 50 + i / 50, 0, 100, 200);
+    game.time.events.add(i, launch, this, enemyGroups.green, game.world.width, 50 + i / 50, 180, 100, -200);
+  }
+  for (var j = i; j < i + 10 * Phaser.Timer.SECOND; j += 5 * Phaser.Timer.SECOND) {
+    game.time.events.add(j, launch, this, enemyGroups.black, 150, 0, 90, 20);
+    game.time.events.add(j, launch, this, enemyGroups.black, game.world.width - 150, 0, 90, 20);
   }
 }
