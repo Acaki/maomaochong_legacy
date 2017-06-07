@@ -14,7 +14,7 @@ var explosions;
 var powerUp;
 
 var invincible = false;
-var lifeCount = 3;
+var lifeCount = 10;
 var lifeText;
 
 var MainState = function(game){};
@@ -78,7 +78,7 @@ MainState.prototype = {
     enemyDie = game.add.audio('boom');
     enemyDie.volume = 0.1;
     // score board
-    lifeText = game.add.text(16, 16, 'life: 3', { fontSize: '32px', fill: '#000' });
+    lifeText = game.add.text(16, 16, 'life: 10', { fontSize: '32px', fill: '#000' });
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //Add the player plane on the middle bottom of the screen
