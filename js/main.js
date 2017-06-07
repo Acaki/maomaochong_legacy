@@ -59,6 +59,7 @@ MainState.prototype = {
     game.load.image('laserGreen16','assets/bullets/laserGreen16.png');
     game.load.image('laserBlue02', 'assets/bullets/laserBlue02.png');
     game.load.image('laserRed08', 'assets/bullets/laserRed08.png');
+    game.load.image('spaceMissiles_009', 'assets/bullets/spaceMissiles_009.png');
 
     game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
 
@@ -170,8 +171,11 @@ MainState.prototype = {
     boss.maxHealth = 1000;
     boss.weapons = [];
     boss.weapons.push(new bossCircle(game));
+    boss.weapons.push(new bossMissile(game));
     boss.allBullets = [];
-    boss.allBullets.push(boss.weapons[0].weapon.bullets);
+    for (var i = 0; i < boss.weapons.length; i++) {
+      boss.allBullets.push(boss.weapons[i].weapon.bullets);
+    }
 
     cursors = game.input.keyboard.createCursorKeys();
     //Add key listener for 'shift'

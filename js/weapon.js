@@ -283,3 +283,25 @@ bossCircle.prototype.shoot = function(sprite) {
     this.currentTime = this.game.time.totalElapsedSeconds();
   }
 }
+
+var bossMissile = function(game){
+  this.weapon = game.add.weapon(50, 'spaceMissiles_009');
+
+  this.game = game;
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = 300;
+  this.weapon.bulletAngleOffset = 90;
+  this.weapon.fireRate = 500;
+  this.weapon.multiFire = true;
+  this.currentTime = 0;
+
+  return this;
+}
+
+bossMissile.prototype.shoot = function(sprite) {
+  this.weapon.trackSprite(sprite);
+  var playerX = player.body.x;
+  var playerY = player.body.y;
+  this.weapon.fire(null, playerX , playerY, -132, -45);
+  this.weapon.fire(null, playerX , playerY, 132, -45);
+}

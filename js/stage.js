@@ -164,7 +164,8 @@ function launchBoss() {
     3000,
     function() {
       boss.reset(game.world.width / 2, -boss.height / 2, boss.maxHealth);
-      bossTween = game.add.tween(boss).to({ y: 150 }, 5000, Phaser.Easing.Sinusoidal.Out, true);
+      bossTween = game.add.tween(boss).to({ y: 150 }, 3000, Phaser.Easing.Sinusoidal.Out, true);
+      bossTween.chain(game.add.tween(boss).to({ x: [200, game.world.width / 2, 400, game.world.width / 2] }, 14000, null, false, 0, -1));
     }
   );
 }
