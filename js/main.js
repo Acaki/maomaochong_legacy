@@ -137,15 +137,14 @@ MainState.prototype = {
       var enemyWeapon = [];
       enemyWeapon.push(new RingScattered(game));
       enemyWeapon.push(new VariedAngle(game));
-      enemyWeapon.push(new Missile(game));
-      for (var j = 0; j < 3; j++) {
-        enemyBulletGroups.push(enemyWeapon[i]);
+      for (var j = 0; j < 2; j++) {
+        enemyBulletGroups.push(enemyWeapon[j].weapon.bullets);
       }
       enemyGroups.spaceStation.add(new Enemy(game, 'spaceStation', 100, enemyWeapon), true);
     }
 
     enemyGroups.black = game.add.group(game.world, 'Black Enemy', false, true, Phaser.Physics.ARCADE);
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 4; i++) {
       var enemyWeapon = new Circle(game);
       enemyGroups.black.add(new Enemy(game, 'enemyBlack', 20, enemyWeapon), true);
       enemyBulletGroups.push(enemyWeapon.weapon.bullets);
