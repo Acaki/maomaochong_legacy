@@ -10,11 +10,12 @@ var weapons = [];
 var currentWeapon = 0;
 var enemyGroups = {};
 var enemyBulletGroups = [];
-var boss;
 var explosions;
 var powerUp;
 
 var invincible = false;
+var lifeCount = 10;
+var lifeText;
 
 var MainState = function(game){};
 MainState.prototype = {
@@ -47,7 +48,6 @@ MainState.prototype = {
     game.load.image('enemyRed', 'assets/enemies/enemyRed4.png');
     game.load.image('spaceBuilding', 'assets/enemies/spaceBuilding_014.png');
     game.load.image('spaceStation', 'assets/enemies/spaceStation_021.png');
-    game.load.image('boss', 'assets/enemies/boss.png');
 
     //Enemy bullet images
     game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
@@ -57,9 +57,7 @@ MainState.prototype = {
     game.load.image('laserRed08', 'assets/bullets/laserRed08.png');
 
     game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
-    game.load.audio('fight' , 'assets/fight.mp3');
-    game.load.audio('playershoot' , 'assets/blaster.mp3');
-    game.load.audio('boom' , 'assets/explosion.mp3');
+
     //game.load.audio('enemyDie' , 'alien_death1.wav');
   },
 
@@ -70,6 +68,7 @@ MainState.prototype = {
     //Audio create
     //battle BGM
     fightMusic = game.add.audio('fight');
+    fightMusic.loop = true;
     fightMusic.volume = 0.2;
     fightMusic.play();
     //player shooting
@@ -78,7 +77,8 @@ MainState.prototype = {
 
     enemyDie = game.add.audio('boom');
     enemyDie.volume = 0.1;
-
+    // score board
+    lifeText = game.add.text(16, 16, 'life: 10', { fontSize: '32px', fill: '#000' });
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //Add the player plane on the middle bottom of the screen
@@ -133,18 +133,19 @@ MainState.prototype = {
     }
 
     enemyGroups.spaceStation = game.add.group(game.world, 'Space Station', false, true, Phaser.Physics.ARCADE);
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < 2; i ++) {
       var enemyWeapon = [];
       enemyWeapon.push(new RingScattered(game));
       enemyWeapon.push(new VariedAngle(game));
-      for (var j = 0; j < 2; j++) {
-        enemyBulletGroups.push(enemyWeapon[j].weapon.bullets);
+      enemyWeapon.push(new Missile(game));
+      for (var j = 0; j < 3; j++) {
+        enemyBulletGroups.push(enemyWeapon[i]);
       }
       enemyGroups.spaceStation.add(new Enemy(game, 'spaceStation', 100, enemyWeapon), true);
     }
 
     enemyGroups.black = game.add.group(game.world, 'Black Enemy', false, true, Phaser.Physics.ARCADE);
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 3; i++) {
       var enemyWeapon = new Circle(game);
       enemyGroups.black.add(new Enemy(game, 'enemyBlack', 20, enemyWeapon), true);
       enemyBulletGroups.push(enemyWeapon.weapon.bullets);
@@ -154,14 +155,6 @@ MainState.prototype = {
     for (var i = 0; i < 5; i++) {
       var enemyWeapon = new RandomSplash(game);
       enemyGroups.red.add(new Enemy(game, 'enemyRed', 15, enemyWeapon), true);
-      enemyBulletGroups.push(enemyWeapon.weapon.bullets);
-    }
-
-
-    enemyGroups.boss = game.add.group(game.world, 'Boss', false, true, Phaser.Physics.ARCADE);
-    for (var i = 0; i < 5; i++) {
-      var enemyWeapon = new RandomSplash(game);
-      enemyGroups.boss.add(new Enemy(game, 'boss', 1500, enemyWeapon), true);
       enemyBulletGroups.push(enemyWeapon.weapon.bullets);
     }
 
@@ -202,9 +195,18 @@ MainState.prototype = {
 
   hitPlayer: function(player) {
     if (!invincible) {
+      lifeCount--;
+      lifeText.text = 'life: ' + lifeCount;
       player.kill();
       explosions.display(player.body.x + player.body.halfWidth, player.body.y + player.body.halfHeight);
       game.time.events.add(1000, this.revivePlayer, this);
+    }
+    if(lifeCount == 0){
+    lifeCount = 3;
+    player.reset(game.world.width / 2, game.world.height);
+    invincible = false;
+    fightMusic.stop();
+    game.state.start('gameover');
     }
   },
 
