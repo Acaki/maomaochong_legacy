@@ -361,8 +361,8 @@ var bossFan = function(game){
   this.weapon = game.add.weapon(100, 'laserRed08');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-  this.weapon.bulletSpeed = 250;
-  this.weapon.fireRate = 500;
+  this.weapon.bulletSpeed = 150;
+  this.weapon.fireRate = 600;
   this.weapon.multiFire = true;
   this.weapon.fireAngle = 90;
   this.enabled = false;
@@ -375,8 +375,58 @@ bossFan.prototype.shoot = function(sprite) {
     return;
   }
   this.weapon.trackSprite(sprite);
-  for (var i = 0; i < 50; i += 10) {
-    this.weapon.fireAngle = 70 + i;
+  for (var i = 0; i < 100; i += 20) {
+    this.weapon.fireAngle = 50 + i;
     this.weapon.fire(null, null, null, 0, 95);
   }
+}
+
+var bossMissile2 = function(game){
+  this.weapon = game.add.weapon(50, 'spaceMissiles_018');
+
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = -250;
+  this.weapon.bulletAngleOffset = -90;
+  this.weapon.bulletAngleVariance = 30;
+  this.weapon.fireRate = 500;
+  this.weapon.multiFire = true;
+  this.enabled = false;
+
+  return this;
+}
+
+bossMissile2.prototype.shoot = function(sprite) {
+  if (!this.enabled) {
+    return;
+  }
+
+  this.weapon.trackSprite(sprite);
+  this.weapon.bulletGravity.set(30, 10);
+  this.weapon.fire(null, null, null, -105, 60);
+  this.weapon.bulletGravity.set(-30, 10);
+  this.weapon.fire(null, null, null, 105, 60);
+}
+
+var bossVary = function(game){
+  this.weapon = game.add.weapon(50, 'laserBlue03');
+
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = -350;
+  this.weapon.bulletAngleOffset = -90;
+  this.weapon.bulletAngleVariance = 45;
+  this.weapon.fireRate = 400;
+  this.weapon.multiFire = true;
+  this.enabled = false;
+
+  return this;
+}
+
+bossVary.prototype.shoot = function(sprite) {
+  if (!this.enabled) {
+    return;
+  }
+
+  this.weapon.trackSprite(sprite);
+  this.weapon.fire(null, null, null, -27, 65);
+  this.weapon.fire(null, null, null, 27, 65);
 }

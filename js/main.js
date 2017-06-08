@@ -39,6 +39,7 @@ MainState.prototype = {
     game.load.image('spaceRocketPart', 'assets/bullets/spaceRocketParts_015.png');
     game.load.image('tinyBullet', 'assets/bullets/bullet5.png');
     game.load.image('spaceParts_079', 'assets/bullets/spaceParts_079.png');
+    game.load.image('spaceMissiles_018', 'assets/bullets/spaceMissiles_018.png');
 
     //Enemy object images
     game.load.image('enemyShip', 'assets/enemies/enemyShip.png');
@@ -54,12 +55,14 @@ MainState.prototype = {
     game.load.image('boss', 'assets/enemies/boss.png');
     game.load.image('boss1', 'assets/enemies/boss1.png');
     game.load.image('boss2', 'assets/enemies/boss2.png');
+    game.load.image('boss3', 'assets/enemies/boss3.png');
 
     //Enemy bullet images
     game.load.image('spaceMissile', 'assets/bullets/spaceMissiles_004.png');
     game.load.image('star','assets/bullets/star3.png');
     game.load.image('laserGreen16','assets/bullets/laserGreen16.png');
     game.load.image('laserBlue02', 'assets/bullets/laserBlue02.png');
+    game.load.image('laserBlue03', 'assets/bullets/laserBlue03.png');
     game.load.image('laserRed08', 'assets/bullets/laserRed08.png');
     game.load.image('laserRed04', 'assets/bullets/laserRed04.png');
     game.load.image('spaceMissiles_009', 'assets/bullets/spaceMissiles_009.png');
@@ -171,7 +174,7 @@ MainState.prototype = {
     boss.checkWorldBounds = true;
     boss.collideWorldBounds = true;
     boss.exists = false;
-    boss.maxHealth = 1000;
+    boss.maxHealth = 200;
     boss.damageCondition = 0;
     boss.weapons = [];
     boss.weapons.push(new bossSingle(game));
@@ -179,6 +182,8 @@ MainState.prototype = {
     boss.weapons.push(new bossCircle(game));
     boss.weapons.push(new bossMissile(game));
     boss.weapons.push(new bossFan(game));
+    boss.weapons.push(new bossMissile2(game));
+    boss.weapons.push(new bossVary(game));
     boss.allBullets = [];
     for (var i = 0; i < boss.weapons.length; i++) {
       boss.allBullets.push(boss.weapons[i].weapon.bullets);
@@ -303,7 +308,6 @@ MainState.prototype = {
         boss.weapons[2].enabled = true;
         boss.weapons[3].enabled = true;
         boss.damageCondition = 1;
-        boss.heal(boss.maxHealth * 0.25);
       }
 
       if (boss.health <= boss.maxHealth * 0.5 && boss.damageCondition == 1) {
@@ -314,7 +318,15 @@ MainState.prototype = {
         boss.weapons[2].enabled = false;
         boss.weapons[3].enabled = false;
         boss.weapons[4].enabled = true;
+        boss.weapons[5].enabled = true;
+        boss.weapons[6].enabled = true;
         boss.damageCondition = 2;
+      }
+
+      if (boss.health <= boss.maxHealth * 0.25 && boss.damageCondition == 2) {
+        explosions.display(boss.body.x, boss.body.y - 30);
+        boss.loadTexture('boss3');
+        boss.damageCondition = 3;
       }
 
       game.physics.arcade.overlap(boss, weapons[currentWeapon].weapon.bullets, this.damageEnemy, null, this);
