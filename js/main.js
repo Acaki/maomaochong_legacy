@@ -11,6 +11,8 @@ var currentWeapon = 0;
 var enemyGroups = {};
 var enemyBulletGroups = [];
 var boss;
+var bossIsLaunched = false;
+var isWon = false;
 var explosions;
 var powerUp;
 
@@ -27,6 +29,7 @@ MainState.prototype = {
     game.load.image('playerRight', 'assets/playerRight.png');
 
     game.load.image('background', 'assets/backgrounds/purple.png');
+    game.load.image('darkBackground', 'assets/backgrounds/darkPurple.png');
     game.load.image('blackBackground', 'assets/backgrounds/black.png');
 
     //Player bullet and power up images
@@ -82,14 +85,14 @@ MainState.prototype = {
     //battle BGM
     fightMusic = game.add.audio('fight');
     fightMusic.loop = true;
-    fightMusic.volume = 0.2;
+    fightMusic.volume = 0.5;
     fightMusic.play();
     //player shooting
     playerShoot = game.add.audio('playershoot');
-    playerShoot.volume = 0.05;
+    playerShoot.volume = 0.02;
 
     enemyDie = game.add.audio('boom');
-    enemyDie.volume = 0.1;
+    enemyDie.volume = 0.2;
     // score board
     lifeText = game.add.text(16, 16, 'life: ' + lifeCount, { fontSize: '32px', fill: '#fff' });
 
@@ -100,7 +103,7 @@ MainState.prototype = {
     player.scale.set(0.5);
     player.anchor.set(0.5, 1.0);
     game.physics.arcade.enable(player);
-    player.body.setCircle(7, player.width - 10, player.height - 10);
+    player.body.setCircle(6, player.width - 10, player.height - 10);
     player.body.collideWorldBounds = true;
 
     //Player weapons list
@@ -112,7 +115,7 @@ MainState.prototype = {
     enemyGroups.trash = game.add.group(game.world, 'Trash Enemy', false, true, Phaser.Physics.ARCADE);
     for (var i = 0; i < 10; i++) {
       var enemyWeapon = new Missile(game);
-      enemyGroups.trash.add(new Enemy(game, 'enemyUFO', 1, enemyWeapon), true);
+      enemyGroups.trash.add(new Enemy(game, 'enemyUFO', 1.5, enemyWeapon), true);
       enemyBulletGroups.push(enemyWeapon.weapon.bullets);
     }
 
@@ -136,7 +139,7 @@ MainState.prototype = {
     enemyGroups.green = game.add.group(game.world, 'Green Enemy', false, true, Phaser.Physics.ARCADE);
     for (var i = 0; i < 10; i++) {
       var enemyWeapon = new VariedAngle(game);
-      enemyGroups.green.add(new Enemy(game, 'enemyGreen', 10, enemyWeapon), true);
+      enemyGroups.green.add(new Enemy(game, 'enemyGreen', 12, enemyWeapon), true);
       enemyBulletGroups.push(enemyWeapon.weapon.bullets);
     }
 
@@ -153,13 +156,13 @@ MainState.prototype = {
       for (var j = 0; j < 2; j++) {
         enemyBulletGroups.push(enemyWeapon[j].weapon.bullets);
       }
-      enemyGroups.spaceStation.add(new Enemy(game, 'spaceStation', 100, enemyWeapon), true);
+      enemyGroups.spaceStation.add(new Enemy(game, 'spaceStation', 120, enemyWeapon), true);
     }
 
     enemyGroups.black = game.add.group(game.world, 'Black Enemy', false, true, Phaser.Physics.ARCADE);
     for (var i = 0; i < 4; i++) {
       var enemyWeapon = new Circle(game);
-      enemyGroups.black.add(new Enemy(game, 'enemyBlack', 20, enemyWeapon), true);
+      enemyGroups.black.add(new Enemy(game, 'enemyBlack', 22, enemyWeapon), true);
       enemyBulletGroups.push(enemyWeapon.weapon.bullets);
     }
 
@@ -176,7 +179,7 @@ MainState.prototype = {
     boss.checkWorldBounds = true;
     boss.collideWorldBounds = true;
     boss.exists = false;
-    boss.maxHealth = 200;
+    boss.maxHealth = 1000;
     boss.damageCondition = 0;
     boss.weapons = [];
     boss.weapons.push(new bossSingle(game));
@@ -202,6 +205,23 @@ MainState.prototype = {
     powerUp = new PowerUpGroup(game);
 
     stageStart();
+  },
+
+  resetGame: function() {
+    //Reset global variables
+    lifeCount = 50;
+    player.reset(game.world.width / 2, game.world.height);
+    invincible = false;
+    weapons = [];
+    currentWeapon = 0;
+    enemyGroups = {};
+    enemyBulletGroups = [];
+    explosions = null;
+    powerUp = null;
+    fightMusic.stop();
+    bossIsLaunched = false;
+
+    game.state.start('gameover');
   },
 
   resetTint: function(enemy) {
@@ -234,29 +254,13 @@ MainState.prototype = {
       lifeText.text = 'life: ' + lifeCount;
       player.kill();
       explosions.display(player.body.x + player.body.halfWidth, player.body.y + player.body.halfHeight);
-      game.time.events.add(1000, this.revivePlayer, this);
+      if (lifeCount != 0) {
+        game.time.events.add(1000, this.revivePlayer, this);
+      }
     }
     if(lifeCount == 0){
       //Gameover after 1 second
-      game.time.events.add(
-        1000,
-        function() {
-          //Reset global variables
-          lifeCount = 50;
-          player.reset(game.world.width / 2, game.world.height);
-          invincible = false;
-          weapons = [];
-          currentWeapon = 0;
-          enemyGroups = {};
-          enemyBulletGroups = [];
-          explosions = null;
-          powerUp = null;
-          fightMusic.stop();
-
-          game.state.start('gameover');
-        },
-        this
-      );
+      game.time.events.add(1000, this.resetGame, this);
     }
   },
 
@@ -312,6 +316,7 @@ MainState.prototype = {
         boss.weapons[2].enabled = true;
         boss.weapons[3].enabled = true;
         boss.damageCondition = 1;
+        boss.heal(boss.maxHealth * 0.20);
       }
 
       if (boss.health <= boss.maxHealth * 0.5 && boss.damageCondition == 1) {
@@ -325,6 +330,7 @@ MainState.prototype = {
         boss.weapons[5].enabled = true;
         boss.weapons[6].enabled = true;
         boss.damageCondition = 2;
+        boss.heal(boss.maxHealth * 0.15);
       }
 
       if (boss.health <= boss.maxHealth * 0.25 && boss.damageCondition == 2) {
@@ -336,6 +342,7 @@ MainState.prototype = {
         explosions.display(boss.body.x, boss.body.y - 30);
         boss.loadTexture('boss3');
         boss.damageCondition = 3;
+        boss.heal(boss.maxHealth * 0.10);
       }
 
       game.physics.arcade.overlap(boss, weapons[currentWeapon].weapon.bullets, this.damageEnemy, null, this);
@@ -344,6 +351,10 @@ MainState.prototype = {
       for (var i = 0; i < boss.weapons.length; i++) {
         boss.weapons[i].shoot(boss);
       }
+    }
+    else if (!boss.alive && bossIsLaunched) {
+      isWon = true;
+      game.time.events.add(1000, this.resetGame, this);
     }
   }
 };  //MainState prototype end

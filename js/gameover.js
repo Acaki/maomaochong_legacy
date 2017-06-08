@@ -5,12 +5,20 @@ var OverState = {
     background.autoScroll(0, -30);
 
     gameOverMusic = game.add.audio('gameover');
-    gameOverMusic.volume = 0.2;
+    gameOverMusic.volume = 0.5;
     gameOverMusic.play();
 
     var tween = game.add.tween(background).to( { alpha: 0.5 }, 1000, "Linear", true, 1000);
-    var gameOverText = game.add.text(game.world.centerX-100, game.world.centerY - 110, 'Game Over', { font: '45px Arial', fill: '#ff0000' });
+    var gameOverText;
+
+    if (isWon) {
+      gameOverText = game.add.text(game.world.centerX - 115, game.world.centerY - 110, 'You Won!!!', { font: '45px Arial', fill: '#00ff00' });
+    }
+    else {
+      gameOverText = game.add.text(game.world.centerX - 110, game.world.centerY - 110, 'Game Over', { font: '45px Arial', fill: '#ff0000' });
+    }
     gameOverText.alpha = 0;
+
     var showOver = game.add.tween(gameOverText).to({alpha: 1}, 2000, null ,false , 2000 , 1).start();
 
     var retryText = game.add.text(120, game.world.centerY, 'Press R to restart or Q to quit', { font: '28px Arial', fill: '#ffffff' });

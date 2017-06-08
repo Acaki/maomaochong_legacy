@@ -1,19 +1,18 @@
 var i;
 function stageStart() {
-  /*
+
   game.time.events.add(2 * Phaser.Timer.SECOND, wave1, this);
   game.time.events.add(18 * Phaser.Timer.SECOND, wave2, this);
   game.time.events.add(38 * Phaser.Timer.SECOND, wave3, this);
   game.time.events.add(57 * Phaser.Timer.SECOND, wave4, this);
-  game.time.events.add(76 * Phaser.Timer.SECOND, wave5, this);
+  game.time.events.add(78 * Phaser.Timer.SECOND, wave5, this);
   game.time.events.add(98 * Phaser.Timer.SECOND, wave6, this);
-  game.time.events.add(120 * Phaser.Timer.SECOND, wave7, this);
+  game.time.events.add(123 * Phaser.Timer.SECOND, wave7, this);
   game.time.events.add(145 * Phaser.Timer.SECOND, wave8, this);
   game.time.events.add(167 * Phaser.Timer.SECOND, wave9, this);
-  game.time.events.add(192 * Phaser.Timer.SECOND, wave10, this);
-  */
-
-  game.time.events.add(0 * Phaser.Timer.SECOND, launchBoss, this);
+  game.time.events.add(196 * Phaser.Timer.SECOND, wave10, this);
+  game.time.events.add(232 * Phaser.Timer.SECOND, launchBoss, this);
+  game.time.events.add(game.rnd.integerInRange(25000, 30000), powerUp.drop, powerUp);
 }
 
 //Intermidiate callback function for enemy.launch()
@@ -102,6 +101,7 @@ function wave5() {
 
 //20 seconds
 function wave6() {
+  background.loadTexture('darkBackground');
   for (i = 0; i < 10 * Phaser.Timer.SECOND; i += Phaser.Timer.SECOND) {
     game.time.events.add(i, launch, this, enemyGroups.trash, 0, 250, -45, 300, 0, 200, 100, -30);
     game.time.events.add(i, launch, this, enemyGroups.trash, game.world.width, 250, -135, 300, 0, 200, -100, 30);
@@ -122,6 +122,7 @@ function wave7() {
   game.time.events.add(0, launchTween, this, enemyGroups.spaceStation, game.world.width / 2, 0, { y: 150 }, 3000);
   game.time.events.add(10 * Phaser.Timer.SECOND, launchTween, this, enemyGroups.black, 150, 0, { y: 150 }, 1000);
   game.time.events.add(10 * Phaser.Timer.SECOND, launchTween, this, enemyGroups.black, game.world.width - 150, 0, { y: 150 }, 1000);
+  game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
 }
 
 //20 seconds
@@ -149,15 +150,18 @@ function wave9() {
     game.time.events.add(j, launch, this, enemyGroups.black, 150, 0, 90, 20);
     game.time.events.add(j, launch, this, enemyGroups.black, game.world.width - 150, 0, 90, 20);
   }
+  game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
 }
 
 function wave10() {
   game.time.events.add(0, launchTween, this, enemyGroups.spaceStation, 150, 0, { y: 150 }, 3000);
   game.time.events.add(0, launchTween, this, enemyGroups.spaceStation, 450, 0, { y: 150 }, 3000);
   game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
+  game.time.events.add(game.rnd.integerInRange(3000, 5000), powerUp.drop, powerUp);
 }
 
 function launchBoss() {
+  bossIsLaunched = true;
   var bossTween;
   background.loadTexture('blackBackground');
   game.time.events.add(

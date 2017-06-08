@@ -10,7 +10,7 @@ var ScatterBullet = function (game, sprite) {
   this.weapon.trackSprite(sprite, 0, -sprite.height - 10);
   this.weapon.multiFire = true;
 
-  this.powerLevel = 3;
+  this.powerLevel = 1;
   this.weapon.bullets.setAll('damage', 0.25);
   this.weapon.bullets.setAll('alpha', 0.5);
 
@@ -64,7 +64,7 @@ var Beam = function (game, sprite) {
   this.weapon.multiFire = true;
   this.powerLevel = 1;
 
-  this.weapon.bullets.setAll('damage', 0.1);
+  this.weapon.bullets.setAll('damage', 0.15);
   this.weapon.bullets.setAll('alpha', 0.5);
 
   return this;
@@ -435,8 +435,8 @@ var bossRingScattered = function(game){
   this.weapon = game.add.weapon(200, 'spaceBuilding_004');
 
   this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-  this.weapon.bulletSpeed = 400;
-  this.weapon.fireRate = 60;
+  this.weapon.bulletSpeed = 300;
+  this.weapon.fireRate = 70;
   this.weapon.multiFire = true;
   this.fireAngles = [0, 120, 240];
   this.enabled = false;
@@ -476,7 +476,7 @@ var bossFrontScattered = function(game){
   this.weapon.bulletSpeed = -200;
   this.weapon.bulletAngleOffset = -90;
   this.weapon.bulletAngleVariance = 45;
-  this.weapon.fireRate = 200;
+  this.weapon.fireRate = 300;
   this.weapon.multiFire = true;
   this.enabled = false;
 
