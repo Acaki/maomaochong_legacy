@@ -63,8 +63,10 @@ MainState.prototype = {
     game.load.image('laserGreen16','assets/bullets/laserGreen16.png');
     game.load.image('laserBlue02', 'assets/bullets/laserBlue02.png');
     game.load.image('laserBlue03', 'assets/bullets/laserBlue03.png');
+    game.load.image('spaceBuilding_004', 'assets/bullets/spaceBuilding_004.png');
     game.load.image('laserRed08', 'assets/bullets/laserRed08.png');
     game.load.image('laserRed04', 'assets/bullets/laserRed04.png');
+    game.load.image('laserRed02', 'assets/bullets/laserRed02.png');
     game.load.image('spaceMissiles_009', 'assets/bullets/spaceMissiles_009.png');
 
     game.load.spritesheet('explosion', 'assets/explosion.png', 128, 128);
@@ -184,6 +186,8 @@ MainState.prototype = {
     boss.weapons.push(new bossFan(game));
     boss.weapons.push(new bossMissile2(game));
     boss.weapons.push(new bossVary(game));
+    boss.weapons.push(new bossRingScattered(game));
+    boss.weapons.push(new bossFrontScattered(game));
     boss.allBullets = [];
     for (var i = 0; i < boss.weapons.length; i++) {
       boss.allBullets.push(boss.weapons[i].weapon.bullets);
@@ -324,6 +328,11 @@ MainState.prototype = {
       }
 
       if (boss.health <= boss.maxHealth * 0.25 && boss.damageCondition == 2) {
+        boss.weapons[4].enabled = false;
+        boss.weapons[5].enabled = false;
+        boss.weapons[6].enabled = false;
+        boss.weapons[7].enabled = true;
+        boss.weapons[8].enabled = true;
         explosions.display(boss.body.x, boss.body.y - 30);
         boss.loadTexture('boss3');
         boss.damageCondition = 3;

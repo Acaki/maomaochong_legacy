@@ -430,3 +430,67 @@ bossVary.prototype.shoot = function(sprite) {
   this.weapon.fire(null, null, null, -27, 65);
   this.weapon.fire(null, null, null, 27, 65);
 }
+
+var bossRingScattered = function(game){
+  this.weapon = game.add.weapon(200, 'spaceBuilding_004');
+
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = 400;
+  this.weapon.fireRate = 60;
+  this.weapon.multiFire = true;
+  this.fireAngles = [0, 120, 240];
+  this.enabled = false;
+
+  return this;
+}
+
+bossRingScattered.prototype.shoot = function(sprite) {
+  if (!this.enabled) {
+    return;
+  }
+
+  this.weapon.trackSprite(sprite);
+  for (var i = 0; i < 3; i++) {
+    if (this.fireAngles[i] >= 360) {
+      this.fireAngles[i] = 0;
+    }
+    this.weapon.fireAngle = this.fireAngles[i];
+    this.weapon.fire(null, null, null, -34, -38);
+    this.fireAngles[i] += 2;
+  }
+
+  for (var i = 0; i < 3; i++) {
+    if (this.fireAngles[i] >= 360) {
+      this.fireAngles[i] = 0;
+    }
+    this.weapon.fireAngle = this.fireAngles[i];
+    this.weapon.fire(null, null, null, 34, -38);
+    this.fireAngles[i] += 2;
+  }
+}
+
+var bossFrontScattered = function(game){
+  this.weapon = game.add.weapon(200, 'laserRed02');
+
+  this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  this.weapon.bulletSpeed = -200;
+  this.weapon.bulletAngleOffset = -90;
+  this.weapon.bulletAngleVariance = 45;
+  this.weapon.fireRate = 200;
+  this.weapon.multiFire = true;
+  this.enabled = false;
+
+  return this;
+}
+
+bossFrontScattered.prototype.shoot = function(sprite) {
+  if (!this.enabled) {
+    return;
+  }
+
+  this.weapon.trackSprite(sprite);
+  this.weapon.fire(null, null, null, -28, 100);
+  this.weapon.fire(null, null, null, -6, 100);
+  this.weapon.fire(null, null, null, 6, 100);
+  this.weapon.fire(null, null, null, 28, 100);
+}
