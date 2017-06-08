@@ -6,6 +6,7 @@ var menuState = {
     game.load.audio('playershoot' , 'assets/blaster.mp3');
     game.load.audio('boom' , 'assets/explosion.mp3');
     game.load.audio('gameover' , 'assets/gameover.mp3');
+    game.load.audio('bossBGM', 'assets/raiden.mp3');
     },
 
     create: function () {

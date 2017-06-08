@@ -12,7 +12,7 @@ function stageStart() {
   game.time.events.add(167 * Phaser.Timer.SECOND, wave9, this);
   game.time.events.add(196 * Phaser.Timer.SECOND, wave10, this);
   game.time.events.add(232 * Phaser.Timer.SECOND, launchBoss, this);
-  game.time.events.add(game.rnd.integerInRange(25000, 30000), powerUp.drop, powerUp);
+  game.time.events.add(game.rnd.integerInRange(15000, 20000), powerUp.drop, powerUp);
 }
 
 //Intermidiate callback function for enemy.launch()
@@ -161,6 +161,11 @@ function wave10() {
 }
 
 function launchBoss() {
+  fightMusic.stop();
+  fightMusic = game.add.audio('bossBGM');
+  fightMusic.loop = true;
+  fightMusic.volume = 0.5;
+  fightMusic.play();
   bossIsLaunched = true;
   var bossTween;
   background.loadTexture('blackBackground');

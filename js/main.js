@@ -179,7 +179,7 @@ MainState.prototype = {
     boss.checkWorldBounds = true;
     boss.collideWorldBounds = true;
     boss.exists = false;
-    boss.maxHealth = 1000;
+    boss.maxHealth = 800;
     boss.damageCondition = 0;
     boss.weapons = [];
     boss.weapons.push(new bossSingle(game));
@@ -253,6 +253,7 @@ MainState.prototype = {
       lifeCount--;
       lifeText.text = 'life: ' + lifeCount;
       player.kill();
+      enemyDie.play();
       explosions.display(player.body.x + player.body.halfWidth, player.body.y + player.body.halfHeight);
       if (lifeCount != 0) {
         game.time.events.add(1000, this.revivePlayer, this);
@@ -311,6 +312,7 @@ MainState.prototype = {
       if (boss.health <= boss.maxHealth * 0.75 && boss.damageCondition == 0) {
         explosions.display(boss.body.x + 48, boss.body.y + 160);
         explosions.display(boss.body.x + 294, boss.body.y + 160);
+        enemyDie.play();
         boss.loadTexture('boss1');
         boss.weapons[0].enabled = false;
         boss.weapons[2].enabled = true;
@@ -322,6 +324,7 @@ MainState.prototype = {
       if (boss.health <= boss.maxHealth * 0.5 && boss.damageCondition == 1) {
         explosions.display(boss.body.x + 120, boss.body.y - 20);
         explosions.display(boss.body.x + -120, boss.body.y - 20);
+        enemyDie.play();
         boss.loadTexture('boss2');
         boss.weapons[1].enabled = false;
         boss.weapons[2].enabled = false;
@@ -334,13 +337,14 @@ MainState.prototype = {
       }
 
       if (boss.health <= boss.maxHealth * 0.25 && boss.damageCondition == 2) {
+        explosions.display(boss.body.x, boss.body.y - 30);
+        boss.loadTexture('boss3');
+        enemyDie.play();
         boss.weapons[4].enabled = false;
         boss.weapons[5].enabled = false;
         boss.weapons[6].enabled = false;
         boss.weapons[7].enabled = true;
         boss.weapons[8].enabled = true;
-        explosions.display(boss.body.x, boss.body.y - 30);
-        boss.loadTexture('boss3');
         boss.damageCondition = 3;
         boss.heal(boss.maxHealth * 0.10);
       }
