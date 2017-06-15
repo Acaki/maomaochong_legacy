@@ -17,7 +17,7 @@ PowerUp.prototype.drop = function() {
 
   var halfWidth = this.body.halfWidth;
   //Power ups only appear at the center area of the game
-  var x = this.game.rnd.integerInRange(150 + halfWidth, this.game.width - halfWidth - 150);
+  var x = this.game.rnd.integerInRange(150 + halfWidth, this.game.world.width - halfWidth - 150);
   var angle = this.game.rnd.integerInRange(75, 105);
   var speed = game.rnd.between(120,200);
   //Reset the PowerUp, which moves the PowerUp to the given x/y corrdinates and
@@ -31,8 +31,12 @@ PowerUp.prototype.drop = function() {
 var PowerUpGroup = function(game) {
   Phaser.Group.call(this, game, game.world, 'Power Up Group', false, true, Phaser.Physics.ARCADE);
 
-  this.add(new PowerUp(game, 'laserRedPowerUp', 0), true);
-  this.add(new PowerUp(game, 'laserGreenPowerUp', 1), true);
+  this.add(new PowerUp(game, 'powerupRed_star', 0), true);
+  this.add(new PowerUp(game, 'powerupRed_star', 0), true);
+  this.add(new PowerUp(game, 'powerupGreen_star', 1), true);
+  this.add(new PowerUp(game, 'powerupGreen_star', 1), true);
+  this.add(new PowerUp(game, 'powerupBlue_star', 2), true);
+  this.add(new PowerUp(game, 'powerupBlue_star', 2), true);
 
   return this;
 }
